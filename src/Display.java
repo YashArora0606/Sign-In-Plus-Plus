@@ -3,23 +3,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,40 +22,44 @@ class Display extends JFrame {
 	static JFrame window;
 	JPanel uiPanel;
 	int timesSubmitted = 0;
+	String FILE_NAME = "Writesheet.xlsx";
 
 	public static void main(String[] args) throws IOException {
 		window = new Display();
 	}
 
 	Display() throws IOException {
+
 		
-		// Create blank workbook
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		// Create a blank sheet
-		XSSFSheet spreadsheet = workbook.createSheet("Student Sign-In Sheet");	
+		File file = new File(FILE_NAME);
+		FileInputStream fs = new FileInputStream(file);
+		XSSFWorkbook workbook = new XSSFWorkbook(fs);
+		XSSFSheet spreadsheet = workbook.getSheet("SignInSheet");
 		
+		int nextRowNumber = spreadsheet.getLastRowNum();
+		timesSubmitted = nextRowNumber;
+
 		initializeSpreadsheet(workbook, spreadsheet);
-		
+
 		JButton signIn = new JButton("Sign-In");
 		JButton signOut = new JButton("Sign-Out");
-
 		JPanel panel = new JPanel();
 		JPanel signInPanel = new JPanel();
+		JTextField idField = new JTextField(8);
+		idField.setFont(idField.getFont().deriveFont(50f));
+
+		JButton closeProgram = new JButton("Close Program");
+
+		JButton submitId = new JButton("Submit");
+		JButton back = new JButton("Back");
 
 		panel.add(signIn);
 		panel.add(signOut);
+		panel.add(closeProgram);
 
-		JTextField idField = new JTextField(8);
-		idField.setFont(idField.getFont().deriveFont(50f));
-		
-		JButton closeProgram = new JButton("Close Program");
-
-
-		JButton submitId = new JButton("Submit");
 		signInPanel.add(idField);
 		signInPanel.add(submitId);
-		signInPanel.add(closeProgram);
-		
+		signInPanel.add(back);
 
 		signIn.addActionListener(new ActionListener() {
 
@@ -74,25 +71,32 @@ class Display extends JFrame {
 
 		});
 
+		back.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent event) {
+				panel.setVisible(true);
+				signInPanel.setVisible(false);
+			}
+
+		});
+
 		submitId.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent event) {
-				
+
 				String text = idField.getText();
 				// 073689440
-				
-				
-				if (text.length() == 9  && isNumeric(text)) {
+
+				if (text.length() == 9 && isNumeric(text)) {
 					timesSubmitted++;
 					signStudentIn(text, timesSubmitted, spreadsheet);
 					idField.setText(null);
 				}
-				
 
 			}
 
 		});
-		
+
 		closeProgram.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent event) {
@@ -107,20 +111,11 @@ class Display extends JFrame {
 		});
 
 		this.getContentPane().add(panel);
-		this.setTitle("Boi");
-
+		this.setTitle("SignIn++");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocation(200, 100);
 		this.setSize(800, 600);
-//		uiPanel = new uiPanel();
-//		this.add(new uiPanel());
-//		MyKeyListener keyListener = new MyKeyListener();
-//		this.addKeyListener(keyListener);
-//		this.requestFocusInWindow();
-//		this.setResizable(true);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
 
 	}
 
@@ -149,9 +144,6 @@ class Display extends JFrame {
 		titleRow.createCell(3).setCellValue("Date");
 		titleRow.createCell(4).setCellValue("Sign-In Time");
 		titleRow.createCell(5).setCellValue("Sign-Out Time");
-
-		// ArrayList<XSSFRow> rowList = new ArrayList<XSSFRow>();
-
 	}
 
 	public static void signStudentIn(String studentNum, int currentRow, XSSFSheet spreadsheet) {
@@ -164,7 +156,6 @@ class Display extends JFrame {
 		} else {
 			time = time + " AM";
 		}
-		// rowList.add(spreadsheet.createRow(currentRow));
 		spreadsheet.createRow(currentRow);
 		spreadsheet.getRow(currentRow).createCell(0).setCellValue(studentNum);
 		spreadsheet.getRow(currentRow).createCell(3).setCellValue(date);
@@ -180,37 +171,3 @@ class Display extends JFrame {
 	}
 
 }
-
-//	// This is the inner class for the keyboard listener that detects key presses
-//	// and runs the corresponding code
-//	private class MyKeyListener implements KeyListener {
-//
-//		// These methods are mandatory and are not used
-//		public void keyTyped(KeyEvent e) {
-//		}
-//
-//		public void keyReleased(KeyEvent e) {
-//		}
-//
-//		/**
-//		 * keyPressed Method that does an action upon a key being pressed
-//		 * 
-//		 * @param a KeyEvent object of a key being pressed
-//		 */
-//		public void keyPressed(KeyEvent e) {
-//
-//			// If the space key is pressed
-//			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-//
-//				// If the escape key is pressed
-//			} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-//
-//				// The window closes
-//				window.dispose();
-//
-//			}
-//		}
-//
-//	} // End of MyKeyListener
-//
-//} // End of BounceTester
