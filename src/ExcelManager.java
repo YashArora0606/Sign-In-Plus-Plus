@@ -54,16 +54,17 @@ public class ExcelManager {
 
 	public void signStudentIn(String studentNum, String subject, String reason) {
 
+		timesSubmitted++;
+		
 		int currentRow = timesSubmitted;
 
 		spreadsheet.createRow(currentRow);
 		spreadsheet.getRow(currentRow).createCell(0).setCellValue(studentNum);
-		spreadsheet.getRow(currentRow).createCell(3).setCellValue(getCurrentDate());
-		spreadsheet.getRow(currentRow).createCell(4).setCellValue(getCurrentTime());
+		spreadsheet.getRow(currentRow).createCell(3).setCellValue(getCurrentDateFormatted());
+		spreadsheet.getRow(currentRow).createCell(4).setCellValue(getCurrentTimeFormatted());
 		spreadsheet.getRow(currentRow).createCell(6).setCellValue(subject);
 		spreadsheet.getRow(currentRow).createCell(7).setCellValue(reason);
 
-		timesSubmitted++;
 	}
 
 	public boolean signStudentOut(String studentNum) {
@@ -88,12 +89,12 @@ public class ExcelManager {
 		if (currentRow == -1) {
 			return false;
 		} else {
-			spreadsheet.getRow(currentRow).createCell(5).setCellValue(getCurrentTime());
+			spreadsheet.getRow(currentRow).createCell(5).setCellValue(getCurrentTimeFormatted());
 			return true;
 		}
 	}
 
-	public String getCurrentTime() {
+	public String getCurrentTimeFormatted() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String date = dtf.format(now).substring(0, dtf.format(now).indexOf(" "));
@@ -106,7 +107,7 @@ public class ExcelManager {
 		return time;
 	}
 
-	public String getCurrentDate() {
+	public String getCurrentDateFormatted() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String date = dtf.format(now).substring(0, dtf.format(now).indexOf(" "));
