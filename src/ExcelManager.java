@@ -63,7 +63,7 @@ public class ExcelManager {
 //		}
 //	}
 
-	public void signStudentIn(String studentNum, String subject, String reason) {
+	public boolean signStudentIn(String studentNum, String subject, String reason) {
 		boolean studentFound = false;
 		Student student = null;
 
@@ -83,12 +83,16 @@ public class ExcelManager {
 
 			spreadsheet.createRow(currentRow);
 			spreadsheet.getRow(currentRow).createCell(0).setCellValue(studentNum);
-//			spreadsheet.getRow(currentRow).createCell(1).setCellValue(student.firstName);
-//			spreadsheet.getRow(currentRow).createCell(1).setCellValue(student.lastName);
+			spreadsheet.getRow(currentRow).createCell(1).setCellValue(student.firstName);
+			spreadsheet.getRow(currentRow).createCell(2).setCellValue(student.lastName);
 			spreadsheet.getRow(currentRow).createCell(3).setCellValue(getCurrentDateFormatted());
 			spreadsheet.getRow(currentRow).createCell(4).setCellValue(getCurrentTimeFormatted());
 			spreadsheet.getRow(currentRow).createCell(6).setCellValue(subject);
 			spreadsheet.getRow(currentRow).createCell(7).setCellValue(reason);
+			
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -139,10 +143,15 @@ public class ExcelManager {
 		return date;
 	}
 
-	public void closeExcelFile() throws IOException {
-		FileOutputStream out = new FileOutputStream(new File(fileName));
-		workbook.write(out);
-		out.close();
+	public void closeExcelFile() {
+		
+		try {
+			FileOutputStream out = new FileOutputStream(new File(fileName));
+			workbook.write(out);
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.out.println(fileName + " written successfully");
 	}
 }

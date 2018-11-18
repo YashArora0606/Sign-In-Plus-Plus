@@ -42,13 +42,12 @@ public class Database {
         return true;
     }
     
-    public boolean signOut(String id) throws InvalidIdException{
+    public boolean signOut(String id) throws InvalidIdException {
         if (!validateId(id)) { //validate id
             throw new InvalidIdException(id);
         }
 
-        master.signStudentOut(id);
-        return true;
+        return master.signStudentOut(id);
     }
 
     public void close() {
