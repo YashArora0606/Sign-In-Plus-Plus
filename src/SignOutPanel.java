@@ -36,9 +36,13 @@ public class SignOutPanel extends JPanel {
     private void submit() {
         String id = idField.getText();
 
-        database.signOut(id);
+        try {
+            database.signOut(id);
+            idField.setText(null);
 
-        idField.setText(null);
+        } catch (InvalidIdException e) {
+
+        }
     }
 
 }

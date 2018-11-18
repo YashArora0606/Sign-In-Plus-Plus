@@ -2,6 +2,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.io.IOException;
 
 public class SignInPanel extends JPanel {
 
@@ -56,8 +57,11 @@ public class SignInPanel extends JPanel {
         String subject = (String)subjectField.getSelectedItem();
         String reason = (String)reasonField.getSelectedItem();
 
-        database.signIn(id, subject, reason);
+        try {
+            database.signIn(id, subject, reason);
+            idField.setText(null);
+        } catch (InvalidIdException e) {
 
-        idField.setText(null);
+        }
     }
 }
