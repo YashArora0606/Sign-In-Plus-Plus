@@ -1,4 +1,4 @@
-import javax.swing.JFrame;
+import javax.swing.JFrame; 
 import javax.swing.JPanel;
 
 /**
@@ -72,6 +72,7 @@ class Display extends JFrame {
      * Make sure to do the necessary modifications to resolve the database
      */
     public void closeWindow() {
+    	database.close();
         dispose();
     }
 }

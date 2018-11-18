@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -23,9 +22,9 @@ public class ExcelManager {
 		FileInputStream fs = new FileInputStream(file);
 		workbook = new XSSFWorkbook(fs);
 		spreadsheet = workbook.getSheet("SignInSheet");
+		initializeSpreadsheet();
 		int nextRowNumber = spreadsheet.getLastRowNum();
 		timesSubmitted = nextRowNumber;
-		initializeSpreadsheet();
 	}
 
 	public void initializeSpreadsheet() {

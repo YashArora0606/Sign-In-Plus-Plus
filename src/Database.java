@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 /**
  * Database (very underdeveloped)
@@ -7,9 +8,15 @@ public class Database {
     // we should replace these with our own data structures later
     private final String[] reasons; //different reasons for sign in
     private final String[] subjects; //different subjects for sign in
-
+    private ExcelManager master;
 
     public Database() {
+    	
+    	try {
+    		 master = new ExcelManager("MasterList.xlsx");
+    	} catch(IOException e) {
+    		
+    	}
 
         //instead of hardcoding reasons or subjects, we could read from a .txt file to make it more dynamic
         reasons = new String[] {
@@ -39,6 +46,13 @@ public class Database {
      * @return true if the signing was successful
      */
     public boolean signIn(String id, String course, String reason) {
+    	
+    	// if it is not a student number
+    	// return false
+    	// else
+    	// sign in
+    	// return true
+    	master.signStudentIn(id, course, reason);
         return true;
     }
 
@@ -49,8 +63,16 @@ public class Database {
      * @return true if the signing out was successful
      */
     public boolean signOut(String id) {
-        return true;
+        return master.signStudentOut(id);
     }
+
+	public void close() {
+		try {
+			master.closeExcelFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
     
 
