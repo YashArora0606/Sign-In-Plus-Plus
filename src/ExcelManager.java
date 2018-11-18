@@ -15,6 +15,7 @@ public class ExcelManager {
 	int timesSubmitted;
 	XSSFWorkbook workbook;
 	XSSFSheet spreadsheet;
+	ListReader lr;
 
 	ExcelManager(String fileName) {
 		this.fileName = fileName;
@@ -24,6 +25,12 @@ public class ExcelManager {
 			fs = new FileInputStream(file);
 			workbook = new XSSFWorkbook(fs);
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			lr = new ListReader("StudentList.xlsx");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		spreadsheet = workbook.getSheet("SignInSheet");
@@ -57,18 +64,32 @@ public class ExcelManager {
 //	}
 
 	public void signStudentIn(String studentNum, String subject, String reason) {
+		boolean studentFound = false;
+		Student student = null;
 
-		timesSubmitted++;
-		
-		int currentRow = timesSubmitted;
+		for (int i = 0; i < lr.getStudentList().size(); i++) { //checks if student number provided is in the student list
+			if (lr.getStudentList().get(i).id.equals(studentNum)) {
+				studentFound = true;
+				student = lr.getStudentList().get(i);
+			}
+		}
 
-		spreadsheet.createRow(currentRow);
-		spreadsheet.getRow(currentRow).createCell(0).setCellValue(studentNum);
-		spreadsheet.getRow(currentRow).createCell(3).setCellValue(getCurrentDateFormatted());
-		spreadsheet.getRow(currentRow).createCell(4).setCellValue(getCurrentTimeFormatted());
-		spreadsheet.getRow(currentRow).createCell(6).setCellValue(subject);
-		spreadsheet.getRow(currentRow).createCell(7).setCellValue(reason);
+		if (studentFound) { //if the student id is found, proceed with sign-in
 
+
+			timesSubmitted++;
+
+			int currentRow = timesSubmitted;
+
+			spreadsheet.createRow(currentRow);
+			spreadsheet.getRow(currentRow).createCell(0).setCellValue(studentNum);
+//			spreadsheet.getRow(currentRow).createCell(1).setCellValue(student.firstName);
+//			spreadsheet.getRow(currentRow).createCell(1).setCellValue(student.lastName);
+			spreadsheet.getRow(currentRow).createCell(3).setCellValue(getCurrentDateFormatted());
+			spreadsheet.getRow(currentRow).createCell(4).setCellValue(getCurrentTimeFormatted());
+			spreadsheet.getRow(currentRow).createCell(6).setCellValue(subject);
+			spreadsheet.getRow(currentRow).createCell(7).setCellValue(reason);
+		}
 	}
 
 	public boolean signStudentOut(String studentNum) {
