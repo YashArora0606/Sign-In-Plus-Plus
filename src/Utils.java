@@ -12,5 +12,15 @@ public class Utils {
     public static int scale(double x) {
         return (int)Math.round(scale * x);
     }
+    
+    public static boolean isAnInteger(String x) {
+        try {
+            Integer.parseInt(x);
+        } catch (NumberFormatException | NullPointerException e) {
+            return false;
+        }
+        return true;
+    }
+
 
 }
