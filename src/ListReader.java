@@ -1,4 +1,5 @@
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFSheet; 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +20,8 @@ public class ListReader {
         inputStream = new FileInputStream(file);
         workbook = new XSSFWorkbook(inputStream);
         spreadsheet = workbook.getSheet("Sheet1");
+        
+        createStudents();
     }
 
     public void createStudents () {
@@ -27,7 +30,10 @@ public class ListReader {
         String lastName;
         String grade;
            for (int row = 1; row < spreadsheet.getLastRowNum() + 1; row++) {
-                    id = spreadsheet.getRow(row).getCell(0).toString();
+        	   
+               		spreadsheet.getRow(row).getCell(0).setCellType(CellType.STRING);
+
+                    id = spreadsheet.getRow(row).getCell(0).getStringCellValue();
                     firstName = spreadsheet.getRow(row).getCell(1).toString();
                     lastName = spreadsheet.getRow(row).getCell(2).toString();
                     grade = spreadsheet.getRow(row).getCell(3).toString();
