@@ -39,9 +39,7 @@ public class ListReader {
                     grade = spreadsheet.getRow(row).getCell(3).toString();
                     studentList.add(new Student(firstName, lastName, id, grade));
             }
-            System.out.println(studentList.get(0).compareTo(studentList.get(1)));
-            Collections.sort(studentList);
-            System.out.println(studentList.get(0).compareTo(studentList.get(1)));
+
     }
 
     public ArrayList<Student> getStudentList () {

@@ -68,14 +68,10 @@ public class ExcelManager {
 		Student student = null;
 		
 		for (int i = 0; i < lr.getStudentList().size(); i++) { //checks if student number provided is in the student list
-			
-			student = lr.getStudentList().get(i);
-			System.out.println(student.id);
-			System.out.println(studentNum);
+
 
 
 			if (lr.getStudentList().get(i).id.equals(studentNum)) {
-				System.out.println(student.firstName);
 				studentFound = true;
 				student = lr.getStudentList().get(i);
 			}
