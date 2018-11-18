@@ -72,7 +72,7 @@ class Display extends JFrame {
      * Make sure to do the necessary modifications to resolve the database
      */
     public void closeWindow() {
-    	database.close();
+        database.close();
         dispose();
     }
 }
