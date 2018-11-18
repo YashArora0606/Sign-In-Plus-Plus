@@ -12,11 +12,7 @@ public class Database {
 
     public Database() {
     	
-    	try {
-    		 master = new ExcelManager("MasterList.xlsx");
-    	} catch(IOException e) {
-    		
-    	}
+    	master = new ExcelManager("MasterList.xlsx");
 
         //instead of hardcoding reasons or subjects, we could read from a .txt file to make it more dynamic
         reasons = new String[] {

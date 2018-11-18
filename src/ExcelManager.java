@@ -16,11 +16,16 @@ public class ExcelManager {
 	XSSFWorkbook workbook;
 	XSSFSheet spreadsheet;
 
-	ExcelManager(String fileName) throws IOException {
+	ExcelManager(String fileName) {
 		this.fileName = fileName;
 		File file = new File(fileName);
-		FileInputStream fs = new FileInputStream(file);
-		workbook = new XSSFWorkbook(fs);
+		FileInputStream fs;
+		try {
+			fs = new FileInputStream(file);
+			workbook = new XSSFWorkbook(fs);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		spreadsheet = workbook.getSheet("SignInSheet");
 		initializeSpreadsheet();
 		int nextRowNumber = spreadsheet.getLastRowNum();
