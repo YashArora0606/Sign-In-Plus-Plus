@@ -7,7 +7,7 @@ public class SignOutPanel extends JPanel {
     private Display display;
     private Database database;
 
-    JTextField idField;
+    private JTextField idField;
     private JButton submitButton;
     private JButton backButton;
 
@@ -40,8 +40,8 @@ public class SignOutPanel extends JPanel {
             database.signOut(id);
             idField.setText(null);
 
-        } catch (InvalidIdException e) {
-
+        } catch (InvalidIdException | NotLoggedInException e) {
+            e.printStackTrace();
         }
     }
 

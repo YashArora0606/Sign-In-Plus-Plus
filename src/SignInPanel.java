@@ -60,8 +60,9 @@ public class SignInPanel extends JPanel {
         try {
             database.signIn(id, subject, reason);
             idField.setText(null);
-        } catch (InvalidIdException e) {
 
+        } catch (InvalidIdException | AlreadyLoggedInException e) {
+            e.printStackTrace();
         }
     }
 }

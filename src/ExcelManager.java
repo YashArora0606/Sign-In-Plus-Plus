@@ -1,157 +1,99 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class ExcelManager {
 
-	String fileName;
-	int timesSubmitted;
-	XSSFWorkbook workbook;
-	XSSFSheet spreadsheet;
-	ListReader lr;
+    private File file;
+	private XSSFWorkbook workbook;
+	private XSSFSheet spreadsheet;
+
+	private CellStyle stringStyle;
+	private CellStyle dateStyle;
+	private CellStyle timeStyle;
+
+	private final String[] header = {
+		"Student Number", "First Name", "Last Name", "Date", "Sign-In Time", "Sign-Out Time", "Teacher", "Reason"
+	};
+
 
 	ExcelManager(String fileName) {
-		this.fileName = fileName;
-		File file = new File(fileName);
-		FileInputStream fs;
 		try {
-			fs = new FileInputStream(file);
+			file = new File(fileName);
+			file.createNewFile();
+
+			FileInputStream fs = new FileInputStream(file);
 			workbook = new XSSFWorkbook(fs);
+			spreadsheet = workbook.getSheet("SignInSheet");
+
+            dateStyle = workbook.createCellStyle();
+            dateStyle.setDataFormat((short)14);
+
+            timeStyle = workbook.createCellStyle();
+            timeStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("h:mm"));
+
+            initializeSpreadsheet();
+
+            fs.close();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		try {
-			lr = new ListReader("StudentList.xlsx");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		spreadsheet = workbook.getSheet("SignInSheet");
-		initializeSpreadsheet();
-		int nextRowNumber = spreadsheet.getLastRowNum();
-		timesSubmitted = nextRowNumber;
 	}
 
 	public void initializeSpreadsheet() {
 		XSSFRow titleRow = spreadsheet.createRow(0);
-		titleRow.createCell(0).setCellValue("Student Number");
-		titleRow.createCell(1).setCellValue("First Name");
-		titleRow.createCell(2).setCellValue("Last Name");
-		titleRow.createCell(3).setCellValue("Date");
-		titleRow.createCell(4).setCellValue("Sign-In Time");
-		titleRow.createCell(5).setCellValue("Sign-Out Time");
-		titleRow.createCell(6).setCellValue("Teacher");
-		titleRow.createCell(7).setCellValue("Reason");
-
-		//signUnsignedPeopleOut();
+		for (int i = 0; i < header.length; i++) {
+            titleRow.createCell(i).setCellValue(header[i]);
+        }
 	}
 
-//	private void signUnsignedPeopleOut() {
-//		LocalDateTime now = LocalDateTime.now();
-//		LocalDateTime latestTime = LocalDateTime.of(year, month, dayOfMonth, hour, minute)
-//		now.isAfter(latestTime);
-//
-//		for (int i = 0; i < spreadsheet.getLastRowNum() + 1; i++) {
-//			
-//		}
-//	}
+	public void logSession(Session session) {
+        spreadsheet.shiftRows(1, Math.max(1, spreadsheet.getLastRowNum()), 1);
 
-	public boolean signStudentIn(String studentNum, String subject, String reason) {
-		boolean studentFound = false;
-		Student student = null;
-		
-		for (int i = 0; i < lr.getStudentList().size(); i++) { //checks if student number provided is in the student list
+        XSSFRow newRow = spreadsheet.createRow(1);
+        for (int i = 0; i< header.length; i++) {
+            newRow.createCell(i);
+        }
 
-			if (lr.getStudentList().get(i).id.equals(studentNum)) {
-				studentFound = true;
-				student = lr.getStudentList().get(i);
-			}
-		}
 
-		if (studentFound) { //if the student id is found, proceed with sign-in
+        newRow.getCell(0).setCellValue(session.student.id);
 
-			timesSubmitted++;
+        newRow.getCell(1).setCellValue(session.student.firstName);
 
-			int currentRow = timesSubmitted;
+        newRow.getCell(2).setCellValue(session.student.lastName);
 
-			spreadsheet.createRow(currentRow);
-			spreadsheet.getRow(currentRow).createCell(0).setCellValue(studentNum);
-			spreadsheet.getRow(currentRow).createCell(1).setCellValue(student.firstName);
-			spreadsheet.getRow(currentRow).createCell(2).setCellValue(student.lastName);
-			spreadsheet.getRow(currentRow).createCell(3).setCellValue(getCurrentDateFormatted());
-			spreadsheet.getRow(currentRow).createCell(4).setCellValue(getCurrentTimeFormatted());
-			spreadsheet.getRow(currentRow).createCell(6).setCellValue(subject);
-			spreadsheet.getRow(currentRow).createCell(7).setCellValue(reason);
-			
-			return true;
-		} else {
-			return false;
-		}
-	}
+        newRow.getCell(3).setCellStyle(dateStyle);
+        newRow.getCell(3).setCellValue(session.getStartTime());
 
-	public boolean signStudentOut(String studentNum) {
-		int currentRow = -1;
+        newRow.getCell(4).setCellStyle(timeStyle);
+        newRow.getCell(4).setCellValue(session.getStartTime());
 
-		for (int i = 0; i < spreadsheet.getLastRowNum() + 1; i++) {
+        newRow.getCell(5).setCellStyle(timeStyle);
+        newRow.getCell(5).setCellValue(session.getEndTime());
 
-			boolean alreadySignedOut = true;
+        newRow.getCell(6).setCellValue(session.course);
 
-			try {
-				spreadsheet.getRow(i).getCell(5).getStringCellValue();
-			} catch (NullPointerException e) {
-				alreadySignedOut = false;
-			}
+        newRow.getCell(7).setCellValue(session.reason);
+    }
 
-			if (spreadsheet.getRow(i).getCell(0).getStringCellValue().equals(studentNum.toString())
-					&& !alreadySignedOut) {
-				currentRow = i;
-			}
-		}
 
-		if (currentRow == -1) {
-			return false;
-		} else {
-			spreadsheet.getRow(currentRow).createCell(5).setCellValue(getCurrentTimeFormatted());
-			return true;
-		}
-	}
-
-	public String getCurrentTimeFormatted() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
-		String date = dtf.format(now).substring(0, dtf.format(now).indexOf(" "));
-		String time = dtf.format(now).substring(dtf.format(now).indexOf(" ") + 1, dtf.format(now).length() - 3);
-		if (Integer.parseInt(time.substring(0, 2)) > 12) {
-			time = Integer.parseInt(time.substring(0, 2)) % 12 + time.substring(2, time.length()) + " PM";
-		} else {
-			time = time + " AM";
-		}
-		return time;
-	}
-
-	public String getCurrentDateFormatted() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
-		String date = dtf.format(now).substring(0, dtf.format(now).indexOf(" "));
-		return date;
-	}
-
-	public void closeExcelFile() {
-		
+	public void close() {
 		try {
-			FileOutputStream out = new FileOutputStream(new File(fileName));
+			FileOutputStream out = new FileOutputStream(file);
 			workbook.write(out);
 			out.close();
+			workbook.close();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(fileName + " written successfully");
+		System.out.println(file.getName() + " written successfully");
 	}
 }
