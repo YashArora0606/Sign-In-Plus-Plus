@@ -69,8 +69,6 @@ public class ExcelManager {
 		
 		for (int i = 0; i < lr.getStudentList().size(); i++) { //checks if student number provided is in the student list
 
-
-
 			if (lr.getStudentList().get(i).id.equals(studentNum)) {
 				studentFound = true;
 				student = lr.getStudentList().get(i);
@@ -78,7 +76,6 @@ public class ExcelManager {
 		}
 
 		if (studentFound) { //if the student id is found, proceed with sign-in
-
 
 			timesSubmitted++;
 
