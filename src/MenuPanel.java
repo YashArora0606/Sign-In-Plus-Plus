@@ -3,11 +3,10 @@ import javax.swing.JPanel;
 
 public class MenuPanel extends JPanel {
 
-    private Display display;
+    private Display display; // remember to remove unnecessary variables later (note to self)
 
     private JButton signInButton;
     private JButton signOutButton;
-    private JButton closeButton;
 
     public MenuPanel(Display display) {
         this.display = display;
@@ -20,11 +19,6 @@ public class MenuPanel extends JPanel {
         signOutButton = new JButton("Sign-Out");
         signOutButton.addActionListener( e -> display.changeState(2));
         this.add(signOutButton);
-
-
-        closeButton = new JButton("Close Program");
-        closeButton.addActionListener(e -> display.closeWindow());
-        this.add(closeButton);
     }
 
 }

@@ -1,5 +1,7 @@
 import javax.swing.JFrame; 
 import javax.swing.JPanel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * Main display hub for the program
@@ -30,6 +32,13 @@ class Display extends JFrame {
 
         //set displayed panel to menu
         changeState(0);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                closeWindow();
+            }
+        });
 
         this.setVisible(true);
     }
