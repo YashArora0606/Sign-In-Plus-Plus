@@ -1,5 +1,5 @@
 package iomanagement;
-import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellStyle; 
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -50,7 +50,7 @@ public class ExcelManager {
 		}
 	}
 
-	public void initializeSpreadsheet() {
+	private void initializeSpreadsheet() {
 		XSSFRow titleRow = spreadsheet.createRow(0);
 		for (int i = 0; i < header.length; i++) {
             titleRow.createCell(i).setCellValue(header[i]);
