@@ -65,24 +65,16 @@ public class ExcelManager {
             newRow.createCell(i);
         }
 
-
         newRow.getCell(0).setCellValue(session.student.id);
-
         newRow.getCell(1).setCellValue(session.student.firstName);
-
         newRow.getCell(2).setCellValue(session.student.lastName);
-
         newRow.getCell(3).setCellStyle(dateStyle);
         newRow.getCell(3).setCellValue(session.getStartTime());
-
         newRow.getCell(4).setCellStyle(timeStyle);
         newRow.getCell(4).setCellValue(session.getStartTime());
-
         newRow.getCell(5).setCellStyle(timeStyle);
         newRow.getCell(5).setCellValue(session.getEndTime());
-
         newRow.getCell(6).setCellValue(session.course);
-
         newRow.getCell(7).setCellValue(session.reason);
     }
 
