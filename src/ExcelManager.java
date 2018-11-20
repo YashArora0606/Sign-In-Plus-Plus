@@ -47,7 +47,7 @@ public class ExcelManager {
 		}
 	}
 
-	public void initializeSpreadsheet() {
+	privte void initializeSpreadsheet() {
 		XSSFRow titleRow = spreadsheet.createRow(0);
 		for (int i = 0; i < header.length; i++) {
             titleRow.createCell(i).setCellValue(header[i]);
