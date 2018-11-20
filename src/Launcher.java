@@ -1,4 +1,5 @@
-
+import datamanagment.Database;
+import display.Window;
 
 /**
  * Basic launcher for the program - mainly for aesthetics
@@ -8,9 +9,8 @@ public class Launcher {
         run();
     }
 
-
     public static void run() {
         Database database = new Database();
-        Display frame = new Display(database);
+        Window frame = new Window(database);
     }
 }
