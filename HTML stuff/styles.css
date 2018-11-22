@@ -1,0 +1,32 @@
+@font-face {
+    font-family: mainFont; 
+    src: url(https://fonts.googleapis.com/css?family=Proxima+Nova);
+}
+body {
+    background-color: #ECEFF1;
+}
+h1 {
+    color: #00b3b3;
+    font-family: mainFont;
+    font-size: 18px;
+}
+h2 {
+    font-family: mainFont;
+    font-size: 14px;
+}
+a {
+    color: #212121;
+    font-family: mainFont;
+    font-size: 12px;
+}
+td {
+    color: #212121;
+    font-family: mainFont;
+    font-size: 12px;
+}
+
+tr{
+    color: #212121;
+    font-family: mainFont;
+    font-size: 12px;
+}
