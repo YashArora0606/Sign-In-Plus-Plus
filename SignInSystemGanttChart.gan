@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2018-11-18" view-index="0" gantt-divider-location="300" resource-divider-location="300" version="2.8.5" locale="en_US">
+    <description/>
+    <view zooming-state="default:0" id="gantt-chart">
+        <field id="tpd3" name="Name" width="167" order="0"/>
+        <field id="tpd4" name="Begin date" width="65" order="1"/>
+        <field id="tpd5" name="End date" width="64" order="2"/>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="210" order="0"/>
+        <field id="1" name="Default role" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="UML Diagram" color="#8cb6ce" meeting="false" start="2018-11-19" duration="1" complete="0" expand="true"/>
+        <task id="2" name="Cross-Referencing the Database" color="#8cb6ce" meeting="false" start="2018-11-19" duration="1" complete="0" expand="true"/>
+        <task id="6" name="Writing to Excel file" color="#8cb6ce" meeting="false" start="2018-11-19" duration="3" complete="0" expand="true"/>
+        <task id="9" name="Consolidating Excel file data to sort into individual files" color="#8cb6ce" meeting="false" start="2018-11-20" duration="1" complete="0" expand="true">
+            <depend id="11" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="11" name="Writing to word documents" color="#8cb6ce" meeting="false" start="2018-11-21" duration="2" complete="0" expand="true">
+            <depend id="14" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="14" name="Polishing UI and frontend" color="#8cb6ce" meeting="false" start="2018-11-23" duration="1" complete="0" expand="true"/>
+        <task id="15" name="Develop Data Structures" color="#8cb6ce" meeting="false" start="2018-11-19" duration="5" complete="0" expand="true">
+            <notes><![CDATA[- Need to create queue, linked list, and possibly a tree for data structure use. 
+- Can be done any time during project (as long as they're complete before the end of the project) since we should be able to easily switch out built in datastructures with ours.]]></notes>
+        </task>
+    </tasks>
+    <resources>
+        <resource id="0" name="Alston Lo" function="Default:1" contacts="" phone=""/>
+        <resource id="1" name="Guy Morgenshtern" function="Default:0" contacts="" phone=""/>
+        <resource id="2" name="Yash Arora" function="Default:0" contacts="" phone=""/>
+        <resource id="3" name="Katelyn Wang" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="0" resource-id="0" function="Default:0" responsible="false" load="40.0"/>
+        <allocation task-id="6" resource-id="0" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="9" resource-id="0" function="Default:0" responsible="true" load="40.0"/>
+        <allocation task-id="14" resource-id="0" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="15" resource-id="0" function="Default:0" responsible="false" load="10.0"/>
+        <allocation task-id="11" resource-id="1" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="15" resource-id="1" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="2" resource-id="2" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="6" resource-id="2" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="9" resource-id="2" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="14" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="11" resource-id="3" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="14" resource-id="3" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="15" resource-id="3" function="Default:0" responsible="false" load="50.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>

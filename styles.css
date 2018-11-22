@@ -1,34 +1,29 @@
-@font-face {
-    font-family : "proxima-nova"; 
-    src: url("ProximaNova.otf")format("OpenType"); 
-}
-
 body {
     background-color: #ECEFF1;
 }
 h1 {
     color: #00b3b3;
-    font-family: 'proxima-nova', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 18px;
 }
 h2 {
     color: #00b7b7;
-    font-family: 'proxima-nova', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
 }
 a {
     color: #212121;
-    font-family: 'proxima-nova', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 12px;
 }
 td {
     color: #212121;
-    font-family: 'proxima-nova', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 12px;
 }
 
 tr{
     color: #212121;
-    font-family: 'proxima-nova', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 12px;
 }
