@@ -43,7 +43,7 @@ public class ExcelManager {
             initializeSpreadsheets(master);
 
 			for (int i = 0; i < reasons.length; i++) {
-				reasonSheets.add(workbook.getSheet(reasons[i]));
+				reasonSheets.add(workbook.createSheet(reasons[i]));
 	            initializeSpreadsheets(workbook.getSheet(reasons[i]));
 			}
 
@@ -91,7 +91,7 @@ public class ExcelManager {
         newRow.getCell(5).setCellStyle(timeStyle);
         newRow.getCell(5).setCellValue(session.getEndTime());
         
-        newRow.getCell(6).setCellValue(session.course);
+        newRow.getCell(6).setCellValue(session.courseMissed);
         
         newRow.getCell(7).setCellValue(session.reason);
     }

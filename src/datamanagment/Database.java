@@ -88,7 +88,7 @@ public class Database {
             throw new AlreadyLoggedInException();
         }
 
-        sessionsToResolve.add(new Session(student, course, reason));
+        sessionsToResolve.add(new Session(student, course, reason, course));
         return true;
     }
     
