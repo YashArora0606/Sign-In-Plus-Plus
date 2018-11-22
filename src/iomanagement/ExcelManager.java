@@ -17,7 +17,7 @@ public class ExcelManager {
 
     private File file;
 	private XSSFWorkbook workbook;
-	private XSSFSheet spreadsheet;
+	private XSSFSheet master;
 
 	private CellStyle stringStyle;
 	private CellStyle dateStyle;
@@ -39,11 +39,14 @@ public class ExcelManager {
 
 			FileInputStream fs = new FileInputStream(file);
 			workbook = new XSSFWorkbook(fs);
-			spreadsheet = workbook.createSheet("Master");
-			
+			master = workbook.getSheet("Master");
+            initializeSpreadsheets(master);
+
 			for (int i = 0; i < reasons.length; i++) {
-				reasonSheets.add(workbook.createSheet(reasons[i]));
+				reasonSheets.add(workbook.getSheet(reasons[i]));
+	            initializeSpreadsheets(workbook.getSheet(reasons[i]));
 			}
+			
 			
 
             dateStyle = workbook.createCellStyle();
@@ -52,7 +55,6 @@ public class ExcelManager {
             timeStyle = workbook.createCellStyle();
             timeStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("h:mm"));
 
-            initializeSpreadsheet();
 
             fs.close();
 
@@ -61,17 +63,17 @@ public class ExcelManager {
 		}
 	}
 
-	private void initializeSpreadsheet() {
-		XSSFRow titleRow = spreadsheet.createRow(0);
+	private void initializeSpreadsheets(XSSFSheet sheet) {
+		XSSFRow titleRow = sheet.createRow(0);
 		for (int i = 0; i < header.length; i++) {
             titleRow.createCell(i).setCellValue(header[i]);
         }
 	}
 
 	public void logSession(Session session) {
-        spreadsheet.shiftRows(1, Math.max(1, spreadsheet.getLastRowNum()), 1);
+        master.shiftRows(1, Math.max(1, master.getLastRowNum()), 1);
 
-        XSSFRow newRow = spreadsheet.createRow(1);
+        XSSFRow newRow = master.createRow(1);
         for (int i = 0; i< header.length; i++) {
             newRow.createCell(i);
         }
