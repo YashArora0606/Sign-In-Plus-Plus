@@ -1,29 +1,22 @@
+#page {
+    font-family: 'Arial', Helvetica, sans-serif; 
+}
 body {
     background-color: #ECEFF1;
 }
 h1 {
     color: #00b3b3;
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
 }
 h2 {
     color: #00b7b7;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
 }
 a {
     color: #212121;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
 }
 td {
-    color: #212121;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
+    color: #00b3b3;
 }
 
 tr{
     color: #212121;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
 }

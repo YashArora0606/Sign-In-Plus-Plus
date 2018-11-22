@@ -1,5 +1,5 @@
-<a name="Student 1"></a> 
-<h2>Student 1</h2>
+<a name="Student"></a> 
+<h2>Student</h2>
 <table>
   <tr>
     <th>Sign In Time</th>
@@ -9,11 +9,11 @@
     <th>Duration of Stay</th>
   </tr>
   <tr>
-    <td>22/11/18 11:39:01</td>
-    <td>22/11/18 12:06:05</td>
-    <td>Chill Zone</td>
-    <td>Math</td>
-    <td>00:27:04</td>
+    <td>timein</td>
+    <td>timeout</td>
+    <td>reason</td>
+    <td>subject</td>
+    <td>duration</td>
   </tr>
 </table>
 <p><a href="#Top">Back to top</a></p>
