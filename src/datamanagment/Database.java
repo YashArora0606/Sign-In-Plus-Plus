@@ -18,6 +18,11 @@ public class Database {
     private final String[] subjects; //different subjects for sign in
 
     private ExcelManager master;
+    
+    private ExcelManager grade9;
+    private ExcelManager grade10;
+    private ExcelManager grade11;
+    private ExcelManager grade12;
 
     //replace with data structures later
     private Student[] students;
@@ -26,9 +31,7 @@ public class Database {
     public Database() {
 
         //instead of hardcoding reasons or subjects, we could read from a .txt file to make it more dynamic
-        reasons = new String[] {
-                "Test", "Chill Zone", "Quiet Work", "Academic Support", "Group Work"
-        };
+    	reasons = Utils.getReasons();
 
         subjects = new String[] {
                 "Art", "Math", "Music", "Science", "History", "Geography", "Business", "Family Studies",
@@ -36,13 +39,18 @@ public class Database {
         };
 
         master = new ExcelManager("MasterList.xlsx");
+        
+        grade9 = new ExcelManager("Grade9List.xlsx");
+        grade10 = new ExcelManager("Grade10List.xlsx");
+        grade11 = new ExcelManager("Grade11List.xlsx");
+        grade12 = new ExcelManager("Grade12List.xlsx");
 
         students = new StudentListReader("StudentList.xlsx").getStudents();
         Arrays.sort(students);
 
-        for (int i = 0; i < students.length; i++) {
-            System.out.print(students[i].id + " ");
-        }
+//        for (int i = 0; i < students.length; i++) {
+//            System.out.print(students[i].id + " ");
+//        }
     }
     
     /**
@@ -84,6 +92,24 @@ public class Database {
         return true;
     }
     
+    private void moveIntoCorrectFiles(String id, Session session) {
+    	
+    	Student st = findStudent(id);
+    	String gradeString = st.grade.substring(0, st.grade.indexOf('.'));
+    	int grade = Integer.parseInt(gradeString);
+    		
+    	if (grade == 9) {
+    		grade9.logSession(session);
+    	} else if (grade == 10) {
+    		grade10.logSession(session);
+    	} else if (grade == 11) {
+    		grade11.logSession(session);
+    	} else if (grade == 12) {
+    		grade12.logSession(session);
+    	}
+    	
+    }
+    
     /**
      * signOut()
      * Method that signs students out of the system, logging their sessions
@@ -103,6 +129,9 @@ public class Database {
         }
         session.resolve();
         master.logSession(session);
+        
+        moveIntoCorrectFiles(id, session);
+
 
         return true;
     }
@@ -113,6 +142,10 @@ public class Database {
      */
     public void close() {
         master.close();
+        grade9.close();
+        grade10.close();
+        grade11.close();
+        grade12.close();
     }
     
     /**
@@ -121,7 +154,8 @@ public class Database {
      * @return boolean whether or not the data was successfully able to be reconciled or not
      */
     public boolean reconcileData() {
-    	return false;
+
+    	return true;
     }
 
     /**
@@ -146,7 +180,7 @@ public class Database {
      *  @return Student that is the student object based on the student number
      */
     private Student findStudent(String id, int low, int high) {
-        System.out.println(id + ", " + low + ", " + high);
+//      System.out.println(id + ", " + low + ", " + high);
         if (high >= low) {
             int mid = (low + high)/2;
 
@@ -171,7 +205,7 @@ public class Database {
     
     // SHOULDNT THIS RETURN MULTIPLE SESSIONS BECAUSE A STUDENT CAN HAVE MULTIPLE
     // THIS SHOULD BE A SESSION ARRAY RIGHT
-    //OR DOES THIS RETURN THE NEWEST SESSION OF A STUDENT
+    // OR DOES THIS RETURN THE NEWEST SESSION OF A STUDENT
     private Session findSession(Student student) {
         for (Session session : sessionsToResolve) {
             if (session.student.equals(student)) {

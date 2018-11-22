@@ -5,11 +5,13 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import datamanagment.Session;
+import utilities.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ExcelManager {
 
@@ -20,10 +22,14 @@ public class ExcelManager {
 	private CellStyle stringStyle;
 	private CellStyle dateStyle;
 	private CellStyle timeStyle;
+	
+	private ArrayList<XSSFSheet> reasonSheets = new ArrayList<XSSFSheet>();
 
 	private final String[] header = {
 		"Student Number", "First Name", "Last Name", "Date", "Sign-In Time", "Sign-Out Time", "Teacher", "Reason"
 	};
+	
+	private static String[] reasons = Utils.getReasons();
 
 
 	public ExcelManager(String fileName) {
@@ -33,7 +39,12 @@ public class ExcelManager {
 
 			FileInputStream fs = new FileInputStream(file);
 			workbook = new XSSFWorkbook(fs);
-			spreadsheet = workbook.getSheet("SignInSheet");
+			spreadsheet = workbook.createSheet("Master");
+			
+			for (int i = 0; i < reasons.length; i++) {
+				reasonSheets.add(workbook.createSheet(reasons[i]));
+			}
+			
 
             dateStyle = workbook.createCellStyle();
             dateStyle.setDataFormat((short)14);
@@ -66,21 +77,30 @@ public class ExcelManager {
         }
 
         newRow.getCell(0).setCellValue(session.student.id);
+        
         newRow.getCell(1).setCellValue(session.student.firstName);
+        
         newRow.getCell(2).setCellValue(session.student.lastName);
+        
         newRow.getCell(3).setCellStyle(dateStyle);
         newRow.getCell(3).setCellValue(session.getStartTime());
+        
         newRow.getCell(4).setCellStyle(timeStyle);
         newRow.getCell(4).setCellValue(session.getStartTime());
+        
         newRow.getCell(5).setCellStyle(timeStyle);
         newRow.getCell(5).setCellValue(session.getEndTime());
+        
         newRow.getCell(6).setCellValue(session.course);
+        
         newRow.getCell(7).setCellValue(session.reason);
     }
 
 
 	public void close() {
+		
 		try {
+			
 			FileOutputStream out = new FileOutputStream(file);
 			workbook.write(out);
 			out.close();
@@ -89,6 +109,7 @@ public class ExcelManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		System.out.println(file.getName() + " written successfully");
 	}
 }

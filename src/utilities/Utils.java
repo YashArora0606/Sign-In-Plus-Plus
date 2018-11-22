@@ -9,6 +9,10 @@ public class Utils {
 
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static double scale = screenSize.width/1920.0;
+    
+    private static String[] reasons = new String[] {
+            "Test", "Chill Zone", "Quiet Work", "Academic Support", "Group Work"
+    };
 
     public static int scale(double x) {
         return (int)Math.round(scale * x);
@@ -22,6 +26,11 @@ public class Utils {
         }
         return true;
     }
+    
+    public static String[] getReasons() {
+    	return reasons;
+    }
+    
 
 
 }
