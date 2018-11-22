@@ -1,23 +1,19 @@
 package iomanagement;
 
+import datamanagment.Session;
 import datamanagment.Student;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import datamanagment.Session;
-import utilities.PriorityQueue;
 import utilities.SinglyLinkedList;
+import utilities.SlowPriorityQueue;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class HTMLWriter {
     String excelFile;
-    PriorityQueue<Student> studentList;
+    SlowPriorityQueue<Student> studentList;
     SinglyLinkedList<Session> sessionList;
     HTMLWriter(String excelFile){
         this.excelFile = excelFile;

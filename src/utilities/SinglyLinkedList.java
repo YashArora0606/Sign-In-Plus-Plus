@@ -1,148 +1,174 @@
 package utilities;
 
-public class SinglyLinkedList<T> {
-    private Node<T> head;
+import java.util.NoSuchElementException;
+
+/**
+ * Singly linked list implementation
+ * @param <E>
+ */
+public class SinglyLinkedList<E> implements Queue<E> {
+    private Node<E> head;
+    private Node<E> tail;
     private int size = 0;
 
-    SinglyLinkedList() {
-    }
 
-    public boolean add(T data) {
-        return add(size, data);
-    }
-
-    public boolean add(int index, T data) {
-        if ((index > size) || (index < 0)) {
+    // LinkedList Methods
+    public boolean add(int index, E e) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
 
-        Node<T> newNode = new Node<>(data);
+        Node<E> inserted = new Node<>(e);
         if (index == 0) {
-            newNode.setNext(head);
-            head = newNode;
+            inserted.next = head;
+            head = inserted;
         } else {
-            Node<T> previous = getNode(index - 1);
-            newNode.setNext(previous.next());
-            previous.setNext(newNode);
+            Node<E> prev = getNode(index-1);
+            inserted.next = prev.next;
+            prev.next = inserted;
         }
+        if (index == size) {
+            tail = inserted;
+        }
+
         size++;
         return true;
     }
 
-
-    public void clear() {
-        head = null;
-        size = 0;
+    public boolean add(E e) {
+        return add(size, e);
     }
 
-    public boolean contains(T data) {
-        return (indexOf(data) >= 0);
+    public E get(int index) {
+        return getNode(index).item;
     }
 
-    public T get(int index) {
-        return getNode(index).getData();
-    }
-
-    public int indexOf(T data) {
-        Node<T> temp = head;
+    public int indexOf(Object o) {
+        Node<E> node = head;
         for (int i = 0; i < size; i++) {
-            if ((temp.getData().equals(data)) || (temp.getData() == data)) {
+            if (o == node.item || o.equals(node.item)) {
                 return i;
             }
-            temp = temp.next();
+            node = node.next;
         }
         return -1;
     }
 
-    public boolean isEmpty() {
-        return (head == null);
-    }
-
-    public int lastIndexOf(T data) {
-        Node<T> temp = head;
-        int index = -1;
-        for (int i = 0; i < size; i++) {
-            if ((temp.getData().equals(data)) || (temp.getData() == data)) {
-                index = i;
-            }
-            temp = temp.next();
-        }
-        return index;
-    }
-
-    public T remove(int index) {
-        if ((index >= size) || (index < 0)) {
+    public E remove(int index) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
 
-        Node<T> removed;
+        Node<E> prev;
+        Node<E> removed;
         if (index == 0) {
+            prev = null;
             removed = head;
-            if (size > 1) {
-                head = head.next();
-            } else {
-                head = null;
-            }
+            head = head.next;
         } else {
-            Node<T> temp = getNode(index - 1);
-            removed = temp.next();
-            temp.setNext(temp.next().next());
+            prev = getNode(index-1);
+            removed = prev.next;
+            prev.next = removed.next;
         }
+        if (index == size-1) {
+            tail = prev;
+        }
+
         size--;
-        return removed.getData();
+        return removed.item;
     }
 
-    public boolean remove(T data) {
-        int index = indexOf(data);
+    public boolean remove(Object o) {
+        int index = indexOf(o);
         if (index == -1) {
             return false;
         } else {
-            remove(indexOf(data));
+            remove(index);
             return true;
         }
+    }
+
+    public void clear() {
+        head = null;
+        tail = null;
+        size = 0;
     }
 
     public int size() {
         return size;
     }
 
-    private Node<T> getNode(int index) {
+
+    // Queue Methods
+    @Override
+    public boolean offer(E e) {
+        return add(e);
+    }
+
+    @Override
+    public E remove() {
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+        return remove(0);
+    }
+
+    @Override
+    public E poll() {
+        if (size == 0) {
+            return null;
+        }
+        return remove(0);
+    }
+
+    @Override
+    public E element() {
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+        return get(0);
+    }
+
+    @Override
+    public E peek() {
+        if (size == 0) {
+            return null;
+        }
+        return get(0);
+    }
+
+
+    // Privated Components
+    private Node<E> getNode(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-        Node<T> temp = head;
-        for (int i = 0; i < index; i++) {
-            temp = temp.next();
+
+        if (index == 0) {
+            return head;
+
+        } else if (index == size-1) {
+            return tail;
+
+        } else {
+            Node<E> node = head;
+            for (int i = 0; i < index; i++) {
+                node = node.next;
+            }
+            return node;
         }
-        return temp;
     }
 
     private class Node<T> {
-        private T data;
+        private T item;
         private Node<T> next;
 
-        public Node(T data) {
-            this.data = data;
+        Node(T item) {
+            this.item = item;
         }
 
-        public Node(T data, Node<T> next) {
-            this.data = data;
-            this.next = next;
-        }
-
-        public T getData() {
-            return this.data;
-        }
-
-        public Node<T> next() {
-            return this.next;
-        }
-
-        public void setData(T data) {
-            this.data = data;
-        }
-
-        public void setNext(Node<T> next) {
+        Node(T item, Node<T> next) {
+            this.item = item;
             this.next = next;
         }
     }
