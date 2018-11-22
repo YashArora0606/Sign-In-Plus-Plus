@@ -5,6 +5,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import datamanagment.Session;
+import utilities.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,11 +23,13 @@ public class ExcelManager {
 	private CellStyle dateStyle;
 	private CellStyle timeStyle;
 	
-	private ArrayList<XSSFSheet> reasonLists = new ArrayList<XSSFSheet>();
+	private ArrayList<XSSFSheet> reasonSheets = new ArrayList<XSSFSheet>();
 
 	private final String[] header = {
 		"Student Number", "First Name", "Last Name", "Date", "Sign-In Time", "Sign-Out Time", "Teacher", "Reason"
 	};
+	
+	private static String[] reasons = Utils.getReasons();
 
 
 	public ExcelManager(String fileName) {
@@ -38,7 +41,9 @@ public class ExcelManager {
 			workbook = new XSSFWorkbook(fs);
 			spreadsheet = workbook.createSheet("Master");
 			
-			
+			for (int i = 0; i < reasons.length; i++) {
+				reasonSheets.add(workbook.createSheet(reasons[i]));
+			}
 			
 
             dateStyle = workbook.createCellStyle();

@@ -31,9 +31,7 @@ public class Database {
     public Database() {
 
         //instead of hardcoding reasons or subjects, we could read from a .txt file to make it more dynamic
-        reasons = new String[] {
-                "Test", "Chill Zone", "Quiet Work", "Academic Support", "Group Work"
-        };
+    	reasons = Utils.getReasons();
 
         subjects = new String[] {
                 "Art", "Math", "Music", "Science", "History", "Geography", "Business", "Family Studies",
