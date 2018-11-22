@@ -1,5 +1,5 @@
 package utilities;
 
-public class BinaryTree {
+public class BinaryTree<T> {
 
 }

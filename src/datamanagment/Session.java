@@ -6,17 +6,18 @@ import java.util.Date;
 
 public class Session {
     public final Student student;
-    public final String course;
+    public final String subjectWork;
+    public final String courseMissed;
     public final String reason;
 
     public Date startTime;
     private Date endTime;
 
-    public Session(Student student, String course, String reason) {
+    public Session(Student student, String courseMissed, String reason, String subjectWork) {
         this.student = student;
-        this.course = course;
+        this.courseMissed = courseMissed;
+        this.subjectWork = subjectWork;
         this.reason = reason;
-
         this.startTime = Calendar.getInstance().getTime();
     }
 

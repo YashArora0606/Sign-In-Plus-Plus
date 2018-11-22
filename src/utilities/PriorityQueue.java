@@ -1,5 +1,5 @@
 package utilities;
 
-public class PriorityQueue {
+public class PriorityQueue<T> {
 
 }
