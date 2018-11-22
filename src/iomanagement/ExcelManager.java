@@ -43,12 +43,12 @@ public class ExcelManager {
             initializeSpreadsheets(master);
 
 			for (int i = 0; i < reasons.length; i++) {
-				reasonSheets.add(workbook.createSheet(reasons[i]));
+				reasonSheets.add(workbook.getSheet(reasons[i]));
 	            initializeSpreadsheets(workbook.getSheet(reasons[i]));
 			}
 
             dateStyle = workbook.createCellStyle();
-            dateStyle.setDataFormat((short)14);
+            dateStyle.setDataFormat((short) 14);
 
             timeStyle = workbook.createCellStyle();
             timeStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("h:mm"));
@@ -72,6 +72,48 @@ public class ExcelManager {
         master.shiftRows(1, Math.max(1, master.getLastRowNum()), 1);
 
         XSSFRow newRow = master.createRow(1);
+        for (int i = 0; i< header.length; i++) {
+            newRow.createCell(i);
+        }
+
+        newRow.getCell(0).setCellValue(session.student.id);
+        
+        newRow.getCell(1).setCellValue(session.student.firstName);
+        
+        newRow.getCell(2).setCellValue(session.student.lastName);
+        
+        newRow.getCell(3).setCellStyle(dateStyle);
+        newRow.getCell(3).setCellValue(session.getStartTime());
+        
+        newRow.getCell(4).setCellStyle(timeStyle);
+        newRow.getCell(4).setCellValue(session.getStartTime());
+        
+        newRow.getCell(5).setCellStyle(timeStyle);
+        newRow.getCell(5).setCellValue(session.getEndTime());
+        
+        newRow.getCell(6).setCellValue(session.courseMissed);
+        
+        newRow.getCell(7).setCellValue(session.reason);
+        
+        
+        logSessionSubsection(session);
+    }
+	
+	public void logSessionSubsection(Session session) {
+		
+		int workingIndex = -1;
+		
+		for(int i = 0; i < reasons.length; i++) {
+			if (session.reason.equals(reasons[i])) {
+				workingIndex = i;
+			}
+		}
+		
+		
+		
+		reasonSheets.get(workingIndex).shiftRows(1, Math.max(1, reasonSheets.get(workingIndex).getLastRowNum()), 1);
+
+        XSSFRow newRow = reasonSheets.get(workingIndex).createRow(1);
         for (int i = 0; i< header.length; i++) {
             newRow.createCell(i);
         }
