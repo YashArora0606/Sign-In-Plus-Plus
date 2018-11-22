@@ -1,6 +1,8 @@
 package datamanagment;
-import java.util.Calendar;
+import java.util.Calendar; 
 import java.util.Date;
+
+// Should implement comparable
 
 public class Session {
     public final Student student;
