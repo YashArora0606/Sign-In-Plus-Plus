@@ -1,4 +1,6 @@
 package display;
 
-public class PasswordPanel {
+class PasswordPanel {
+
+
 }

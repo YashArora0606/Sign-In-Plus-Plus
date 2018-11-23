@@ -11,7 +11,7 @@ import utilities.Utils;
 
 import java.io.IOException;
 
-public class SignInPanel extends JPanel {
+class SignInPanel extends JPanel {
 
     private Window display;
     private Database database;
@@ -21,12 +21,10 @@ public class SignInPanel extends JPanel {
     private JComboBox<String> subjectField;
     private JComboBox<String> courseMissedField;
 
-    
-    
     private JButton submitButton;
     private JButton backButton;
 
-    public SignInPanel(Window display, Database database) {
+    SignInPanel(Window display, Database database) {
         this.display = display;
         this.database = database;
 
@@ -37,7 +35,7 @@ public class SignInPanel extends JPanel {
 
         reasonField = new JComboBox<>();
         reasonField.addItem("Select Reason");
-        for (String reason : Utils.getReasons()) {
+        for (String reason : database.getReasons()) {
             reasonField.addItem(reason);
         }
         add(reasonField);
@@ -45,14 +43,14 @@ public class SignInPanel extends JPanel {
 
         subjectField = new JComboBox<>();
         subjectField.addItem("Select Subject");
-        for (String subject : Utils.getSubjects()) {
+        for (String subject : database.getCourses()) {
             subjectField.addItem(subject);
         }
         add(subjectField);
         
         courseMissedField = new JComboBox<>();
         courseMissedField.addItem("Select Subject");
-        for (String courseMissed : Utils.getCoursesMissed()) {
+        for (String courseMissed : database.getCourses()) {
             courseMissedField.addItem(courseMissed);
         }
         add(courseMissedField);
@@ -64,7 +62,7 @@ public class SignInPanel extends JPanel {
 
 
         backButton = new JButton("Back");
-        backButton.addActionListener(e -> display.changeState(0));
+        backButton.addActionListener(e -> display.changeState(1));
         add(backButton);
 
         setVisible(true);
