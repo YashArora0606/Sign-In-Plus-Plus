@@ -26,7 +26,7 @@ public class ExcelManager {
 	private ArrayList<XSSFSheet> reasonSheets = new ArrayList<XSSFSheet>();
 
 	private final String[] header = {
-		"Student Number", "First Name", "Last Name", "Date", "Sign-In Time", "Sign-Out Time", "Teacher", "Reason"
+		"Student Number", "First Name", "Last Name", "Date", "Sign-In Time", "Sign-Out Time", "Teacher", "Reason", "Subject Missed"
 	};
 	
 	private static String[] reasons = Utils.getReasons();
@@ -91,9 +91,12 @@ public class ExcelManager {
         newRow.getCell(5).setCellStyle(timeStyle);
         newRow.getCell(5).setCellValue(session.getEndTime());
         
-        newRow.getCell(6).setCellValue(session.courseMissed);
+        newRow.getCell(6).setCellValue(session.subjectWork);
         
         newRow.getCell(7).setCellValue(session.reason);
+        
+        newRow.getCell(8).setCellValue(session.courseMissed);
+
         
         
         logSessionSubsection(session);
@@ -133,9 +136,12 @@ public class ExcelManager {
         newRow.getCell(5).setCellStyle(timeStyle);
         newRow.getCell(5).setCellValue(session.getEndTime());
         
-        newRow.getCell(6).setCellValue(session.courseMissed);
+        newRow.getCell(6).setCellValue(session.subjectWork);
         
         newRow.getCell(7).setCellValue(session.reason);
+        
+        newRow.getCell(8).setCellValue(session.courseMissed);
+
     }
 
 

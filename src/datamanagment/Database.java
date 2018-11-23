@@ -1,5 +1,5 @@
 package datamanagment;
-import java.util.Arrays;
+import java.util.Arrays; 
 import java.util.LinkedList;
 
 import exceptions.AlreadyLoggedInException;
@@ -16,7 +16,8 @@ public class Database {
 
     private final String[] reasons; //different reasons for sign in
     private final String[] subjects; //different subjects for sign in
-
+    private final String[] coursesMissed; 
+    
     private ExcelManager master;
     
     private ExcelManager grade9;
@@ -30,13 +31,10 @@ public class Database {
 
     public Database() {
 
-        //instead of hardcoding reasons or subjects, we could read from a .txt file to make it more dynamic
     	reasons = Utils.getReasons();
-
-        subjects = new String[] {
-                "Art", "Math", "Music", "Science", "History", "Geography", "Business", "Family Studies",
-                "Physical Ed.", "Technology Studies", "Social Sciences", "Lunch / Spare"
-        };
+    	subjects = Utils.getSubjects();
+    	coursesMissed = Utils.getCoursesMissed();
+        
 
         master = new ExcelManager("MasterList.xlsx");
         
@@ -77,7 +75,7 @@ public class Database {
      * @param String reason that is why the student is in the room
      * @return boolean whether the student was able to be successfully signed in or not
      */
-    public boolean signIn(String id, String course, String reason) throws InvalidIdException, AlreadyLoggedInException {
+    public boolean signIn(String id, String course, String reason, String courseMissed) throws InvalidIdException, AlreadyLoggedInException {
         Student student = findStudent(id);
         if (student == null) { //if no such student exists
             throw new InvalidIdException(id);
@@ -88,7 +86,7 @@ public class Database {
             throw new AlreadyLoggedInException();
         }
 
-        sessionsToResolve.add(new Session(student, course, reason, course));
+        sessionsToResolve.add(new Session(student, courseMissed, reason, course));
         return true;
     }
     

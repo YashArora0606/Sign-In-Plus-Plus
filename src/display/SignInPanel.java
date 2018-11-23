@@ -7,6 +7,7 @@ import javax.swing.JTextField;
 import datamanagment.Database;
 import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;
+import utilities.Utils;
 
 import java.io.IOException;
 
@@ -18,6 +19,10 @@ public class SignInPanel extends JPanel {
     private JTextField idField;     
     private JComboBox<String> reasonField;
     private JComboBox<String> subjectField;
+    private JComboBox<String> courseMissedField;
+
+    
+    
     private JButton submitButton;
     private JButton backButton;
 
@@ -32,7 +37,7 @@ public class SignInPanel extends JPanel {
 
         reasonField = new JComboBox<>();
         reasonField.addItem("Select Reason");
-        for (String reason : database.getReasons()) {
+        for (String reason : Utils.getReasons()) {
             reasonField.addItem(reason);
         }
         add(reasonField);
@@ -40,10 +45,17 @@ public class SignInPanel extends JPanel {
 
         subjectField = new JComboBox<>();
         subjectField.addItem("Select Subject");
-        for (String subject : database.getSubjects()) {
+        for (String subject : Utils.getSubjects()) {
             subjectField.addItem(subject);
         }
         add(subjectField);
+        
+        courseMissedField = new JComboBox<>();
+        courseMissedField.addItem("Select Subject");
+        for (String courseMissed : Utils.getCoursesMissed()) {
+            courseMissedField.addItem(courseMissed);
+        }
+        add(courseMissedField);
 
 
         submitButton = new JButton("Sign In");
@@ -62,9 +74,11 @@ public class SignInPanel extends JPanel {
         String id = idField.getText();
         String subject = (String)subjectField.getSelectedItem();
         String reason = (String)reasonField.getSelectedItem();
+        String courseMissed = (String)courseMissedField.getSelectedItem();
+
 
         try {
-            database.signIn(id, subject, reason);
+            database.signIn(id, subject, reason, courseMissed);
             idField.setText(null);
 
         } catch (InvalidIdException | AlreadyLoggedInException e) {
