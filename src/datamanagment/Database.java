@@ -111,7 +111,7 @@ public class Database {
     /**
      * signOut()
      * Method that signs students out of the system, logging their sessions
-     * @param String id that is individual to each each student and is checked against students that have been signed in already
+     * @param id string id that is individual to each each student and is checked against students that have been signed in already
      * @return boolean whether or not the student was successfully signed out
      */
     public boolean signOut(String id) throws InvalidIdException, NotLoggedInException {
@@ -159,7 +159,7 @@ public class Database {
     /**
      *  findStudent()
      *  Method that finds a student object based on their id
-     *  @param student id that is individual to each student, calling another findStudent() method to find a student based on id
+     *  @param id student id that is individual to each student, calling another findStudent() method to find a student based on id
      *  @return Student that is the student object based on the student number
      */
     private Student findStudent(String id) {
@@ -172,9 +172,9 @@ public class Database {
     /**
      *  findStudent()
      *  Method that finds a student object based on their id and some recursive variables
-     *  @param student id that is individual to each student and recursively passed in
-     *  @param int low that is the lowest id length
-     *  @param int high that is the highest id length
+     *  @param id student id that is individual to each student and recursively passed in
+     *  @param low int low that is the lowest id length
+     *  @param high int high that is the highest id length
      *  @return Student that is the student object based on the student number
      */
     private Student findStudent(String id, int low, int high) {
@@ -197,7 +197,7 @@ public class Database {
     /**
      * findSession()
      * Method that finds a session object based on the student object
-     * @param a student object that can be used to find the session
+     * @param student a student object that can be used to find the session
      * @return a session object that is the latest session of the given student
      */
     
