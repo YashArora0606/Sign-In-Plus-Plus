@@ -27,6 +27,7 @@ public class ExcelManager {
 
 	private final String[] header = {
 		"Student Number", "First Name", "Last Name", "Date", "Sign-In Time", "Sign-Out Time", "Teacher", "Reason", "Subject Missed"
+		
 	};
 	
 	private static String[] reasons = Utils.getReasons();
@@ -35,7 +36,7 @@ public class ExcelManager {
 	public ExcelManager(String fileName) {
 		try {
 			file = new File(fileName);
-			file.createNewFile();
+			//file.createNewFile();
 
 			FileInputStream fs = new FileInputStream(file);
 			workbook = new XSSFWorkbook(fs);
