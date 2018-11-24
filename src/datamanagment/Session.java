@@ -21,6 +21,15 @@ public class Session {
         this.startTime = Calendar.getInstance().getTime();
     }
 
+    public Session(String courseMissed, String reason, String subjectWork, Date startTime, Date endTime) {
+        this.student = null;
+        this.courseMissed = courseMissed;
+        this.subjectWork = subjectWork;
+        this.reason = reason;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
     public Date getStartTime() {
         return startTime;
     }

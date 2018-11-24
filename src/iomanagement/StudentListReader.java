@@ -1,8 +1,8 @@
 package iomanagement;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import datamanagment.Student;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +39,6 @@ public class StudentListReader {
             }
 
             inputStream.close();
-            workbook.close();
 
         } catch (IOException e) {
             e.printStackTrace();

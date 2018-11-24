@@ -1,19 +1,13 @@
-<a name="Student"></a> 
-<h2>Student</h2>
+insert
+insert
 <table>
   <tr>
     <th>Sign In Time</th>
     <th>Sign Out Time</th>
     <th>Reason</th>
-    <th>Subject</th>
-    <th>Duration of Stay</th>
+    <th>Subject Work</th>
+    <th>Course Missed</th>
   </tr>
-  <tr>
-    <td>timein</td>
-    <td>timeout</td>
-    <td>reason</td>
-    <td>subject</td>
-    <td>duration</td>
-  </tr>
+insert
 </table>
 <p><a href="#Top">Back to top</a></p>

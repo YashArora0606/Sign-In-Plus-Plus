@@ -7,7 +7,7 @@ import datamanagment.Database;
 import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
 
-public class SignOutPanel extends JPanel {
+class SignOutPanel extends JPanel {
 
     private Window display;
     private Database database;
@@ -16,7 +16,7 @@ public class SignOutPanel extends JPanel {
     private JButton submitButton;
     private JButton backButton;
 
-    public SignOutPanel(Window display, Database database) {
+    SignOutPanel(Window display, Database database) {
         this.display = display;
         this.database = database;
 
@@ -32,7 +32,7 @@ public class SignOutPanel extends JPanel {
 
 
         backButton = new JButton("Back");
-        backButton.addActionListener(e -> display.changeState(0));
+        backButton.addActionListener(e -> display.changeState(1));
         add(backButton);
 
         setVisible(true);
