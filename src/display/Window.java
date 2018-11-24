@@ -1,5 +1,5 @@
 package display;
-import javax.swing.JFrame; 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import datamanagment.Database;
@@ -16,6 +16,7 @@ public class Window extends JFrame {
 
     private Database database;
 
+    private JPanel homePanel;
     private JPanel menuPanel;
     private JPanel signInPanel;
     private JPanel signOutPanel;
@@ -31,6 +32,7 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //generate panels
+        this.homePanel = new HomePanel(this);
         this.menuPanel = new MenuPanel(this);
         this.signInPanel = new SignInPanel(this, database);
         this.signOutPanel = new SignOutPanel(this, database);
@@ -55,24 +57,19 @@ public class Window extends JFrame {
     public void changeState(int state) {
         switch (state) {
             case 0:
-                getContentPane().removeAll();
-                getContentPane().add(menuPanel);
-                getContentPane().revalidate();
-                getContentPane().repaint();
+                switchPanel(homePanel);
                 return;
 
             case 1:
-                getContentPane().removeAll();
-                getContentPane().add(signInPanel);
-                getContentPane().revalidate();
-                getContentPane().repaint();
+                switchPanel(menuPanel);
                 return;
 
             case 2:
-                getContentPane().removeAll();
-                getContentPane().add(signOutPanel);
-                getContentPane().revalidate();
-                getContentPane().repaint();
+                switchPanel(signInPanel);
+                return;
+
+            case 3:
+                switchPanel(signOutPanel);
                 return;
 
             default:
@@ -88,5 +85,12 @@ public class Window extends JFrame {
     public void closeWindow() {
         database.close();
         dispose();
+    }
+
+    private void switchPanel(JPanel newPanel) {
+        getContentPane().removeAll();
+        getContentPane().add(newPanel);
+        getContentPane().revalidate();
+        getContentPane().repaint();
     }
 }

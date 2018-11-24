@@ -152,7 +152,6 @@ public class ExcelManager {
 			FileOutputStream out = new FileOutputStream(file);
 			workbook.write(out);
 			out.close();
-			workbook.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
