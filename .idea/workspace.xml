@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="062fb860-76ee-4833-a73a-e6ca0484edb1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade10List.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade11List.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade12List.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grade9List.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MasterList.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/StudentList.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes/production/SignInSystem/Launcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/classes/production/SignInSystem/Launcher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/datamanagment/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/datamanagment/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/HomePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/HomePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/MenuPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/MenuPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/SignInPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/SignInPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/SignOutPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/SignOutPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/display/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/display/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/iomanagement/ExcelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/iomanagement/ExcelManager.java" afterDir="false" />
-    </list>
+    <list default="true" id="062fb860-76ee-4833-a73a-e6ca0484edb1" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
