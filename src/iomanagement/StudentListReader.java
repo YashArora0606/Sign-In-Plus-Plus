@@ -20,9 +20,10 @@ import java.util.Arrays;
  */
 public class StudentListReader {
 
-    private final String STUDENTS_DIR = "database/";
-    private final String STUDENTS_FILE = "Students.xlsx";
-    private final String[] header = {"Studnet ID", "First Name", "Last Name", "Grade"};
+    //private final String STUDENTS_DIR = "database/";
+    private final String STUDENTS_DIR = "";
+    private final String STUDENTS_FILE = "StudentList.xlsx";
+    private final String[] header = {"Student ID", "First Name", "Last Name", "Grade"};
 
     private ArrayList<Student> students = new ArrayList<>();
 
