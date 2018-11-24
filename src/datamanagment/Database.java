@@ -3,6 +3,7 @@ package datamanagment;
 import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
+import iomanagement.StudentListReader;
 import utilities.Utils;
 
 public class Database {
@@ -20,7 +21,7 @@ public class Database {
     private Student[] students;
 
     public Database() {
-
+        new StudentListReader();
 
     }
 
