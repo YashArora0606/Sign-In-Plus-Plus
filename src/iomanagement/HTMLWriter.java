@@ -119,6 +119,7 @@ public class HTMLWriter {
                         case (1):
                            for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
                                outputStudent(out, stuNum);
+                               writeStudentGraph(out, stuNum);
                            }
                     }
                 }
@@ -128,6 +129,122 @@ public class HTMLWriter {
             e.printStackTrace();
         }
     }
+
+    private void writeStudentGraph (PrintWriter out, int index) {
+        int[] percentageList = calculateStudentPercentage(index);
+
+        out.print("<table id = ");
+        out.print( "\"s-graph\" </table>");
+        out.println("<caption> " + studentSession[index].get(0).student.firstName + " " +
+                studentSession[index].get(0).student.lastName + " Graph </caption>");
+        out.println("<thead>");
+        out.println("<tr>");
+        out.println("<th></th>");
+        out.println("</tr>");
+        out.println("</thead>");
+        out.println("<tbody>");
+
+        // Test reason bar
+        out.println("<tr class=\"reason\" id=\"Test\">");
+        out.println("<th scope=\"row\"> Test </th>");
+        out.println("<td class=\"Test bar\" style=\"height: " + percentageList[0] * 10+ "px\"><p> " + percentageList[0] + " </p></td>");
+        out.println("</tr>");
+
+        //chill zone reason bar
+        out.println("<tr class=\"reason\" id=\"ChillZone\">");
+        out.println("<th scope=\"row\"> Chill Zone </th>");
+        out.println("<td class=\"ChillZone bar\" style=\"height: " + percentageList[1] * 10+ "px\"><p> " + percentageList[1] + " </p></td>");
+        out.println("</tr>");
+
+        //quiet work reason bar
+        out.println("<tr class=\"reason\" id=\"QuietWork\">");
+        out.println("<th scope=\"row\"> Quiet Work </th>");
+        out.println("<td class=\"QuietWork bar\" style=\"height: " + percentageList[2] * 10 + "px\"><p> " + percentageList[2] + " </p></td>");
+        out.println("</tr>");
+
+        //group work reason bar
+        out.println("<tr class=\"reason\" id=\"GroupWork\">");
+        out.println("<th scope=\"row\"> Group Work </th>");
+        out.println("<td class=\"GroupWork bar\" style=\"height: " + percentageList[3] * 10+ "px\"><p> " + percentageList[3] + " </p></td>");
+        out.println("</tr>");
+
+        //Academic Support bar
+        out.println("<tr class=\"reason\" id=\"AcademicSupport\">");
+        out.println("<th scope=\"row\"> Academic Support</th>");
+        out.println("<td class=\"AcademicSupport bar\" style=\"height: " + percentageList[4] * 10+ "px\"><p> " + percentageList[4] + " </p></td>");
+        out.println("</tr>");
+
+        //Total bar
+        out.println("<tr class=\"reason\" id=\"Total\">");
+        out.println("<th scope=\"row\"> Total </th>");
+        out.println("<td class=\"Total bar\" style=\"height: " + percentageList[5] * 10+ "px\"><p> " + percentageList[5] + " </p></td>");
+        out.println("</tr>");
+    }
+
+
+    private int[] calculateOverallPercentages () {
+        int[] percentageArray = new int[6];
+        int testNum = 0;
+        int czNum = 0;
+        int qwNum = 0;
+        int gwNum = 0;
+        int asNum = 0;
+        int total = 0;
+        for (int i =0; i < studentSession.length; i++) {
+            for (int j = 0; j < studentSession[i].size(); j++) {
+                if (studentSession[i].get(j).reason.equals("Test")) {
+                    testNum++;
+                } else if (studentSession[i].get(j).reason.equals("Chill Zone")) {
+                    czNum++;
+                } else if (studentSession[i].get(j).reason.equals("Academic Support")) {
+                    asNum++;
+                } else if (studentSession[i].get(j).reason.equals("Quiet Work")) {
+                    qwNum++;
+                } else if (studentSession[i].get(j).reason.equals("Group Work")) {
+                    gwNum++;
+                }
+                total++;
+            }
+        }
+        percentageArray[0] = testNum;
+        percentageArray[1] = czNum;
+        percentageArray[2] = qwNum;
+        percentageArray[3] = gwNum;
+        percentageArray[4] = asNum;
+        percentageArray[5] = total;
+        return percentageArray;
+    }
+
+    private int[] calculateStudentPercentage(int index) {
+        int[] percentageArray = new int[6];
+        int testNum = 0;
+        int czNum = 0;
+        int qwNum = 0;
+        int gwNum = 0;
+        int asNum = 0;
+        int total = 0;
+        for (int i = 0; i < studentSession[index].size(); i++) {
+            if (studentSession[i].get(i).reason.equals("Test")) {
+                testNum++;
+            } else if (studentSession[index].get(i).reason.equals("Chill Zone")) {
+                czNum++;
+            } else if (studentSession[index].get(i).reason.equals("Academic Support")) {
+                asNum++;
+            } else if (studentSession[index].get(i).reason.equals("Quiet Work")) {
+                qwNum++;
+            } else if (studentSession[index].get(i).reason.equals("Group Work")) {
+                gwNum++;
+            }
+            total++;
+        }
+        percentageArray[0] = testNum;
+        percentageArray[1] = czNum;
+        percentageArray[2] = qwNum;
+        percentageArray[3] = gwNum;
+        percentageArray[4] = asNum;
+        percentageArray[5] = total;
+        return percentageArray;
+        }
 
     private void outputStudent(PrintWriter out, int index) {
         int modNum = 0;
@@ -231,6 +348,7 @@ public class HTMLWriter {
 
         return -1;
     }
+
 
     /**private void addToQueue() {
         boolean alreadyAdded;

@@ -6,11 +6,6 @@ import exceptions.NotLoggedInException;
 import iomanagement.StudentListReader;
 import utilities.Utils;
 
-import java.util.Arrays;
-
-/**
- * Database (very underdeveloped)
- */
 public class Database {
 
     private final String[] reasons = new String[] {
@@ -26,8 +21,8 @@ public class Database {
     private Student[] students;
 
     public Database() {
-        students = new StudentListReader("database/StudentList.xlsx").getStudents();
-        Arrays.sort(students);
+        new StudentListReader();
+
     }
 
     public String[] getReasons() {
@@ -47,7 +42,6 @@ public class Database {
         return true;
     }
 
-
     public boolean signOut(String id) throws InvalidIdException, NotLoggedInException {
         Student student = findStudent(id);
         if (student == null) { //if no such student exists
@@ -58,13 +52,12 @@ public class Database {
         return true;
     }
 
-
     public boolean reconcileData() {
-
         return true;
     }
 
     public void close() {
+
     }
 
     private Student findStudent(String id) {
