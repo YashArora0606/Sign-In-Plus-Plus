@@ -5,19 +5,20 @@ import datamanagment.Student;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
-import utilities.SlowPriorityQueue;
 import utilities.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 public class HTMLWriter {
     String excelFile;
     Stack<Session>[] studentSession;
     Student[] studentList;
+    SinglyLinkedList<String> template;
+    SinglyLinkedList<String> reportTemplate;
 
     HTMLWriter(String excelFile, Student[] studentList){
         this.excelFile = excelFile;
@@ -26,6 +27,22 @@ public class HTMLWriter {
         // initializing
         for (int i = 0; i < studentList.length; i++) {
             studentSession[i] = new Stack<>();
+        }
+
+        try {
+            File myFile = new File("HTMLStuff/Template.txt");
+            // Create a Scanner and associate it with the file
+            Scanner input = new Scanner(myFile);
+
+            while(input.hasNext()){
+                String line = input.nextLine();
+                template.add(line);
+                System.out.println(line);
+            }
+
+            input.close();
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -74,14 +91,16 @@ public class HTMLWriter {
 
     }
 
-    private void processFile(){
+    private void processReportTemplate(){
         try {
-            File myFile = new File("report.html");
+            File myFile = new File("HTMLStuff/ReportTemplate.txt");
             // Create a Scanner and associate it with the file
             Scanner input = new Scanner(myFile);
 
             while(input.hasNext()){
-                
+                String line = input.nextLine();
+                reportTemplate.add(line);
+                System.out.println(line);
             }
 
             input.close();
@@ -91,7 +110,68 @@ public class HTMLWriter {
     }
 
     private void writeFile(){
+        try {
+            File myFile = new File("HTMLStuff/report.html");
+            PrintWriter out = new PrintWriter(myFile);
+            int modNum = 0;
+            for (int i = 0; i < reportTemplate.size(); i++){
+                if (!reportTemplate.get(i).equals("<!--insert-->")){
+                    out.println(reportTemplate.get(i));
+                } else {
+                    switch (modNum) {
+                        case (0):
+                            for (int stuNum = 0; stuNum < studentList.length; stuNum++){
+                                out.println("<a href=\"#"+studentList[stuNum].firstName+" "+studentList[stuNum].lastName+"\">Student 1</a><br/>");
+                            }
+                            modNum++;
+                            return;
 
+                        case (1):
+                           for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
+                               outputStudent(out, stuNum);
+                           }
+                    }
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void outputStudent(PrintWriter out, int index) {
+        SinglyLinkedList copy = SinglyLinkedList.copyOf(template);
+        int modNum = 0;
+        for (int j = 0; j < template.size(); j++) {
+            if (!copy.get(j).equals("insert")) {
+                out.println(copy.get(j));
+            } else {
+                switch (modNum) {
+                    case 0:
+                        out.println("<a name=" + studentList[index].firstName + " " + studentList[index].lastName + "></a>");
+                        modNum++;
+                        return;
+
+                    case 1:
+                        out.println("<h2>" + studentList[index].firstName + " " + studentList[index].lastName + "</h2>");
+                        modNum++;
+                        return;
+
+                    case 2:
+                        for (int i = 0; i < studentSession[index].size(); i++) {
+                            out.println("  <tr>");
+                            out.println("    <th>" + studentSession[index].get(i).getStartTime());
+                            out.println("    <th>" + studentSession[index].get(i).getEndTime());
+                            out.println("    <th>" + studentSession[index].get(i).reason);
+                            out.println("    <th>" + studentSession[index].get(i).subjectWork);
+                            out.println("    <th>" + studentSession[index].get(i).courseMissed);
+                            out.println("  <tr>");
+                        }
+                        return;
+                }
+            }
+        }
+        out.println();
     }
 
     /**

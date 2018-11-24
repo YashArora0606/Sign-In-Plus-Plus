@@ -88,6 +88,14 @@ public class SinglyLinkedList<E> implements Queue<E> {
         }
     }
 
+    public static SinglyLinkedList copyOf(SinglyLinkedList list){
+        SinglyLinkedList newList = new SinglyLinkedList<>();
+        for (int i = 0; i < list.size(); i++){
+            newList.add(list.get(i));
+        }
+        return newList;
+    }
+
     public void clear() {
         head = null;
         tail = null;
