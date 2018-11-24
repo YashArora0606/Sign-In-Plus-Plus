@@ -80,7 +80,6 @@ public class HTMLWriter {
             }
 
             inputStream.close();
-            workbook.close();
 
         } catch (IOException e) {
             e.printStackTrace();
