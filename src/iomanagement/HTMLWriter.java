@@ -20,6 +20,11 @@ public class HTMLWriter {
     SinglyLinkedList<String> template;
     SinglyLinkedList<String> reportTemplate;
 
+    /**
+     * Constructor - initializes templates upon creation
+     * @param excelFile
+     * @param studentList
+     */
     HTMLWriter(String excelFile, Student[] studentList){
         this.excelFile = excelFile;
         this.studentList = studentList;
@@ -29,29 +34,17 @@ public class HTMLWriter {
             studentSession[i] = new Stack<>();
         }
 
-        try {
-            File myFile = new File("HTMLStuff/Template.txt");
-            // Create a Scanner and associate it with the file
-            Scanner input = new Scanner(myFile);
+        reportTemplate = getTemplate("HTMLStuff/ReportTemplate.txt");
+        template = getTemplate("HTMLStuff/Template.txt");
 
-            while(input.hasNext()){
-                String line = input.nextLine();
-                template.add(line);
-                System.out.println(line);
-            }
-
-            input.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
     }
 
     public void go(){
-        read();
+        readExcel();
         write();
     }
 
-    private void read() {
+    private void readExcel() {
         try {
             File file = new File(excelFile);
             file.createNewFile();
@@ -86,19 +79,16 @@ public class HTMLWriter {
         }
     }
 
-    private void write(){
-
-    }
-
-    private void processReportTemplate(){
+    private SinglyLinkedList<String> getTemplate(String fileName){
+        SinglyLinkedList<String> list = new SinglyLinkedList<>();
         try {
-            File myFile = new File("HTMLStuff/ReportTemplate.txt");
+            File myFile = new File(fileName);
             // Create a Scanner and associate it with the file
             Scanner input = new Scanner(myFile);
 
             while(input.hasNext()){
                 String line = input.nextLine();
-                reportTemplate.add(line);
+                list.add(line);
                 System.out.println(line);
             }
 
@@ -106,9 +96,10 @@ public class HTMLWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return list;
     }
 
-    private void writeFile(){
+    public void writeFile(){
         try {
             File myFile = new File("HTMLStuff/report.html");
             PrintWriter out = new PrintWriter(myFile);
