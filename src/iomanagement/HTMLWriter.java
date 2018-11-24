@@ -114,7 +114,6 @@ public class HTMLWriter {
                                 out.println("<a href=\"#"+studentList[stuNum].firstName+" "+studentList[stuNum].lastName+"\">Student 1</a><br/>");
                             }
                             modNum++;
-                            return;
 
                         case (1):
                            for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
@@ -139,12 +138,10 @@ public class HTMLWriter {
                     case 0:
                         out.println("<a name=" + studentList[index].firstName + " " + studentList[index].lastName + "></a>");
                         modNum++;
-                        return;
 
                     case 1:
                         out.println("<h2>" + studentList[index].firstName + " " + studentList[index].lastName + "</h2>");
                         modNum++;
-                        return;
 
                     case 2:
                         for (int i = 0; i < studentSession[index].size(); i++) {
@@ -156,7 +153,6 @@ public class HTMLWriter {
                             out.println("    <th>" + studentSession[index].get(i).courseMissed);
                             out.println("  <tr>");
                         }
-                        return;
                 }
             }
         }

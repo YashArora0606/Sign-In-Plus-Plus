@@ -20,6 +20,7 @@ public class Window extends JFrame {
     private JPanel menuPanel;
     private JPanel signInPanel;
     private JPanel signOutPanel;
+    private JPanel passwordPanel;
 
     public Window(Database database) {
 
@@ -32,10 +33,11 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //generate panels
-        this.homePanel = new HomePanel(this);
-        this.menuPanel = new MenuPanel(this);
+        this.homePanel = new HomePanel(this, Utils.scale(1000), Utils.scale(600));
+        this.menuPanel = new MenuPanel(this, Utils.scale(1000), Utils.scale(600));
         this.signInPanel = new SignInPanel(this, database);
         this.signOutPanel = new SignOutPanel(this, database);
+        this.passwordPanel = new PasswordPanel(this);
 
         //set displayed panel to menu
         changeState(0);
@@ -70,6 +72,10 @@ public class Window extends JFrame {
 
             case 3:
                 switchPanel(signOutPanel);
+                return;
+
+            case 4:
+                switchPanel(passwordPanel);
                 return;
 
             default:
