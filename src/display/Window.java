@@ -34,7 +34,7 @@ public class Window extends JFrame {
 
         //generate panels
         this.homePanel = new HomePanel(this, Utils.scale(1000), Utils.scale(600));
-        this.menuPanel = new MenuPanel(this);
+        this.menuPanel = new MenuPanel(this, Utils.scale(1000), Utils.scale(600));
         this.signInPanel = new SignInPanel(this, database);
         this.signOutPanel = new SignOutPanel(this, database);
         this.passwordPanel = new PasswordPanel(this);

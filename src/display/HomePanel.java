@@ -14,7 +14,6 @@ class HomePanel extends JPanel {
     private int maxX;
     private int maxY;
     private int highlight = -1;
-    private Graphics g;
 
     HomePanel(Window display, int maxX, int maxY) {
         this.display = display;
@@ -24,7 +23,6 @@ class HomePanel extends JPanel {
     }
 
     public void paintComponent(Graphics g){
-        this.g = g;
         g.setColor(new Color(191, 191, 191));
         g.fillRect(0,0, maxX/2, maxY);
         g.setColor(new Color(131, 131, 131));
@@ -37,7 +35,7 @@ class HomePanel extends JPanel {
         if (highlight == 0){
            g.fillRect(maxX/4-fontMetrics.stringWidth("Student")/2-20, maxY/2-3*fontMetrics.getHeight()/4-10, fontMetrics.stringWidth("Student")+40, 3*fontMetrics.getHeight()/4+10);
         } else if (highlight == 1){
-            g.setColor(new Color(191, 191, 191));
+           g.setColor(new Color(191, 191, 191));
            g.fillRect(3*maxX/4-fontMetrics.stringWidth("Teacher")/2-20, maxY/2-3*fontMetrics.getHeight()/4-10, fontMetrics.stringWidth("Teacher")+40, 3*fontMetrics.getHeight()/4+10);
         }
 
