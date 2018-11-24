@@ -58,12 +58,6 @@ public class HTMLWriter {
                 addToQueue();
             }
 
-
-
-
-
-
-
             inputStream.close();
             workbook.close();
 
