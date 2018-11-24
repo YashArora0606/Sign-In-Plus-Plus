@@ -41,7 +41,7 @@ public class HTMLWriter {
 
     public void go(){
         readExcel();
-        write();
+        writeFile("HTMLStuff/report.html");
     }
 
     private void readExcel() {
@@ -99,9 +99,9 @@ public class HTMLWriter {
         return list;
     }
 
-    public void writeFile(){
+    public void writeFile(String pathName){
         try {
-            File myFile = new File("HTMLStuff/report.html");
+            File myFile = new File(pathName);
             PrintWriter out = new PrintWriter(myFile);
             int modNum = 0;
             for (int i = 0; i < reportTemplate.size(); i++){
