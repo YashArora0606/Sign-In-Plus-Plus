@@ -140,11 +140,10 @@ public class HTMLWriter {
     }
 
     private void outputStudent(PrintWriter out, int index) {
-        SinglyLinkedList copy = SinglyLinkedList.copyOf(template);
         int modNum = 0;
         for (int j = 0; j < template.size(); j++) {
-            if (!copy.get(j).equals("insert")) {
-                out.println(copy.get(j));
+            if (!template.get(j).equals("insert")){
+                out.println(template.get(j));
             } else {
                 switch (modNum) {
                     case 0:
