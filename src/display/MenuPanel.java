@@ -25,7 +25,7 @@ class MenuPanel extends JPanel {
 
         backButton = new JButton("Back");
         backButton.addActionListener(e -> display.changeState(0));
-        add(backButton);
+        this.add(backButton);
     }
 
 }
