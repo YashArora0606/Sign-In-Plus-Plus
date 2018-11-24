@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="062fb860-76ee-4833-a73a-e6ca0484edb1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/poi_scratchpad_4_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SignInSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SignInSystem.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/iomanagement/HTMLWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/iomanagement/HTMLWriter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,8 +47,8 @@
       <file leaf-file-name="HTMLWriter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/iomanagement/HTMLWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1625">
-              <caret line="141" column="60" selection-start-line="141" selection-start-column="60" selection-end-line="141" selection-end-column="60" />
+            <state relative-caret-position="-707">
+              <caret line="105" column="24" selection-start-line="105" selection-start-column="24" selection-end-line="105" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -181,7 +179,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="640" />
     <option name="y" value="17" />
     <option name="width" value="1285" />
@@ -365,7 +363,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="512" y="14" width="1028" height="967" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="974" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -380,7 +378,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28698224" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18945312" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="5" />
@@ -603,8 +601,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/iomanagement/HTMLWriter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1625">
-          <caret line="141" column="60" selection-start-line="141" selection-start-column="60" selection-end-line="141" selection-end-column="60" />
+        <state relative-caret-position="-707">
+          <caret line="105" column="24" selection-start-line="105" selection-start-column="24" selection-end-line="105" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -675,7 +673,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>org.apache.poi:poi-ooxml:3.10-FINAL</last-edited>
+          <last-edited>org.apache.poi:poi:3.10-FINAL</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
