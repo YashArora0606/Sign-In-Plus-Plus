@@ -83,9 +83,7 @@ public class StudentListReader {
                     }
                     fields[col] = value;
                 }
-
-                System.out.println(Arrays.toString(fields));
-
+                
                 students.add(new Student(fields[0], fields[1], fields[2], fields[3]));
             }
 
