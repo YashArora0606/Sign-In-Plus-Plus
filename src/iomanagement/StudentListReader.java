@@ -126,7 +126,7 @@ public class StudentListReader {
      */
     public Student[] getStudents() {
         Student[] studentArray = students.toArray(new Student[0]);
-        //Arrays.sort(studentArray);
+        Arrays.sort(studentArray);
         return studentArray;
     }
 
