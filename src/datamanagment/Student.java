@@ -14,7 +14,7 @@ public class Student implements Comparable<Student> {
     }
 
     @Override
-    public int compareTo(Student student) {
+    public int compareTo(Student student) {    	
         return id.compareTo(student.id);
     }
 }
