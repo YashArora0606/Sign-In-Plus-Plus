@@ -21,7 +21,7 @@ public class Database {
     private Student[] students;
 
     public Database() {
-        new StudentListReader();
+        students = new StudentListReader().getStudents();
 
     }
 

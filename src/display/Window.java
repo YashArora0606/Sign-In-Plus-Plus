@@ -92,7 +92,7 @@ public class Window extends JFrame {
             case 6:
                 switchPanel(changePasswordPanel);
                 return;
-                
+
             default:
                 System.out.print(state);
                 throw new IndexOutOfBoundsException();

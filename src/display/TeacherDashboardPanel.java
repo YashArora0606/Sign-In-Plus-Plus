@@ -17,6 +17,7 @@ public class TeacherDashboardPanel extends JPanel{
     private final int maxX;
     private final int maxY;
     private boolean inWindow = false;
+    private int highlight = -1;
 
     TeacherDashboardPanel(Window display){
         this.maxX = display.maxX;
@@ -55,10 +56,6 @@ public class TeacherDashboardPanel extends JPanel{
         } else if (highlight == 2) {
             g.setColor(new Color(40, 40, 40));
         }
-        g.fillRect(40,40,BACKBUTTON_WIDTH,BACKBUTTON_HEIGHT);
-        g.setColor(new Color(255, 255, 255));
-        g.setFont(buttonFont);
-        g.drawString("Back",BACKBUTTON_WIDTH/2+40-buttonFontMetrics.stringWidth("Back")/2, BACKBUTTON_HEIGHT/2+40+buttonFontMetrics.getMaxAscent()/4);
 
         g.setFont(mainFont);
         g.setColor(new Color(15, 147, 116));
@@ -71,9 +68,7 @@ public class TeacherDashboardPanel extends JPanel{
         int x = (int) Math.round(mouseLocation.getX()-relScreenLocation.getX());
         int y = (int) Math.round(mouseLocation.getY()-relScreenLocation.getY());
         if (inWindow) {
-            if ((x >= 40) && (x <= 40 + BACKBUTTON_WIDTH) && (y >= 40) && (y <= 40 + BACKBUTTON_HEIGHT)) {
-                highlight = 2;
-            } else if ((x < maxX / 2) && (y < maxY)) {
+            if ((x < maxX / 2) && (y < maxY)) {
                 highlight = 0;
             } else if ((x < maxX) && (y < maxY)) {
                 highlight = 1;
