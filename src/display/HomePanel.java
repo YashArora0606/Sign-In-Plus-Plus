@@ -14,14 +14,14 @@ import utilities.Utils;
 class HomePanel extends JPanel {
     private Window display;
     private boolean inWindow = false;
-    private int maxX;
-    private int maxY;
+    private final int maxX;
+    private final int maxY;
     private int highlight = -1;
 
-    HomePanel(Window display, int maxX, int maxY) {
+    HomePanel(Window display) {
         this.display = display;
-        this.maxX = maxX;
-        this.maxY = maxY;
+        this.maxX = display.maxX;
+        this.maxY = display.maxY;
         this.addMouseListener(new MyMouseListener());
     }
 

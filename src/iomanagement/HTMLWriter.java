@@ -109,14 +109,14 @@ public class HTMLWriter {
                     out.println(reportTemplate.get(i));
                 } else {
                     switch (modNum) {
-                        case (0):
+                        case 0:
                             for (int stuNum = 0; stuNum < studentList.length; stuNum++){
                                 out.println("<a href=\"#"+studentList[stuNum].firstName+" "+studentList[stuNum].lastName+"\">Student 1</a><br/>");
                             }
                             modNum++;
                             return;
 
-                        case (1):
+                        case 1:
                            for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
                                outputStudent(out, stuNum);
                                writeStudentGraph(out, stuNum);

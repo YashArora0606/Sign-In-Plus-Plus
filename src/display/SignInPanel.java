@@ -9,6 +9,8 @@ import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;
 import utilities.Utils;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
 class SignInPanel extends JPanel {
@@ -81,6 +83,19 @@ class SignInPanel extends JPanel {
 
         } catch (InvalidIdException | AlreadyLoggedInException e) {
             e.printStackTrace();
+        }
+    }
+
+    private class MyMouseListener implements MouseListener {
+        public void mouseEntered(MouseEvent e){
+        }
+        public void mouseClicked(MouseEvent e) {
+        }
+        public void mousePressed(MouseEvent e){
+        }
+        public void mouseExited(MouseEvent e){
+        }
+        public void mouseReleased(MouseEvent e){
         }
     }
 }

@@ -1,4 +1,10 @@
-
+.idea
+.idea/**
+.classes
+.classes/**
+*.class
 *.xml
+.idea/workspace.xml
+.idea/workspace.xml
 *.iml
-*.xml
+*.xlsx
