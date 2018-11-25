@@ -8,6 +8,9 @@ import utilities.Utils;
 
 public class Database {
 
+    private final String STUDENTS_DIR = "database/students";
+    private final String MASTERLOG_FILE = "database/MasterLog.xlsx";
+
     private final String[] reasons = new String[] {
             "Test", "Chill Zone", "Quiet Work", "Academic Support", "Group Work"
     };
@@ -22,7 +25,6 @@ public class Database {
 
     public Database() {
         students = new StudentListReader().getStudents();
-
     }
 
     public String[] getReasons() {
@@ -47,7 +49,6 @@ public class Database {
         if (student == null) { //if no such student exists
             throw new InvalidIdException(id);
         }
-
 
         return true;
     }
