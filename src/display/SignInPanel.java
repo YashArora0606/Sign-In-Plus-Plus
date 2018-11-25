@@ -25,11 +25,18 @@ class SignInPanel extends JPanel {
 
     private JButton submitButton;
     private JButton backButton;
+    
+    private int maxX;
+    private int maxY;
 
     SignInPanel(Window display, Database database) {
         this.display = display;
+        this.maxX = display.maxX;
+        this.maxY = display.maxY;
+        
         this.database = database;
 
+        
         idField = new JTextField(10);
         idField.setFont(idField.getFont().deriveFont(35f));
         add(idField);
@@ -51,7 +58,7 @@ class SignInPanel extends JPanel {
         add(subjectField);
 
         courseMissedField = new JComboBox<>();
-        courseMissedField.addItem("Select Subject");
+        courseMissedField.addItem("Select Missing Course");
         for (String courseMissed : database.getCourses()) {
             courseMissedField.addItem(courseMissed);
         }

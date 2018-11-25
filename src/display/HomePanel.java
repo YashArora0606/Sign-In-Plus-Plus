@@ -1,6 +1,6 @@
 package display;
 
-import javax.swing.JPanel;
+import javax.swing.JPanel;  
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Font;

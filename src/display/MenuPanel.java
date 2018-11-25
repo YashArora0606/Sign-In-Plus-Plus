@@ -1,5 +1,5 @@
 package display;
-import utilities.Utils;
+import utilities.Utils; 
 
 import javax.swing.JPanel;
 import java.awt.Color;
