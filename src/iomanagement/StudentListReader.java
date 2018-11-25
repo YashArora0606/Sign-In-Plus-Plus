@@ -83,7 +83,7 @@ public class StudentListReader {
                     }
                     fields[col] = value;
                 }
-                
+
                 students.add(new Student(fields[0], fields[1], fields[2], fields[3]));
             }
 
