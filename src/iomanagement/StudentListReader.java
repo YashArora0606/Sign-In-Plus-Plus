@@ -2,7 +2,6 @@ package iomanagement;
 
 import datamanagment.Student;
 import display.ErrorWindow;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -10,7 +9,6 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import utilities.ExcelUtils;
 import utilities.Queue;
 import utilities.SinglyLinkedList;
@@ -120,7 +118,6 @@ public class StudentListReader {
         while (fieldQueue.size() > 0) {
             String[] fields = fieldQueue.poll();
             students.add(new Student(fields[1], fields[2], fields[0], fields[3]));
-            System.out.println(Arrays.toString(fields));
         }
     }
 
