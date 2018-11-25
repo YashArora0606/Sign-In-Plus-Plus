@@ -79,6 +79,7 @@ class SignInPanel extends JPanel {
 
     private void submit() {
         String id = idField.getText();
+        idField.setText("");
         String subject = (String)subjectField.getSelectedItem();
         String reason = (String)reasonField.getSelectedItem();
         String courseMissed = (String)courseMissedField.getSelectedItem();

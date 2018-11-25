@@ -50,7 +50,7 @@ class SignOutPanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-
+		super.paintComponent(g);
 		Font mainFont = Utils.getFont("assets/Hind-Light.ttf", 50.0f);
 		FontMetrics mainFontMetrics = g.getFontMetrics(mainFont);
 
@@ -65,7 +65,7 @@ class SignOutPanel extends JPanel {
 
 	private void submit() {
 		String id = idField.getText();
-
+		idField.setText("");
 		try {
 			database.signOut(id);
 			idField.setText(null);

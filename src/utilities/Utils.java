@@ -46,4 +46,22 @@ public class Utils {
         }
         return font;
     }
+
+    public static String encode(String string){
+        String newString = "";
+        for (int i = 0; i < string.length(); i++){
+            int unicode = (int) string.charAt(i)+5;
+            newString += (char) unicode;
+        }
+        return newString;
+    }
+
+    public static String decode(String string){
+        String newString = "";
+        for (int i = 0; i < string.length(); i++){
+            int unicode = (int) string.charAt(i)-5;
+            newString += (char) unicode;
+        }
+        return newString;
+    }
 }

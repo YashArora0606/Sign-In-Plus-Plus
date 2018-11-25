@@ -26,6 +26,7 @@ class HomePanel extends JPanel {
     }
 
     public void paintComponent(Graphics g){
+        super.paintComponent(g);
         g.setColor(new Color(191, 191, 191));
         g.fillRect(0,0, maxX/2, maxY);
         g.setColor(new Color(131, 131, 131));
