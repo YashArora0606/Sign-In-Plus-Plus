@@ -133,6 +133,7 @@ public class HTMLWriter {
     private void writeStudentGraph (PrintWriter out, int index) {
         int[] percentageList = calculateStudentPercentage(index);
 
+        out.println("<div id=\"graph\">");
         out.print("<table id = ");
         out.print( "\"s-graph\" </table>");
         out.println("<caption> " + studentSession[index].get(0).student.firstName + " " +
@@ -179,6 +180,15 @@ public class HTMLWriter {
         out.println("<th scope=\"row\"> Total </th>");
         out.println("<td class=\"Total bar\" style=\"height: " + percentageList[5] * 10+ "px\"><p> " + percentageList[5] + " </p></td>");
         out.println("</tr>");
+
+        out.println("<div id=\"ticks\">");
+        out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+        out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+        out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+        out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+        out.println("</div>");
+        out.println("</div>");
+
     }
 
 

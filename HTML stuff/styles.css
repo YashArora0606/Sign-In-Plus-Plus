@@ -1,5 +1,5 @@
 @font-face {
-    font-family: mainFont; 
+    font-family: mainFont;
     src: url(https://fonts.googleapis.com/css?family=Proxima+Nova);
 }
 body {
@@ -29,4 +29,134 @@ tr{
     color: #212121;
     font-family: mainFont;
     font-size: 12px;
+}
+
+#graph {
+  height: 100%;
+}
+
+#graph {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "fira-sans-2", Verdana, sans-serif;
+}
+
+#s-graph {
+  display: block;
+  position: relative;
+  width: 600px;
+  height: 300px;
+  margin: 1.1em 0 0;
+  padding: 0;
+  background: transparent;
+  font-size: 11px;
+}
+
+#s-graph caption {
+  caption-side: top;
+  width: 600px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  top: -40px;
+  position: relative;
+  z-index: 10;
+  font-weight: bold;
+}
+
+#s-graph tr, #s-graph th, #s-graph td {
+  position: absolute;
+  bottom: 0;
+  width: 150px;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+#s-graph td {
+  transition: all .3s ease;
+
+  &:hover {
+    background-color: desaturate(#85144b, 100);
+    opacity: .9;
+    color: white;
+  }
+}
+
+#s-graph thead tr {
+  left: 100%;
+  top: 50%;
+  bottom: auto;
+  margin: -2.5em 0 0 5em;}
+#s-graph thead th {
+  width: 7.5em;
+  height: auto;
+  padding: 0.5em 1em;
+}
+#s-graph thead th.sent {
+  top: 0;
+  left: 0;
+  line-height: 2;
+}
+#s-graph thead th.paid {
+  top: 2.75em;
+  line-height: 2;
+  left: 0;
+}
+
+#s-graph tbody tr {
+  height: 296px;
+  padding-top: 2px;
+  border-right: 1px dotted #C4C4C4;
+  color: #AAA;
+}
+#s-graph #Test {
+  left: 0;
+}
+#s-graph #ChillZone {left: 100px;}
+#s-graph #QuietWork {left: 200px;}
+#s-graph #GroupWork {left: 300px;}
+#s-graph #AcademicSupport {left: 400px;}
+#s-graph #Total {left: 500px;}
+#s-graph tbody th {bottom: -1.75em; vertical-align: top;
+font-weight: normal; color: #333;}
+#s-graph .bar {
+  width: 50px;
+  border: 1px solid;
+  border-bottom: none;
+  color: #000;
+  right: 50px;
+}
+#s-graph .bar p {
+  margin: 5px 0 0;
+  padding: 0;
+  opacity: .4;
+}
+
+
+#ticks {
+  position: relative;
+  top: -300px;
+  left: 2px;
+  width: 596px;
+  height: 300px;
+  z-index: 1;
+  margin-bottom: -300px;
+  font-size: 10px;
+  font-family: "fira-sans-2", Verdana, sans-serif;
+}
+
+#ticks .tick {
+  position: relative;
+  border-bottom: 1px dotted #C4C4C4;
+  width: 600px;
+}
+
+#ticks .tick p {
+  position: absolute;
+  left: -5em;
+  top: -0.8em;
+  margin: 0 0 0 0.5em;
 }
