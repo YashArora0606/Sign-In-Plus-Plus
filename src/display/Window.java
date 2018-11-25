@@ -13,7 +13,8 @@ import java.awt.event.WindowEvent;
  * All panels stem from this one
  */
 public class Window extends JFrame {
-
+    public final int maxX;
+    public final int maxY;
     private Database database;
 
     private JPanel homePanel;
@@ -21,6 +22,8 @@ public class Window extends JFrame {
     private JPanel signInPanel;
     private JPanel signOutPanel;
     private JPanel passwordPanel;
+    private JPanel teacherDashboardPanel;
+    private JPanel changePasswordPanel;
 
     public Window(Database database) {
 
@@ -28,16 +31,20 @@ public class Window extends JFrame {
 
         //generate frame
         this.setTitle("SignIn++");
+        this.maxX = Utils.scale(1000);
+        this.maxY = Utils.scale(600);
         this.setLocation(Utils.scale(200), Utils.scale(100));
-        this.setSize(Utils.scale(1000), Utils.scale(600));
+        this.setSize(maxX, maxY);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //generate panels
-        this.homePanel = new HomePanel(this, Utils.scale(1000), Utils.scale(600));
-        this.menuPanel = new MenuPanel(this, Utils.scale(1000), Utils.scale(600));
+        this.homePanel = new HomePanel(this);
+        this.menuPanel = new MenuPanel(this);
         this.signInPanel = new SignInPanel(this, database);
         this.signOutPanel = new SignOutPanel(this, database);
         this.passwordPanel = new PasswordPanel(this);
+        this.teacherDashboardPanel = new TeacherDashboardPanel(this);
+        this.changePasswordPanel = new ChangePasswordPanel(this);
 
         //set displayed panel to menu
         changeState(0);
@@ -78,6 +85,14 @@ public class Window extends JFrame {
                 switchPanel(passwordPanel);
                 return;
 
+            case 5:
+                switchPanel(teacherDashboardPanel);
+                return;
+
+            case 6:
+                switchPanel(changePasswordPanel);
+                return;
+                
             default:
                 System.out.print(state);
                 throw new IndexOutOfBoundsException();

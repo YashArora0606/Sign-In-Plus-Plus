@@ -14,16 +14,16 @@ import java.awt.event.MouseListener;
 class MenuPanel extends JPanel {
     private Window display;
     private boolean inWindow = false;
-    private int maxX;
-    private int maxY;
+    public final int maxX;
+    public final int maxY;
     private int highlight = -1;
     private static final int BACKBUTTON_WIDTH = 150;
     private static final int BACKBUTTON_HEIGHT = 80;
 
-    MenuPanel(Window display, int maxX, int maxY) {
+    MenuPanel(Window display) {
         this.display = display;
-        this.maxX = maxX;
-        this.maxY = maxY;
+        this.maxX = display.maxX;
+        this.maxY = display.maxY;
         this.addMouseListener(new MyMouseListener());
     }
 
