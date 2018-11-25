@@ -9,6 +9,7 @@ public class LogSheet {
 	private String filePath;
 
 	public LogSheet(String filePath) {
+	    this.filePath = filePath;
 	}
 
 
