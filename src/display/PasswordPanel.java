@@ -1,6 +1,10 @@
 package display;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JPanel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class PasswordPanel extends JPanel{
     private Window display;
@@ -11,12 +15,31 @@ public class PasswordPanel extends JPanel{
     PasswordPanel(Window display) {
         this.display = display;
 
-        backButton = new JButton("Back");
+        /*backButton = new JButton("Back");
         backButton.addActionListener(e -> display.changeState(0));
         this.add(backButton);
 
         enterButton = new JButton("Enter");
         enterButton.addActionListener(e -> display.changeState(5));
-        this.add(enterButton);
+        this.add(enterButton);*/
+        this.addMouseListener(new MyMouseListener());
+    }
+
+    private class MyMouseListener implements MouseListener {
+        public void mouseEntered(MouseEvent e){
+
+        }
+        public void mouseClicked(MouseEvent e) {
+            display.changeState(5);
+        }
+        public void mousePressed(MouseEvent e){
+
+        }
+        public void mouseExited(MouseEvent e){
+
+        }
+        public void mouseReleased(MouseEvent e){
+
+        }
     }
 }
