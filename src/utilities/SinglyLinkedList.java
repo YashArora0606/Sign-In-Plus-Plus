@@ -106,7 +106,6 @@ public class SinglyLinkedList<E> implements Queue<E> {
         return size;
     }
 
-
     // Queue Methods
     @Override
     public boolean offer(E e) {
