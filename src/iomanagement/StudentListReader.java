@@ -88,14 +88,17 @@ public class StudentListReader {
                     cell = row.createCell(col);
                 }
 
-                cell.setCellStyle(defaultCell);
 
                 String value = ExcelUtils.getValueFromCell(cell).trim();
                 if (!isValidField(value, col)) {
                     fileProperlyFomatted = false;
                     cell.setCellStyle(redCell);
+                    fields[col] = null;
+
+                } else {
+                    cell.setCellStyle(defaultCell);
+                    fields[col] = value;
                 }
-                fields[col] = null;
             }
 
             fieldQueue.add(fields);
@@ -116,7 +119,8 @@ public class StudentListReader {
 
         while (fieldQueue.size() > 0) {
             String[] fields = fieldQueue.poll();
-            students.add(new Student(fields[0], fields[1], fields[2], fields[3]));
+            students.add(new Student(fields[1], fields[2], fields[0], fields[3]));
+            System.out.println(Arrays.toString(fields));
         }
     }
 
