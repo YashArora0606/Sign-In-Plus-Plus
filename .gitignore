@@ -3,3 +3,5 @@
 .classes
 .classes/**
 *.class
+*.xml
+.idea/workspace.xml
