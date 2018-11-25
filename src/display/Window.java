@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import datamanagment.Database;
 import utilities.Utils;
 
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -34,7 +35,8 @@ public class Window extends JFrame {
         this.maxX = Utils.scale(1000);
         this.maxY = Utils.scale(600);
         this.setLocation(Utils.scale(200), Utils.scale(100));
-        this.setSize(maxX, maxY);
+        this.setSize(new Dimension(maxX, maxY));
+        System.out.print(maxY);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //generate panels

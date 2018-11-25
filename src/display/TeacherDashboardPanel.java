@@ -34,6 +34,7 @@ public class TeacherDashboardPanel extends JPanel{
     }
 
     public void paintComponent(Graphics g){
+        super.paintComponent(g);
         if (highlight == 0){
             g.setColor(new Color(90,90,90));
         } else {
@@ -62,7 +63,7 @@ public class TeacherDashboardPanel extends JPanel{
         FontMetrics mainFontMetrics = g.getFontMetrics(mainFont);
 
         g.setFont(mainFont);
-        g.setColor(new Color(225, 230, 228));
+        g.setColor(new Color(244, 249, 247));
         g.drawString("Add Student", maxX/2-mainFontMetrics.stringWidth("Add Student")/2, buttonSpace+mainFontMetrics.getMaxAscent());
         g.drawString("Remove Student", maxX/2-mainFontMetrics.stringWidth("Remove Student")/2, buttonHeight+buttonSpace*2+mainFontMetrics.getMaxAscent());
         g.drawString("Change Password", maxX/2-mainFontMetrics.stringWidth("Change Password")/2, buttonHeight*2+buttonSpace*3+mainFontMetrics.getMaxAscent());
@@ -74,17 +75,19 @@ public class TeacherDashboardPanel extends JPanel{
         int y = (int) Math.round(mouseLocation.getY()-relScreenLocation.getY());
         if (inWindow) {
             if ((x > maxX/2-buttonWidth/2) && (x < maxX/2-buttonWidth/2+buttonWidth)
-                    &&(y > buttonSpace) && (y < buttonSpace*2+buttonHeight)) {
+                    &&(y > buttonSpace) && (y < buttonSpace+buttonHeight)) {
                 highlight = 0;
             } else if ((x > maxX/2-buttonWidth/2) && (x < maxX/2-buttonWidth/2+buttonWidth)
-                    &&(y > buttonSpace*2+buttonHeight) && (y < buttonSpace*3+buttonHeight*2)){
+                    &&(y > buttonSpace*2+buttonHeight) && (y < buttonSpace*2+buttonHeight*2)){
                 highlight = 1;
             } else if ((x > maxX/2-buttonWidth/2) && (x < maxX/2-buttonWidth/2+buttonWidth)
-                    &&(y > buttonSpace*3+buttonHeight*2) && (y < buttonSpace*4+buttonHeight*3)) {
+                    &&(y > buttonSpace*3+buttonHeight*2) && (y < buttonSpace*3+buttonHeight*3)) {
                 highlight = 2;
             } else if ((x > maxX/2-buttonWidth/4) && (x < maxX/2-buttonWidth/4+buttonWidth/2)
-                    &&(y > buttonSpace*4+buttonHeight*3) && (y < buttonSpace*5+buttonHeight*4)){
+                    &&(y > buttonSpace*4+buttonHeight*3) && (y < buttonSpace*4+buttonHeight*4)){
                 highlight = 3;
+            } else {
+                highlight = -1;
             }
         } else {
             highlight = -1;

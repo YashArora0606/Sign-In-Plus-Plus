@@ -122,9 +122,10 @@ public class HTMLWriter {
                                writeStudentGraph(out, stuNum);
                            }
                     }
+                    out.println("<!--insert-->");
                 }
             }
-
+            out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
