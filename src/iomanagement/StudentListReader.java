@@ -1,6 +1,6 @@
 package iomanagement;
 
-import datamanagment.Student;  
+import datamanagment.Student;
 import display.ErrorWindow;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -21,11 +21,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 /**
  * Reads from an .xlsx file of students
  * 11/25/2018
- * @author Alston
  */
 public class StudentListReader {
 
@@ -69,7 +67,7 @@ public class StudentListReader {
         defaultCell.setFillPattern(FillPatternType.NO_FILL);
 
         //read file
-        boolean fileProperlyFomatted = true;
+        boolean properlyFormatted = true;
         Queue<String[]> fieldQueue = new SinglyLinkedList<>();
 
         for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
@@ -86,17 +84,15 @@ public class StudentListReader {
                     cell = row.createCell(col);
                 }
 
-
                 String value = ExcelUtils.getValueFromCell(cell).trim();
                 if (!isValidField(value, col)) {
-                    fileProperlyFomatted = false;
+                    properlyFormatted = false;
                     cell.setCellStyle(redCell);
-                    fields[col] = null;
-
                 } else {
                     cell.setCellStyle(defaultCell);
-                    fields[col] = value;
                 }
+
+                fields[col] = value;
             }
 
             fieldQueue.add(fields);
@@ -109,7 +105,7 @@ public class StudentListReader {
             System.exit(1);
         }
 
-        if (!fileProperlyFomatted) {
+        if (!properlyFormatted || fieldQueue.size() == 0) {
             new ErrorWindow("Students.xlsx improperly formatted");
             openDirectory();
             System.exit(1);
@@ -175,58 +171,19 @@ public class StudentListReader {
     private boolean isValidField(String field, int column) {
         switch (column) {
             case 0:
-                return isValidId(field);
+                return Utils.isValidId(field);
 
             case 1:
-                return isValidName(field);
+                return Utils.isValidName(field);
 
             case 2:
-                return isValidName(field);
+                return Utils.isValidName(field);
 
             case 3:
-                return isValidGrade(field);
+                return Utils.isValidGrade(field);
 
             default:
                 throw new IndexOutOfBoundsException();
         }
-    }
-
-
-    /**
-     * Checks if a String is a valid representation of a student ID
-     * A student ID must be an integer that is 9 numbers long (leading zeroes allowed)
-     * @param id
-     * @return true, if the string is a valid representation of a student ID
-     */
-    private boolean isValidId(String id) {
-        return (id.length() == 9 && Utils.isAnInteger(id));
-    }
-
-
-    /**
-     * Checks if a String is a valid representation of a name
-     * A name must be at least 1 character, contain no digits, and have its first character capitalized
-     * @param name
-     * @return true, if the string is a valid representation of a name
-     */
-    private boolean isValidName(String name) {
-        return ((name.length() >= 1) &&
-                (name.matches("^[^0-9]+$")) &&
-                (name.charAt(0) == Character.toUpperCase(name.charAt(0))));
-    }
-
-
-    /**
-     * Checks if a String validly represents a grade
-     * A grade must be an integer from 9 - 13
-     * @param grade
-     * @return true, if the String is a valid representation of a grade
-     */
-    private boolean isValidGrade(String grade) {
-        if (Utils.isAnInteger(grade)) {
-            int gradeNum = Integer.parseInt(grade);
-            return (gradeNum >= 9 && gradeNum <= 13);
-        }
-        return false;
     }
 }
