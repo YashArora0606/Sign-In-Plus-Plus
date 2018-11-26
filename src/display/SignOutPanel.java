@@ -24,8 +24,6 @@ class SignOutPanel extends JPanel {
 	private CustomButton submit;
 	private CustomButton back;
 
-	private JTextArea idArea;
-
 	SignOutPanel(Window display, Database database) {
 		this.panel = this;
 		this.display = display;
@@ -33,28 +31,23 @@ class SignOutPanel extends JPanel {
 		this.addMouseListener(new MyMouseListener());
 		this.setLayout(null);
 		idField = new JTextField(10);
-		idField.setFont(Utils.getFont("assets/Hind-Light.ttf", 50f));
+		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
 		idField.setText("Student Number");
 		Dimension size = idField.getPreferredSize();
 		this.add(idField);
-		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height - 35);
+		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height);
 		this.addMouseListener(new MyMouseListener());
-
-        //idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        //idField.setBackground(null);
-
         setVisible(true);
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		back = new CustomButton("Back", 0, 0, 115, 80, Utils.colours[1]);
+		back = new CustomButton("Back",0,0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
 		back.draw(g, panel);
-		
-		submit = new CustomButton("Submit", Utils.scale(display.maxX/2) - Utils.scale(155)/2, Utils.scale(320), Utils.scale(155), Utils.scale(80), Utils.colours[2]);
+
+		submit = new CustomButton("Submit", Utils.scale(display.maxX/2)-Utils.scale(80), Utils.scale(320), Utils.scale(160), Utils.scale(90), Utils.colours[2]);
 		submit.draw(g, panel);
-		
 		repaint();
 	}
 
@@ -76,7 +69,7 @@ class SignOutPanel extends JPanel {
 
 		public void mouseClicked(MouseEvent e) {
 			if (back.isMouseOnButton(panel)) {
-				display.changeState(0);
+				display.changeState(1);
 			} else if (submit.isMouseOnButton(panel)) {
 				idField.setText("");
 				submit();
