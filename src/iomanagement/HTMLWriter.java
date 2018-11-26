@@ -114,7 +114,6 @@ public class HTMLWriter {
                                 out.println("<a href=\"#"+studentList[stuNum].firstName+" "+studentList[stuNum].lastName+"\">Student 1</a><br/>");
                             }
                             modNum++;
-                            return;
 
                         case 1:
                            for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
@@ -133,6 +132,8 @@ public class HTMLWriter {
 
     private void writeStudentGraph (PrintWriter out, int index) {
         int[] percentageList = calculateStudentPercentage(index);
+        String[] id = new String{"Test", "ChillZone", "QuietWork", "GroupWork", "AcademicSupport","Total"}
+        String[] displayText = new String{"Test", "Chill Zone", "Quiet Work", "Group Work", "Academic Support","Total"}
 
         out.println("<div id=\"graph\">");
         out.print("<table id = ");
@@ -146,42 +147,50 @@ public class HTMLWriter {
         out.println("</thead>");
         out.println("<tbody>");
 
-        // Test reason bar
-        out.println("<tr class=\"reason\" id=\"Test\">");
-        out.println("<th scope=\"row\"> Test </th>");
-        out.println("<td class=\"Test bar\" style=\"height: " + percentageList[0] * 10+ "px\"><p> " + percentageList[0] + " </p></td>");
-        out.println("</tr>");
+        for (int i = 0; i < 6; i++){
+            out.println("<tr class=\"reason\" id=\""+id[i]+"\">");
+            out.println("<th scope=\"row\">" + displayText[i] + " </th>");
+            out.println("<td class=\"" +  displayText[i] +"\" style=\"height: " + percentageList[i] * 10+ "px\"><p> " + percentageList[i] + " </p></td>");
+            out.println("</tr>");
+        }
 
-        //chill zone reason bar
-        out.println("<tr class=\"reason\" id=\"ChillZone\">");
-        out.println("<th scope=\"row\"> Chill Zone </th>");
-        out.println("<td class=\"ChillZone bar\" style=\"height: " + percentageList[1] * 10+ "px\"><p> " + percentageList[1] + " </p></td>");
-        out.println("</tr>");
+//        // Test reason bar
+//        out.println("<tr class=\"reason\" id=\"Test\">");
+//        out.println("<th scope=\"row\"> Test </th>");
+//        out.println("<td class=\"Test bar\" style=\"height: " + percentageList[0] * 10+ "px\"><p> " + percentageList[0] + " </p></td>");
+//        out.println("</tr>");
 
-        //quiet work reason bar
-        out.println("<tr class=\"reason\" id=\"QuietWork\">");
-        out.println("<th scope=\"row\"> Quiet Work </th>");
-        out.println("<td class=\"QuietWork bar\" style=\"height: " + percentageList[2] * 10 + "px\"><p> " + percentageList[2] + " </p></td>");
-        out.println("</tr>");
-
-        //group work reason bar
-        out.println("<tr class=\"reason\" id=\"GroupWork\">");
-        out.println("<th scope=\"row\"> Group Work </th>");
-        out.println("<td class=\"GroupWork bar\" style=\"height: " + percentageList[3] * 10+ "px\"><p> " + percentageList[3] + " </p></td>");
-        out.println("</tr>");
-
-        //Academic Support bar
-        out.println("<tr class=\"reason\" id=\"AcademicSupport\">");
-        out.println("<th scope=\"row\"> Academic Support</th>");
-        out.println("<td class=\"AcademicSupport bar\" style=\"height: " + percentageList[4] * 10+ "px\"><p> " + percentageList[4] + " </p></td>");
-        out.println("</tr>");
-
-        //Total bar
-        out.println("<tr class=\"reason\" id=\"Total\">");
-        out.println("<th scope=\"row\"> Total </th>");
-        out.println("<td class=\"Total bar\" style=\"height: " + percentageList[5] * 10+ "px\"><p> " + percentageList[5] + " </p></td>");
-        out.println("</tr>");
-
+//        //chill zone reason bar
+//        out.println("<tr class=\"reason\" id=\"ChillZone\">");
+//        out.println("<th scope=\"row\"> Chill Zone </th>");
+//        out.println("<td class=\"ChillZone bar\" style=\"height: " + percentageList[1] * 10+ "px\"><p> " + percentageList[1] + " </p></td>");
+//        out.println("</tr>");
+//
+//        //quiet work reason bar
+//        out.println("<tr class=\"reason\" id=\"QuietWork\">");
+//        out.println("<th scope=\"row\"> Quiet Work </th>");
+//        out.println("<td class=\"QuietWork bar\" style=\"height: " + percentageList[2] * 10 + "px\"><p> " + percentageList[2] + " </p></td>");
+//        out.println("</tr>");
+//
+//        //group work reason bar
+//        out.println("<tr class=\"reason\" id=\"GroupWork\">");
+//        out.println("<th scope=\"row\"> Group Work </th>");
+//        out.println("<td class=\"GroupWork bar\" style=\"height: " + percentageList[3] * 10+ "px\"><p> " + percentageList[3] + " </p></td>");
+//        out.println("</tr>");
+//
+//        //Academic Support bar
+//        out.println("<tr class=\"reason\" id=\"AcademicSupport\">");
+//        out.println("<th scope=\"row\"> Academic Support</th>");
+//        out.println("<td class=\"AcademicSupport bar\" style=\"height: " + percentageList[4] * 10+ "px\"><p> " + percentageList[4] + " </p></td>");
+//        out.println("</tr>");
+//
+//        //Total bar
+//        out.println("<tr class=\"reason\" id=\"Total\">");
+//        out.println("<th scope=\"row\"> Total </th>");
+//        out.println("<td class=\"Total bar\" style=\"height: " + percentageList[5] * 10+ "px\"><p> " + percentageList[5] + " </p></td>");
+//        out.println("</tr>");
+        out.println("</tbody");
+        out.println("</table>");
         out.println("<div id=\"ticks\">");
         out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
         out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
@@ -189,6 +198,7 @@ public class HTMLWriter {
         out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
         out.println("</div>");
         out.println("</div>");
+
 
     }
 
@@ -267,12 +277,10 @@ public class HTMLWriter {
                     case 0:
                         out.println("<a name=" + studentList[index].firstName + " " + studentList[index].lastName + "></a>");
                         modNum++;
-                        return;
 
                     case 1:
                         out.println("<h2>" + studentList[index].firstName + " " + studentList[index].lastName + "</h2>");
                         modNum++;
-                        return;
 
                     case 2:
                         for (int i = 0; i < studentSession[index].size(); i++) {
@@ -284,7 +292,6 @@ public class HTMLWriter {
                             out.println("    <th>" + studentSession[index].get(i).courseMissed);
                             out.println("  <tr>");
                         }
-                        return;
                 }
             }
         }
