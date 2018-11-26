@@ -36,7 +36,7 @@ class SignOutPanel extends JPanel {
 		idField.setText("Student Number");
 		Dimension size = idField.getPreferredSize();
 		this.add(idField);
-		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height);
+		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height - 35);
 		this.addMouseListener(new MyMouseListener());
 
         //idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -49,10 +49,11 @@ class SignOutPanel extends JPanel {
 		super.paintComponent(g);
 		//Font mainFont = Utils.getFont("assets/Hind-Light.ttf", 50.0f);
 
-		back = new CustomButton("Back", 40, 40, 115, 80, new Color(171, 206, 102));
+		back = new CustomButton("Back", 0, 0, 115, 80, new Color(171, 206, 102));
 		drawCustomButton(back, g);
 		
-		submit = new CustomButton("Submit", display.maxX/2 - Utils.scale(155)/2, Utils.scale(320), Utils.scale(155), Utils.scale(80), new Color(142, 241, 228));
+		//submit = new CustomButton("Submit", display.maxX/2 - Utils.scale(155)/2, Utils.scale(320), Utils.scale(155), Utils.scale(80), new Color(142, 241, 228));
+		submit = new CustomButton("Submit", Utils.scale(display.maxX/2), Utils.scale(320), Utils.scale(200), Utils.scale(110), new Color(142, 241, 228));
 		drawCustomButton(submit, g);
 		
 		repaint();
