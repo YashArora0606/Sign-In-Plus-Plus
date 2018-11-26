@@ -1,9 +1,5 @@
 package utilities;
-import java.awt.Font;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.GraphicsEnvironment;
-import java.awt.FontFormatException;
+import java.awt.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +8,7 @@ import java.io.IOException;
  * Static utility class (used for scaling rn)
  */
 public class Utils {
-
+    public static Color[] colours = {new Color(100,100,100), new Color(249, 236, 236), new Color(240,217,218), new Color(200,217,235), new Color(236,242,249)};
     private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private static double scale = screenSize.width/1920.0;
 

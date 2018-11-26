@@ -38,32 +38,32 @@ public class TeacherDashboardPanel extends JPanel{
         if (highlight == 0){
             g.setColor(new Color(90,90,90));
         } else {
-            g.setColor(new Color(107, 213, 225));
+            g.setColor(Utils.colours[1]);
         }
         g.fillRect(maxX/2-buttonWidth/2, buttonSpace, buttonWidth, buttonHeight);
         if (highlight == 1){
             g.setColor(new Color(90,90,90));
         } else {
-            g.setColor(new Color(255, 217, 142));
+            g.setColor(Utils.colours[2]);
         }
         g.fillRect(maxX/2-buttonWidth/2, buttonHeight+buttonSpace*2, buttonWidth, buttonHeight);
         if (highlight == 2){
             g.setColor(new Color(90,90,90));
         } else {
-            g.setColor(new Color(255, 182, 119));
+            g.setColor(Utils.colours[3]);
         }
         g.fillRect(maxX/2-buttonWidth/2, buttonHeight*2+buttonSpace*3, buttonWidth, buttonHeight);
         if (highlight == 3){
             g.setColor(new Color(90,90,90));
         } else {
-            g.setColor(new Color(255, 131, 100));
+            g.setColor(Utils.colours[4]);
         }
         g.fillRect(maxX/2-buttonWidth/4, buttonHeight*3+buttonSpace*4, buttonWidth/2, buttonHeight);
-        Font mainFont = Utils.getFont("assets/Hind-Light.ttf", Math.round(buttonHeight*0.5));
+        Font mainFont = Utils.getFont("assets/Kollektif.ttf", Math.round(buttonHeight*0.5));
         FontMetrics mainFontMetrics = g.getFontMetrics(mainFont);
 
         g.setFont(mainFont);
-        g.setColor(new Color(244, 249, 247));
+        g.setColor(Utils.colours[0]);
         g.drawString("Add Student", maxX/2-mainFontMetrics.stringWidth("Add Student")/2, buttonSpace+mainFontMetrics.getMaxAscent());
         g.drawString("Remove Student", maxX/2-mainFontMetrics.stringWidth("Remove Student")/2, buttonHeight+buttonSpace*2+mainFontMetrics.getMaxAscent());
         g.drawString("Change Password", maxX/2-mainFontMetrics.stringWidth("Change Password")/2, buttonHeight*2+buttonSpace*3+mainFontMetrics.getMaxAscent());
