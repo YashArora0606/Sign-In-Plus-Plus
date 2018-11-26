@@ -33,7 +33,7 @@ public class ChangePasswordPanel extends JPanel {
         passwordField.setFont(mainFont);
         passwordField.setText("New Password");
         Dimension size = passwordField.getPreferredSize();
-        this.add(passwordField, BorderLayout.CENTER);
+        this.add(passwordField);
         passwordField.setBounds(maxX/2-size.width/2, maxY/2-size.height, size.width, size.height);
         this.addMouseListener(new MyMouseListener());
     }

@@ -11,12 +11,7 @@ import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
 import utilities.Utils;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.MouseInfo;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -28,36 +23,36 @@ class SignOutPanel extends JPanel {
 	private JTextField idField;
 	private CustomButton submit;
 	private CustomButton back;
-	
+
 	private JTextArea idArea;
 
 	SignOutPanel(Window display, Database database) {
 		this.display = display;
 		this.database = database;
 		this.addMouseListener(new MyMouseListener());
-
-        idField = new JTextField(10);
+		this.setLayout(null);
+		idField = new JTextField(10);
+		idField.setFont(Utils.getFont("assets/Hind-Light.ttf", 50f));
+		idField.setText("Student Number");
+		Dimension size = idField.getPreferredSize();
+		this.add(idField);
+		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height);
+		this.addMouseListener(new MyMouseListener());
 
         //idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         //idField.setBackground(null);
-        idField.setFont(Utils.getFont("assets/Hind-Light.ttf", 30f));
-        idField.setText("Student Number");
-
-        
-        add(idField);
 
         setVisible(true);
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		Font mainFont = Utils.getFont("assets/Hind-Light.ttf", 50.0f);
-		FontMetrics mainFontMetrics = g.getFontMetrics(mainFont);
+		//Font mainFont = Utils.getFont("assets/Hind-Light.ttf", 50.0f);
 
-		back = new CustomButton("Back", 40, 40, 115, 80);
+		back = new CustomButton("Back", 40, 40, 115, 80, new Color(171, 206, 102));
 		drawCustomButton(back, g);
 		
-		submit = new CustomButton("Submit", display.maxX/2 - 155/2, display.maxY - 200, 155, 80);
+		submit = new CustomButton("Submit", display.maxX/2 - Utils.scale(155)/2, Utils.scale(320), Utils.scale(155), Utils.scale(80), new Color(142, 241, 228));
 		drawCustomButton(submit, g);
 		
 		repaint();
@@ -86,7 +81,7 @@ class SignOutPanel extends JPanel {
 		Font buttonFont = Utils.getFont("assets/Hind-Light.ttf", 38.0f);
 		FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);
 		//g.fillRect(b.x, b.y, b.w, b.h);
-		g.fillRoundRect(b.x, b.y, b.w, b.h, b.h/2, b.h/2);
+		g.fillRect(b.x, b.y, b.w, b.h);
 
 		g.setFont(buttonFont);
 
@@ -123,17 +118,19 @@ class SignOutPanel extends JPanel {
 		int h;
 		String text;
 
-		Color primaryBackgroundColour = new Color(230, 230, 250);
-		Color secondaryBackgroundColour = new Color(0, 0, 0);
-		Color primaryTextColour = new Color(0, 0, 0);
-		Color secondaryTextColour = new Color(230, 230, 250);
+		Color primaryBackgroundColour;
+		Color secondaryBackgroundColour = new Color(90,90,90);
+		Color primaryTextColour = new Color(232, 232, 232);
+		Color secondaryTextColour;
 
-		CustomButton(String text, int x, int y, int w, int h) {
+		CustomButton(String text, int x, int y, int w, int h, Color mainColor) {
 			this.x = x;
 			this.y = y;
 			this.w = w;
 			this.h = h;
 			this.text = text;
+			this.primaryBackgroundColour = mainColor;
+			this.secondaryTextColour = mainColor;
 		}
 	}
 
@@ -145,8 +142,8 @@ class SignOutPanel extends JPanel {
 			if (isMouseOnButton(back)) {
 				display.changeState(0);
 			} else if (isMouseOnButton(submit)) {
-				// Clear text field
-				// Submit the text in it
+				idField.setText("");
+				submit();
 			}
 		}
 
