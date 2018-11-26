@@ -37,7 +37,7 @@ class SignOutPanel extends JPanel {
 		idField.setText("Student Number");
 		Dimension size = idField.getPreferredSize();
 		this.add(idField);
-		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height);
+		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height - 35);
 		this.addMouseListener(new MyMouseListener());
 
         //idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
