@@ -31,7 +31,8 @@ public class CustomButton {
         this.text = text;
         this.primaryBackgroundColour = mainColor;
         this.secondaryTextColour = mainColor;
-        this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height * 0.8));
+        this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height *0.5));
+
     }
     
     public CustomButton(String text, int x, int y, int width, int height) {
@@ -72,6 +73,7 @@ public class CustomButton {
         } else {
             g.setColor(primaryTextColour);
         }
-        g.drawString(text, x + width /2 - textWidth/2, y + textHeight);
+        g.drawString(text, x + width /2 - textWidth/2, y + height/2 + textHeight/4);
+
     }
 }
