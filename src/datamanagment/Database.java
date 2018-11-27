@@ -11,13 +11,13 @@ public class Database {
     private final String STUDENTS_DIR = "database/students";
     private final String MASTERLOG_FILE = "database/MasterLog.xlsx";
 
-    private final String[] reasons = new String[] {
-            "Test", "Chill Zone", "Quiet Work", "Academic Support", "Group Work"
+    private final static String[] reasons = new String[] {
+            "Test", "Chill Zone", "Quiet Work", "Academic Help", "Group Work"
     };
 
-    private final String[] courses = new String[] {
+    private final static String[] courses = new String[] {
             "Art", "Math", "Music", "Science", "History", "Geography", "Business", "Family Studies",
-            "Physical Ed.", "Technology Studies", "Social Sciences", "Lunch / Spare"
+            "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare"
     };
 
     //replace with data structures later
@@ -27,11 +27,11 @@ public class Database {
         students = new StudentListReader().getStudents();
     }
 
-    public String[] getReasons() {
+    public static String[] getReasons() {
         return reasons;
     }
 
-    public String[] getCourses() {
+    public static String[] getCourses() {
         return courses;
     }
 

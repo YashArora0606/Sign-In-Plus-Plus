@@ -31,16 +31,18 @@ class SignOutPanel extends JPanel {
 		this.database = database;
 		this.addMouseListener(new MyMouseListener());
 		this.setLayout(null);
+		this.setBackground(Utils.colours[2]);
 
-		idField = new JTextField(10);
+		idField = new JTextField(7);
 		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
-		idField.setText("Student Number");
-		Dimension size = idField.getPreferredSize();
+		idField.setText("");
+		Dimension idSize = idField.getPreferredSize();
 		this.add(idField);
-		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height);
 		this.addMouseListener(new MyMouseListener());
 
 		//idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		idField.setBounds(display.maxX/2-idSize.width/2, display.maxY/2-idSize.height-50, idSize.width, idSize.height);
+
         idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
         idField.setBackground(null);
 

@@ -34,6 +34,17 @@ public class CustomButton {
         this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height *0.5));
 
     }
+    
+    public CustomButton(String text, int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.text = text;
+        this.primaryBackgroundColour = Utils.colours[1];
+        this.secondaryTextColour = Utils.colours[1];
+        this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height * 0.8));
+    }
 
     public boolean isMouseOnButton(JPanel panel) {
         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
