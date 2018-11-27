@@ -1,4 +1,4 @@
-import datamanagment.Database;
+import datamanagment.SignInManager;
 import display.Window;
 
 /**
@@ -10,7 +10,7 @@ public class Launcher {
     }
 
     public static void run() {
-        Database database = new Database();
-        Window frame = new Window(database);
+        SignInManager signInManager = new SignInManager();
+        Window frame = new Window(signInManager);
     }
 }

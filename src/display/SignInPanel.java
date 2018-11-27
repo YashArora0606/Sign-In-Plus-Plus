@@ -1,34 +1,23 @@
 package display;
 
-import javax.swing.JButton; 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.Timer;
 
-import datamanagment.Database;
+import datamanagment.SignInManager;
 import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;
 import utilities.Utils;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 
 class SignInPanel extends JPanel {
 
 	private Window display;
-	private Database database;
+	private SignInManager signInManager;
 
 	private JTextField idField;
 	private JComboBox<String> reasonField;
@@ -41,20 +30,20 @@ class SignInPanel extends JPanel {
 	private int maxX;
 	private int maxY;
 
-	SignInPanel(Window display, Database database) {
+	SignInPanel(Window display, SignInManager signInManager) {
 		
 		this.display = display;
 		this.maxX = display.maxX;
 		this.maxY = display.maxY;
 
-		this.database = database;
+		this.signInManager = signInManager;
 		
 		
 		setBackground(Utils.colours[2]);
 		
-		DropDownMenu reasonDropDown = new DropDownMenu(Database.getReasons(), "Reason");
-		DropDownMenu subjectDropDown = new DropDownMenu(Database.getCourses(), "Subject");
-		DropDownMenu courseMissingDropDown = new DropDownMenu(Database.getCourses(), "Course Missed");
+		DropDownMenu reasonDropDown = new DropDownMenu(SignInManager.getReasons(), "Reason");
+		DropDownMenu subjectDropDown = new DropDownMenu(SignInManager.getCourses(), "Subject");
+		DropDownMenu courseMissingDropDown = new DropDownMenu(SignInManager.getCourses(), "Course Missed");
 			
 		idField = new JTextField(7);
 		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
@@ -101,7 +90,7 @@ class SignInPanel extends JPanel {
 //
 //        reasonField = new JComboBox<>();
 //        reasonField.addItem("Select Reason");
-//        for (String reason : database.getReasons()) {
+//        for (String reason : signInManager.getReasons()) {
 //            reasonField.addItem(reason);
 //        }
 //        add(reasonField);
@@ -109,14 +98,14 @@ class SignInPanel extends JPanel {
 //
 //        subjectField = new JComboBox<>();
 //        subjectField.addItem("Select Subject");
-//        for (String subject : database.getCourses()) {
+//        for (String subject : signInManager.getCourses()) {
 //            subjectField.addItem(subject);
 //        }
 //        add(subjectField);
 //
 //        courseMissedField = new JComboBox<>();
 //        courseMissedField.addItem("Select Missing Course");
-//        for (String courseMissed : database.getCourses()) {
+//        for (String courseMissed : signInManager.getCourses()) {
 //            courseMissedField.addItem(courseMissed);
 //        }
 //        add(courseMissedField);
@@ -142,7 +131,7 @@ class SignInPanel extends JPanel {
 		String courseMissed = (String) courseMissedField.getSelectedItem();
 
 		try {
-			database.signIn(id, subject, reason, courseMissed);
+			signInManager.signIn(id, subject, reason, courseMissed);
 			idField.setText(null);
 
 		} catch (InvalidIdException | AlreadyLoggedInException e) {

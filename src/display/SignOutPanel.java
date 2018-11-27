@@ -1,13 +1,9 @@
 package display;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
-import datamanagment.Database;
+import datamanagment.SignInManager;
 import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
 import utilities.Utils;
@@ -19,16 +15,16 @@ import java.awt.event.MouseListener;
 class SignOutPanel extends JPanel {
 	private JPanel panel;
 	private Window display;
-	private Database database;
+	private SignInManager signInManager;
 
 	private JTextField idField;
 	private CustomButton submit;
 	private CustomButton back;
 
-	SignOutPanel(Window display, Database database) {
+	SignOutPanel(Window display, SignInManager signInManager) {
 		this.panel = this;
 		this.display = display;
-		this.database = database;
+		this.signInManager = signInManager;
 		this.addMouseListener(new MyMouseListener());
 		this.setLayout(null);
 		this.setBackground(Utils.colours[2]);
@@ -65,7 +61,7 @@ class SignOutPanel extends JPanel {
 		String id = idField.getText();
 		idField.setText("");
 		try {
-			database.signOut(id);
+			signInManager.signOut(id);
 			idField.setText(null);
 
 		} catch (InvalidIdException | NotLoggedInException e) {

@@ -2,7 +2,7 @@ package display;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import datamanagment.Database;
+import datamanagment.SignInManager;
 import utilities.Utils;
 
 import java.awt.*;
@@ -16,7 +16,7 @@ import java.awt.event.WindowEvent;
 public class Window extends JFrame {
     public final int maxX;
     public final int maxY;
-    private Database database;
+    private SignInManager signInManager;
 
     private JPanel homePanel;
     private JPanel menuPanel;
@@ -26,9 +26,9 @@ public class Window extends JFrame {
     private JPanel teacherDashboardPanel;
     private JPanel changePasswordPanel;
 
-    public Window(Database database) {
+    public Window(SignInManager signInManager) {
 
-        this.database = database;
+        this.signInManager = signInManager;
 
         //generate frame
         this.setTitle("SignIn++");
@@ -42,8 +42,8 @@ public class Window extends JFrame {
         //generate panels
         this.homePanel = new HomePanel(this);
         this.menuPanel = new MenuPanel(this);
-        this.signInPanel = new SignInPanel(this, database);
-        this.signOutPanel = new SignOutPanel(this, database);
+        this.signInPanel = new SignInPanel(this, signInManager);
+        this.signOutPanel = new SignOutPanel(this, signInManager);
         this.passwordPanel = new PasswordPanel(this);
         this.teacherDashboardPanel = new TeacherDashboardPanel(this);
         this.changePasswordPanel = new ChangePasswordPanel(this);
@@ -103,10 +103,10 @@ public class Window extends JFrame {
 
     /**
      * Closes the window, we should really have a listener to detect this too
-     * Make sure to do the necessary modifications to resolve the database
+     * Make sure to do the necessary modifications to resolve the signInManager
      */
     public void closeWindow() {
-        database.close();
+        signInManager.close();
         dispose();
     }
 
