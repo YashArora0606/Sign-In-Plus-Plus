@@ -1,4 +1,4 @@
-import datamanagment.Database;
+import datamanagment.SignInManager;
 import display.Window;
 
 import java.sql.Connection;
@@ -18,8 +18,8 @@ public class Launcher {
         run();
     }
 
-    private static void run() {
-        Database database = new Database();
-        Window window = new Window(database);
+    public static void run() {
+        SignInManager signInManager = new SignInManager();
+        Window frame = new Window(signInManager);
     }
 }
