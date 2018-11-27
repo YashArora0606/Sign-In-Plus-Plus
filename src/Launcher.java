@@ -1,3 +1,5 @@
+import datamanagment.Database;
+import datamanagment.DerbyDatabase;
 import datamanagment.SignInManager;
 import display.Window;
 
@@ -19,7 +21,8 @@ public class Launcher {
     }
 
     public static void run() {
-        SignInManager signInManager = new SignInManager();
+        Database database = new DerbyDatabase();
+        SignInManager signInManager = new SignInManager(database);
         Window frame = new Window(signInManager);
     }
 }

@@ -73,7 +73,7 @@ public class HTMLWriter {
 
 
                 int index = findStudent(id);
-                studentSession[index].push(new Session(courseMissed, reason, subjectWork,timeIn, timeOut));
+                studentSession[index].push(new Session(null, timeIn, timeOut, reason, subjectWork, courseMissed));
             }
 
             inputStream.close();
@@ -353,10 +353,10 @@ public class HTMLWriter {
                     case 2:
                         for (int i = 0; i < studentSession[index].size(); i++) {
                             out.println("  <tr>");
-                            out.println("    <th>" + studentSession[index].get(i).getStartTime());
-                            out.println("    <th>" + studentSession[index].get(i).getEndTime());
+                            out.println("    <th>" + studentSession[index].get(i).startTime);
+                            out.println("    <th>" + studentSession[index].get(i).endTime);
                             out.println("    <th>" + studentSession[index].get(i).reason);
-                            out.println("    <th>" + studentSession[index].get(i).subjectWork);
+                            out.println("    <th>" + studentSession[index].get(i).courseWork);
                             out.println("    <th>" + studentSession[index].get(i).courseMissed);
                             out.println("  <tr>");
                         }
