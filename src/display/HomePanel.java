@@ -13,66 +13,47 @@ import utilities.Utils;
 
 class HomePanel extends JPanel {
     private Window display;
-    private boolean inWindow = false;
+    private JPanel panel;
     private final int maxX;
     private final int maxY;
-    private int highlight = -1;
+    private CustomButton student;
+    private CustomButton teacher;
 
     HomePanel(Window display) {
+        this.panel = this;
         this.display = display;
         this.maxX = display.maxX;
         this.maxY = display.maxY;
         this.addMouseListener(new MyMouseListener());
     }
 
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(new Color(191, 191, 191));
-        g.fillRect(0,0, maxX/2, maxY);
-        g.setColor(new Color(131, 131, 131));
-        g.fillRect(maxX/2, 0, maxX/2, maxY);
 
-        Font mainFont = Utils.getFont("assets/Hind-Light.ttf", 50.0f);
-        FontMetrics fontMetrics = g.getFontMetrics(mainFont);
-        g.setFont(mainFont);
+        g.setColor(Utils.colours[4]);
+        g.fillRect(0, 0, maxX / 2, maxY);
+        g.setColor(Utils.colours[1]);
+        g.fillRect(maxX / 2, 0, maxX / 2, maxY);
 
-        if (highlight == 0){
-           g.fillRect(maxX/4-fontMetrics.stringWidth("Student")/2-20, maxY/2-3*fontMetrics.getHeight()/4-10, fontMetrics.stringWidth("Student")+40, 3*fontMetrics.getHeight()/4+10);
-        } else if (highlight == 1){
-           g.setColor(new Color(191, 191, 191));
-           g.fillRect(3*maxX/4-fontMetrics.stringWidth("Teacher")/2-20, maxY/2-3*fontMetrics.getHeight()/4-10, fontMetrics.stringWidth("Teacher")+40, 3*fontMetrics.getHeight()/4+10);
-        }
+        student = new CustomButton("Student",Utils.scale(maxX/4-100),Utils.scale(maxY/2-100),
+                Utils.scale(200), Utils.scale(100), Utils.colours[2]);
+        teacher = new CustomButton("Teacher",Utils.scale(3*maxX/4-110),Utils.scale(maxY/2-100),
+                Utils.scale(220), Utils.scale(100), Utils.colours[3]);
 
-        g.setColor(new Color(58, 118, 189));
-        g.drawString("Student", maxX/4-fontMetrics.stringWidth("Student")/2, maxY/2-fontMetrics.getHeight()/4);
-        g.setColor(new Color(79, 183, 189));
-        g.drawString("Teacher", 3*maxX/4-fontMetrics.stringWidth("Teacher")/2, maxY/2-fontMetrics.getHeight()/4);
-
-        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-        Point relScreenLocation = this.getLocationOnScreen().getLocation();
-        int x = (int) Math.round(mouseLocation.getX()-relScreenLocation.getX());
-        int y = (int) Math.round(mouseLocation.getY()-relScreenLocation.getY());
-        if (inWindow) {
-            if ((x < maxX / 2) && (y < maxY)) {
-                highlight = 0;
-            } else if ((x < maxX) && (y < maxY)) {
-                highlight = 1;
-            }
-        } else {
-            highlight = -1;
-        }
+        student.draw(g, panel);
+        teacher.draw(g,panel);
 
         repaint();
     }
 
+
     private class MyMouseListener implements MouseListener{
         public void mouseEntered(MouseEvent e){
-            inWindow = true;
         }
         public void mouseClicked(MouseEvent e){
-            if (e.getX() < maxX/2){
+            if (student.isMouseOnButton(panel)){
                 display.changeState(1);
-            } else {
+            } else if (teacher.isMouseOnButton(panel)) {
                 display.changeState(4);
             }
         }
@@ -80,7 +61,7 @@ class HomePanel extends JPanel {
 
         }
         public void mouseExited(MouseEvent e){
-            inWindow = false;
+
         }
         public void mouseReleased(MouseEvent e){
 

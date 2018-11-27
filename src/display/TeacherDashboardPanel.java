@@ -21,6 +21,10 @@ public class TeacherDashboardPanel extends JPanel{
     private int buttonSpace;
     private boolean inWindow = false;
     private int highlight = -1;
+    private CustomButton addStudent;
+    private CustomButton removeStudent;
+    private CustomButton changePassword;
+    private CustomButton generateExcel;
 
     TeacherDashboardPanel(Window display){
         this.maxX = display.maxX;
@@ -29,7 +33,6 @@ public class TeacherDashboardPanel extends JPanel{
         this.buttonHeight = (int) Math.round((0.8*maxY)/5);
         this.buttonSpace = (int) Math.round((0.3*maxY)/6);
         this.display = display;
-        this.setBackground(new Color(191, 191, 191));
         this.addMouseListener(new MyMouseListener());
     }
 

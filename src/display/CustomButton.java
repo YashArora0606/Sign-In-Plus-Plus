@@ -31,6 +31,18 @@ public class CustomButton {
         this.text = text;
         this.primaryBackgroundColour = mainColor;
         this.secondaryTextColour = mainColor;
+        this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height *0.5));
+
+    }
+    
+    public CustomButton(String text, int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.text = text;
+        this.primaryBackgroundColour = Utils.colours[1];
+        this.secondaryTextColour = Utils.colours[1];
         this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height * 0.8));
     }
 
@@ -49,7 +61,7 @@ public class CustomButton {
         } else {
             g.setColor(primaryBackgroundColour);
         }
-        g.fillRoundRect(x,y, width, height, 20, 20);
+        g.fillRect(x,y, width, height);
 
         g.setFont(buttonFont);
         FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);
@@ -61,6 +73,7 @@ public class CustomButton {
         } else {
             g.setColor(primaryTextColour);
         }
-        g.drawString(text, x + width /2 - textWidth/2, y + textHeight);
+        g.drawString(text, x + width /2 - textWidth/2, y + height/2 + textHeight/4);
+
     }
 }

@@ -41,7 +41,7 @@ public class Database {
 
     private final String[] courses = new String[]{
             "Art", "Math", "Music", "Science", "History", "Geography", "Business", "Family Studies",
-            "Physical Ed.", "Technology Studies", "Social Sciences", "Lunch / Spare"
+            "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare"
     };
 
     //con variables
