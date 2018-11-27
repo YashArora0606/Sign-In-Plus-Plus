@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import datamanagment.Database;
 import exceptions.InvalidIdException;
@@ -16,7 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 class SignOutPanel extends JPanel {
-
+	private JPanel panel;
 	private Window display;
 	private Database database;
 
@@ -27,34 +28,35 @@ class SignOutPanel extends JPanel {
 	private JTextArea idArea;
 
 	SignOutPanel(Window display, Database database) {
+		this.panel = this;
 		this.display = display;
 		this.database = database;
 		this.addMouseListener(new MyMouseListener());
 		this.setLayout(null);
-		idField = new JTextField(10);
-		idField.setFont(Utils.getFont("assets/Hind-Light.ttf", 50f));
-		idField.setText("Student Number");
+		this.setBackground(Utils.colours[2]);
+		idField = new JTextField(7);
+		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
+		idField.setText("");
 		Dimension size = idField.getPreferredSize();
 		this.add(idField);
-		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height - 35);
+		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height-50, size.width, size.height);
 		this.addMouseListener(new MyMouseListener());
 
-        //idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        //idField.setBackground(null);
+		//idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        idField.setBackground(null);
 
         setVisible(true);
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//Font mainFont = Utils.getFont("assets/Hind-Light.ttf", 50.0f);
 
-		back = new CustomButton("Back", 0, 0, 115, 80, new Color(171, 206, 102));
-		drawCustomButton(back, g);
+		back = new CustomButton("Back", 20, 20, 115, 60, Utils.colours[1]);
+		back.draw(g, panel);
 		
-		//submit = new CustomButton("Submit", display.maxX/2 - Utils.scale(155)/2, Utils.scale(320), Utils.scale(155), Utils.scale(80), new Color(142, 241, 228));
-		submit = new CustomButton("Submit", Utils.scale(display.maxX/2), Utils.scale(320), Utils.scale(200), Utils.scale(110), new Color(142, 241, 228));
-		drawCustomButton(submit, g);
+		submit = new CustomButton("Submit", 250, 200, 250, 80, Utils.colours[1]);
+		submit.draw(g, panel);
 		
 		repaint();
 	}
@@ -71,78 +73,14 @@ class SignOutPanel extends JPanel {
 		}
 	}
 
-	private void drawCustomButton(CustomButton b, Graphics g) {
-
-		if (isMouseOnButton(b)) {
-			g.setColor(b.secondaryBackgroundColour);
-		} else {
-			g.setColor(b.primaryBackgroundColour);
-		}
-
-		Font buttonFont = Utils.getFont("assets/Hind-Light.ttf", 38.0f);
-		FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);
-		//g.fillRect(b.x, b.y, b.w, b.h);
-		g.fillRect(b.x, b.y, b.w, b.h);
-
-		g.setFont(buttonFont);
-
-		int textWidth = buttonFontMetrics.stringWidth(b.text);
-		int textHeight = buttonFontMetrics.getMaxAscent();
-
-		if (isMouseOnButton(b)) {
-			g.setColor(b.secondaryTextColour);
-		} else {
-			g.setColor(b.primaryTextColour);
-		}
-		
-
-		g.drawString(b.text, b.x + 20, b.y + b.h - textHeight/2 - 3);
-	}
-
-	private boolean isMouseOnButton(CustomButton b) {
-		Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-		Point relScreenLocation = this.getLocationOnScreen().getLocation();
-		int x = (int) Math.round(mouseLocation.getX() - relScreenLocation.getX());
-		int y = (int) Math.round(mouseLocation.getY() - relScreenLocation.getY());
-
-		if (x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private class CustomButton {
-		int x;
-		int y;
-		int w;
-		int h;
-		String text;
-
-		Color primaryBackgroundColour;
-		Color secondaryBackgroundColour = new Color(90,90,90);
-		Color primaryTextColour = new Color(232, 232, 232);
-		Color secondaryTextColour;
-
-		CustomButton(String text, int x, int y, int w, int h, Color mainColor) {
-			this.x = x;
-			this.y = y;
-			this.w = w;
-			this.h = h;
-			this.text = text;
-			this.primaryBackgroundColour = mainColor;
-			this.secondaryTextColour = mainColor;
-		}
-	}
-
 	private class MyMouseListener implements MouseListener {
 		public void mouseEntered(MouseEvent e) {
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			if (isMouseOnButton(back)) {
+			if (back.isMouseOnButton(panel)) {
 				display.changeState(0);
-			} else if (isMouseOnButton(submit)) {
+			} else if (submit.isMouseOnButton(panel)) {
 				idField.setText("");
 				submit();
 			}
