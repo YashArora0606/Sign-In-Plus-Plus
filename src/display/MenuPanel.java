@@ -35,9 +35,9 @@ class MenuPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Utils.colours[4]);
-        g.fillRect(0, 0, maxX / 2, maxY);
         g.setColor(Utils.colours[1]);
+        g.fillRect(0, 0, maxX / 2, maxY);
+        g.setColor(Utils.colours[4]);
         g.fillRect(maxX / 2, 0, maxX / 2, maxY);
 
         signIn = new CustomButton("Sign In",Utils.scale(maxX/4-100),Utils.scale(maxY/2-100),
@@ -61,9 +61,9 @@ class MenuPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (back.isMouseOnButton(panel)){
                 display.changeState(0);
-            } else if (e.getX() < maxX/2){
+            } else if (signIn.isMouseOnButton(panel)){
                 display.changeState(2);
-            } else {
+            } else if (signOut.isMouseOnButton(panel)){
                 display.changeState(3);
             }
         }

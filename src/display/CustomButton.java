@@ -32,6 +32,7 @@ public class CustomButton {
         this.primaryBackgroundColour = mainColor;
         this.secondaryTextColour = mainColor;
         this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height *0.5));
+
     }
 
     public boolean isMouseOnButton(JPanel panel) {
@@ -49,7 +50,7 @@ public class CustomButton {
         } else {
             g.setColor(primaryBackgroundColour);
         }
-        g.fillRect(x,y, width, height);
+        g.fillRoundRect(x,y, width, height, 20, 20);
 
         g.setFont(buttonFont);
         FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);
@@ -62,5 +63,6 @@ public class CustomButton {
             g.setColor(primaryTextColour);
         }
         g.drawString(text, x + width /2 - textWidth/2, y + height/2 + textHeight/4);
+
     }
 }

@@ -115,7 +115,7 @@ tr{
 #s-graph #Test {
   left: 0;
 }
-#s-graph #ChillZone {left: 100px;}
+#s-graph #ChillZone {left: 100px; column-fill: balance;}
 #s-graph #QuietWork {left: 200px;}
 #s-graph #GroupWork {left: 300px;}
 #s-graph #AcademicSupport {left: 400px;}

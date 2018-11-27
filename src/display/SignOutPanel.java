@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import datamanagment.Database;
 import exceptions.InvalidIdException;
@@ -30,6 +31,7 @@ class SignOutPanel extends JPanel {
 		this.database = database;
 		this.addMouseListener(new MyMouseListener());
 		this.setLayout(null);
+
 		idField = new JTextField(10);
 		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
 		idField.setText("Student Number");
@@ -37,6 +39,15 @@ class SignOutPanel extends JPanel {
 		this.add(idField);
 		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height);
 		this.addMouseListener(new MyMouseListener());
+
+		this.setBackground(Utils.colours[2]);
+
+		this.addMouseListener(new MyMouseListener());
+
+		//idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        idField.setBackground(null);
+
         setVisible(true);
 	}
 
@@ -48,6 +59,7 @@ class SignOutPanel extends JPanel {
 
 		submit = new CustomButton("Submit", Utils.scale(display.maxX/2)-Utils.scale(80), Utils.scale(320), Utils.scale(160), Utils.scale(90), Utils.colours[2]);
 		submit.draw(g, panel);
+
 		repaint();
 	}
 
