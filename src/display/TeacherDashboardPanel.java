@@ -56,15 +56,15 @@ public class TeacherDashboardPanel extends JPanel{
         }
         public void mouseClicked(MouseEvent e) {
             if (addStudent.isMouseOnButton(panel)){
-                // add student panel
+                display.changeState(7);
             } else if (removeStudent.isMouseOnButton(panel)){
-                //remove student panel
+                display.changeState(8);
             } else if (changePassword.isMouseOnButton(panel)) {
                 display.changeState(6);
             } else if (generateExcel.isMouseOnButton(panel)) {
-                //generate excel panel
+                display.changeState(9);
             } else if (back.isMouseOnButton(panel)){
-                display.changeState(1);
+                display.changeState(0);
             }
         }
         public void mousePressed(MouseEvent e){

@@ -12,85 +12,58 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class ChangePasswordPanel extends JPanel {
-    private static final int BUTTON_WIDTH = Utils.scale(150);
-    private static final int BUTTON_HEIGHT = Utils.scale(80);
     JTextField passwordField;
+    private JPanel panel;
     private int maxX;
     private int maxY;
     private Window display;
     private int attemptSuccess = 0;
     private Font mainFont;
-    private boolean inWindow = false;
-    private int highlight = -1;
+    private CustomButton back;
+    private CustomButton submit;
 
     ChangePasswordPanel(Window display){
+        this.panel = this;
         this.maxX = display.maxX;
         this.maxY = display.maxY;
         this.display = display;
+
         this.setLayout(null);
         passwordField = new JTextField(20);
-        mainFont = Utils.getFont("assets/Hind-Light.ttf", 45.0f);
+        mainFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45.0));
         passwordField.setFont(mainFont);
         passwordField.setText("New Password");
         Dimension size = passwordField.getPreferredSize();
         this.add(passwordField);
-        passwordField.setBounds(maxX/2-size.width/2, maxY/2-size.height, size.width, size.height);
+        passwordField.setBounds(maxX/2-Utils.scale(size.width/2), maxY/2-2*Utils.scale(size.height), Utils.scale(size.width), Utils.scale(size.height));
+
         this.addMouseListener(new MyMouseListener());
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Font buttonFont = Utils.getFont("assets/Hind-Light.ttf", 38.0f);
-        FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);
-        FontMetrics mainFontMetrics = g.getFontMetrics(mainFont);
 
-        if (highlight == 0) {
-            g.setColor(new Color(40, 40, 40));
-        } else {
-            g.setColor(new Color(133, 175, 255));
-        }
-        g.fillRect(40,40, BUTTON_WIDTH, BUTTON_HEIGHT);
-        g.setColor(new Color(255, 255, 255));
-        g.setFont(buttonFont);
-        g.drawString("Back", BUTTON_WIDTH/2+40-buttonFontMetrics.stringWidth("Back")/2, BUTTON_HEIGHT /2+40+buttonFontMetrics.getMaxAscent()/4);
+        back = new CustomButton("Back",0,0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back.draw(g, panel);
 
-        if (highlight == 1) {
-            g.setColor(new Color(40, 40, 40));
-        } else {
-            g.setColor(new Color(91, 166, 255));
-        }
-        g.fillRect(maxX/2-BUTTON_WIDTH/2, Utils.scale(420), BUTTON_WIDTH, BUTTON_HEIGHT);
-        g.drawOval(500,420, 10,10);
-        g.setColor(new Color(255,255,255));
-        g.drawString("Submit", maxX/2-buttonFontMetrics.stringWidth("Submit")/2, BUTTON_HEIGHT/2+Utils.scale(420)+buttonFontMetrics.getMaxAscent()/4);
 
-        g.setColor(new Color(245, 51, 84));
-        if(attemptSuccess == 1) {
+        submit = new CustomButton("Submit",maxX/2-Utils.scale(100), Utils.scale(350), Utils.scale(200), Utils.scale(80), Utils.colours[2]);
+        submit.draw(g, panel);
+
+        Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30));
+        FontMetrics errorFontMetrics = g.getFontMetrics(errorFont);
+        g.setFont(errorFont);
+        g.setColor(Utils.colours[0]);
+
+        if (attemptSuccess == 1) {
             g.drawString("Invalid Password. Please enter a password of 8+ characters",
-                    maxX / 2 - buttonFontMetrics.stringWidth("Invalid Password. Please enter a password of 8+ characters")/2,
-                    Utils.scale(360));
+                    maxX / 2 - errorFontMetrics.stringWidth("Invalid Password. Please enter a password of 8+ characters")/2,
+                    Utils.scale(300));
         } else if (attemptSuccess == 2){
             g.drawString("Successfully changed password!",
-                    maxX / 2 - buttonFontMetrics.stringWidth("Successfully changed password!")/2,
-                    Utils.scale(360));
+                    maxX / 2 - errorFontMetrics.stringWidth("Successfully changed password!")/2,
+                    Utils.scale(300));
         }
-        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-        Point relScreenLocation = this.getLocationOnScreen().getLocation();
-        int x = (int) Math.round(mouseLocation.getX()-relScreenLocation.getX());
-        int y = (int) Math.round(mouseLocation.getY()-relScreenLocation.getY());
-        if (inWindow) {
-            if ((x >= 40) && (x <= 40 + BUTTON_WIDTH) && (y >= 40) && (y <= 40 + BUTTON_HEIGHT)) {
-                highlight = 0;
-            } else if ((x >= maxX/2-BUTTON_WIDTH/2) && (x <= maxX/2-BUTTON_WIDTH/2+BUTTON_WIDTH)
-                    && (y >= Utils.scale(420)) && (y <= Utils.scale(420)+BUTTON_HEIGHT)) {
-                highlight = 1;
-            } else {
-                highlight = -1;
-            }
-        } else {
-            highlight = -1;
-        }
-
 
         repaint();
     }
@@ -119,15 +92,21 @@ public class ChangePasswordPanel extends JPanel {
         return false;
     }
 
+    public void leaveScreen(int state){
+        attemptSuccess = 0;
+        passwordField.setText("");
+        display.changeState(state);
+    }
+
     private class MyMouseListener implements MouseListener {
         public void mouseEntered(MouseEvent e){
-            inWindow = true;
+
         }
         public void mouseClicked(MouseEvent e) {
-            if ((e.getX() >= 40) && (e.getX() <= 40 + BUTTON_WIDTH) && (e.getY() >= 40) && (e.getY() <= 40 + BUTTON_HEIGHT)){
-                display.changeState(5);
-            } else if ((e.getX() >= maxX/2-BUTTON_WIDTH/2) && (e.getX() <= maxX/2-BUTTON_WIDTH/2+BUTTON_WIDTH)
-                    && (e.getY() >= Utils.scale(420)) && (e.getY() <= Utils.scale(420)+BUTTON_HEIGHT)) {
+            if (back.isMouseOnButton(panel)){
+                leaveScreen(5);
+            } else if (submit.isMouseOnButton(panel)) {
+                passwordField.setText("");
                 if (submit()) {
                     attemptSuccess = 2;
                 } else {
@@ -138,7 +117,7 @@ public class ChangePasswordPanel extends JPanel {
         public void mousePressed(MouseEvent e){
         }
         public void mouseExited(MouseEvent e){
-            inWindow = false;
+
         }
         public void mouseReleased(MouseEvent e){
         }

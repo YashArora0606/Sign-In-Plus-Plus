@@ -25,6 +25,9 @@ public class Window extends JFrame {
     private JPanel passwordPanel;
     private JPanel teacherDashboardPanel;
     private JPanel changePasswordPanel;
+    private JPanel addStudentPanel;
+    private JPanel removeStudentPanel;
+    private JPanel generateExcelPanel;
 
     public Window(SignInManager signInManager) {
 
@@ -36,6 +39,7 @@ public class Window extends JFrame {
         this.maxY = Utils.scale(600);
         this.setLocation(Utils.scale(200), Utils.scale(100));
         this.setSize(new Dimension(maxX, maxY));
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //generate panels
@@ -46,6 +50,10 @@ public class Window extends JFrame {
         this.passwordPanel = new PasswordPanel(this);
         this.teacherDashboardPanel = new TeacherDashboardPanel(this);
         this.changePasswordPanel = new ChangePasswordPanel(this);
+        this.addStudentPanel = new AddStudentPanel();
+        this.removeStudentPanel = new RemoveStudentPanel();
+        this.generateExcelPanel = new GenerateExcelPanel();
+
 
         //set displayed panel to menu
         changeState(0);
@@ -92,6 +100,18 @@ public class Window extends JFrame {
 
             case 6:
                 switchPanel(changePasswordPanel);
+                return;
+
+            case 7:
+                switchPanel(addStudentPanel);
+                return;
+
+            case 8:
+                switchPanel(removeStudentPanel);
+                return;
+
+            case 9:
+                switchPanel(generateExcelPanel);
                 return;
 
             default:

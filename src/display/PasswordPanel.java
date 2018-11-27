@@ -3,6 +3,7 @@ package display;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -16,22 +17,52 @@ public class PasswordPanel extends JPanel{
     private Window display;
 
     private JTextField passwordField;
-    private JButton backButton; //remove buttons when making it look pretty and add a mouse listener
-    private JButton enterButton; //for debugging purposes to reach dashboard panel
+    private JPanel panel;
+    private int maxX;
+    private int maxY;
+    private CustomButton back;
+    private CustomButton submit;
+    private boolean attempted = false;
+
     PasswordPanel(Window display) {
         this.display = display;
+        this.panel = this;
+        this.maxX = display.maxX;
+        this.maxY = display.maxY;
 
-        /*backButton = new JButton("Back");
-        backButton.addActionListener(e -> display.changeState(0));
-        this.add(backButton);
-*/
+        this.setLayout(null);
         passwordField = new JTextField(20);
+        Font mainFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45.0));
+        passwordField.setFont(mainFont);
+        Dimension size = passwordField.getPreferredSize();
         this.add(passwordField);
+        passwordField.setBounds(maxX/2-Utils.scale(size.width/2), maxY/2-2*Utils.scale(size.height), Utils.scale(size.width), Utils.scale(size.height));
 
-        enterButton = new JButton("Enter");
-        enterButton.addActionListener(e -> checkPassword());
-        this.add(enterButton);
         this.addMouseListener(new MyMouseListener());
+    }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+
+        back = new CustomButton("Back",0,0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back.draw(g, panel);
+
+
+        submit = new CustomButton("Submit",maxX/2-Utils.scale(100), Utils.scale(350), Utils.scale(200), Utils.scale(80), Utils.colours[2]);
+        submit.draw(g, panel);
+
+        Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30));
+        FontMetrics errorFontMetrics = g.getFontMetrics(errorFont);
+        g.setFont(errorFont);
+        g.setColor(Utils.colours[0]);
+
+        if (attempted) {
+            g.drawString("Wrong password, please try again.",
+                    maxX / 2 - errorFontMetrics.stringWidth("Wrong password, please try again.")/2,
+                    Utils.scale(300));
+        }
+
+        repaint();
     }
 
     private String retrievePassword(){
@@ -39,8 +70,8 @@ public class PasswordPanel extends JPanel{
             File myFile = new File("assets/password.txt");
             Scanner input = new Scanner(myFile);
             String password = input.nextLine();
-            rewritePassword(password);
             input.close();
+            rewritePassword(password);
             return password;
         } catch (IOException e){
             e.printStackTrace();
@@ -59,13 +90,17 @@ public class PasswordPanel extends JPanel{
         }
     }
 
-    private void checkPassword(){
+    private boolean validPassword(){
         if (retrievePassword()!=null){
-            if (passwordField.getText().equals(Utils.decode(retrievePassword()))) {
-                display.changeState(5);
-            }
-            passwordField.setText("");
+            return (passwordField.getText().equals(Utils.decode(retrievePassword())));
         }
+        return false;
+    }
+
+    public void leaveScreen(int state){
+        attempted = false;
+        passwordField.setText("");
+        display.changeState(state);
     }
 
     private class MyMouseListener implements MouseListener {
@@ -73,7 +108,16 @@ public class PasswordPanel extends JPanel{
 
         }
         public void mouseClicked(MouseEvent e) {
-            display.changeState(5);
+            if (back.isMouseOnButton(panel)){
+                leaveScreen(0);
+            } else if (submit.isMouseOnButton(panel)){
+                if (validPassword()){
+                    leaveScreen(5);
+                } else {
+                    passwordField.setText("");
+                    attempted = true;
+                }
+            }
         }
         public void mousePressed(MouseEvent e){
 

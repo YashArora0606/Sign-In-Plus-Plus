@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Tue Nov 27 09:17:04 EST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0167-5587-d3f4-00000724d338 
-on database directory C:\Users\alsto\Documents\GitHub\SignInSystem\SignInSystemDatabase with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
-Loaded from file:/C:/Users/alsto/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
+Tue Nov 27 16:28:57 EST 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0167-5713-3ac5-000003b8f660 
+on database directory C:\Users\katel\Documents\Grade 12 AP Computer Science\SoftEngProject\SignInSystem\SignInSystemDatabase with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
+Loaded from file:/C:/Users/katel/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_181-b13
-user.dir=C:\Users\alsto\Documents\GitHub\SignInSystem
+java.runtime.version=1.8.0_171-b11
+user.dir=C:\Users\katel\Documents\Grade 12 AP Computer Science\SoftEngProject\SignInSystem
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0

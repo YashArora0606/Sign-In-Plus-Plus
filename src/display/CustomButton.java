@@ -56,6 +56,8 @@ public class CustomButton {
     }
 
     public void draw(Graphics g, JPanel panel) {
+        g.setColor(primaryTextColour);
+        //g.drawRect(x-Utils.scale(1),y-Utils.scale(1), width+Utils.scale(1), height+Utils.scale(1));
         if (isMouseOnButton(panel)) {
             g.setColor(secondaryBackgroundColour);
         } else {
