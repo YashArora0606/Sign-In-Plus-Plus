@@ -39,6 +39,7 @@ public class StudentListReader {
      */
     public StudentListReader() {
 
+        //load up workbook
         XSSFWorkbook workbook = null;
 
         try {
@@ -71,7 +72,6 @@ public class StudentListReader {
         Queue<String[]> fieldQueue = new SinglyLinkedList<>();
 
         for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
-
             XSSFRow row = sheet.getRow(rowIndex);
             if (row == null) {
                 row = sheet.createRow(rowIndex);
@@ -84,15 +84,14 @@ public class StudentListReader {
                     cell = row.createCell(col);
                 }
 
-                String value = ExcelUtils.getValueFromCell(cell).trim();
-                if (!isValidField(value, col)) {
+                if (!isCellValid(cell)) {
                     properlyFormatted = false;
                     cell.setCellStyle(redCell);
                 } else {
                     cell.setCellStyle(defaultCell);
                 }
 
-                fields[col] = value;
+                fields[col] = ExcelUtils.getValueFromCell(cell).trim();
             }
 
             fieldQueue.add(fields);
@@ -159,28 +158,25 @@ public class StudentListReader {
     }
 
     /**
-     * Validates a String field given its column
-     * column = 0 -> ID column
-     * column = 1 -> First name column
-     * column = 2 -> Last name column
-     * column = 3 -> Grade column
-     * @param field
-     * @param column
-     * @return if the field is valid
+     * Validates the contents of a cell with respect to its column
+     * @param cell
+     * @return true, if the cell is valid
      */
-    private boolean isValidField(String field, int column) {
-        switch (column) {
+    private boolean isCellValid(XSSFCell cell) {
+        String val = ExcelUtils.getValueFromCell(cell);
+
+        switch (cell.getColumnIndex()) {
             case 0:
-                return Utils.isValidId(field);
+                return Utils.isValidId(val);
 
             case 1:
-                return Utils.isValidName(field);
+                return Utils.isValidName(val);
 
             case 2:
-                return Utils.isValidName(field);
+                return Utils.isValidName(val);
 
             case 3:
-                return Utils.isValidGrade(field);
+                return Utils.isValidGrade(val);
 
             default:
                 throw new IndexOutOfBoundsException();

@@ -7,6 +7,7 @@ import java.awt.FontFormatException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 /**
  * Static utility class (used for scaling rn)
@@ -100,5 +101,9 @@ public class Utils {
             newString += (char) unicode;
         }
         return newString;
+    }
+
+    public static long getTime() {
+        return Calendar.getInstance().getTime().getTime();
     }
 }

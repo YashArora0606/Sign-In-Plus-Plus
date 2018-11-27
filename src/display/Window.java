@@ -36,7 +36,6 @@ public class Window extends JFrame {
         this.maxY = Utils.scale(600);
         this.setLocation(Utils.scale(200), Utils.scale(100));
         this.setSize(new Dimension(maxX, maxY));
-        System.out.print(maxY);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //generate panels
@@ -96,7 +95,6 @@ public class Window extends JFrame {
                 return;
 
             default:
-                System.out.print(state);
                 throw new IndexOutOfBoundsException();
         }
     }
