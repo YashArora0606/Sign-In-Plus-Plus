@@ -50,7 +50,7 @@ public class CustomButton {
         } else {
             g.setColor(primaryBackgroundColour);
         }
-        g.fillRoundRect(x,y, width, height, 20, 20);
+        g.fillRect(x,y, width, height);
 
         g.setFont(buttonFont);
         FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);

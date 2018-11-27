@@ -40,10 +40,6 @@ class SignOutPanel extends JPanel {
 		idField.setBounds(display.maxX/2-size.width/2, display.maxY/2-size.height, size.width, size.height);
 		this.addMouseListener(new MyMouseListener());
 
-		this.setBackground(Utils.colours[2]);
-
-		this.addMouseListener(new MyMouseListener());
-
 		//idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
         idField.setBackground(null);
