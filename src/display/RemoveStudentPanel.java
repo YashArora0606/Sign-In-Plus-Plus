@@ -1,114 +1,114 @@
 package display;
 
-import javax.swing.JTextField;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import java.awt.Graphics;
-import java.awt.Font;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
+import datamanagment.SignInManager;
+import exceptions.InvalidIdException;
+import exceptions.NotLoggedInException;
+import utilities.Utils;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import java.util.Scanner;
-
-import utilities.Utils;
-
-public class RemoveStudentPanel extends JPanel {
-    private Window display;
-
-    private JTextField passwordField;
+class RemoveStudentPanel extends JPanel {
     private JPanel panel;
-    private int maxX;
-    private int maxY;
-    private CustomButton back;
+    private Window display;
+    private SignInManager signInManager;
+
+    private JTextField idField;
     private CustomButton submit;
-    private boolean attempted = false;
+    private CustomButton back;
+    private int attemptSuccessful = 0;
+    private CustomButton studentId;
+
+    private Dimension idSize;
+
+
+    private int x;
+    private int y;
 
     RemoveStudentPanel(Window display) {
-        this.display = display;
         this.panel = this;
-        this.maxX = display.maxX;
-        this.maxY = display.maxY;
-
-        this.setLayout(null);
-        passwordField = new JTextField(20);
-        Font mainFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45.0));
-        passwordField.setFont(mainFont);
-        Dimension size = passwordField.getPreferredSize();
-        this.add(passwordField);
-        passwordField.setBounds(maxX / 2 - Utils.scale(size.width / 2), maxY / 2 - 2 * Utils.scale(size.height), Utils.scale(size.width), Utils.scale(size.height));
-
+        this.display = display;
         this.addMouseListener(new MyMouseListener());
+        this.setLayout(null);
+        this.setBackground(Utils.colours[2]);
+
+        this.x = display.maxX;
+        this.y = display.maxY;
+
+        idField = new JTextField(7);
+        idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
+        idField.setText("");
+        idSize = idField.getPreferredSize();
+        this.add(idField);
+        this.addMouseListener(new MyMouseListener());
+
+        idField.setBounds(display.maxX / 2 - idSize.width / 2, display.maxY / 2 - idSize.height - Utils.scale(100), idSize.width,
+                idSize.height);
+
+        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        idField.setBackground(null);
+
+        setVisible(true);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
-        back.draw(g, panel);
+        back.draw(g, this);
 
+        submit = new CustomButton("Submit", x / 2 - Utils.scale(250) / 2, (int) (y * 0.5), Utils.scale(250),
+                Utils.scale(80), Utils.colours[1]);
+        submit.draw(g, this);
 
-        submit = new CustomButton("Submit", maxX / 2 - Utils.scale(100), Utils.scale(350), Utils.scale(200), Utils.scale(80), Utils.colours[2]);
-        submit.draw(g, panel);
+        studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220)/2,
+                display.maxY / 2 - idSize.height - Utils.scale(165), Utils.scale(220), Utils.scale(50), Utils.colours[4]);
+        studentId.setSelectable(false);
+        studentId.draw(g, this);
 
-        Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30));
-        FontMetrics errorFontMetrics = g.getFontMetrics(errorFont);
-        g.setFont(errorFont);
         g.setColor(Utils.colours[0]);
 
-        if (attempted) {
-            g.drawString("Wrong password, please try again.",
-                    maxX / 2 - errorFontMetrics.stringWidth("Wrong password, please try again.") / 2,
-                    Utils.scale(300));
+        if (attemptSuccessful == 1){
+
         }
 
         repaint();
     }
 
-    private boolean validPassword() {
-        return true; 
-    }
-
-    public void leaveScreen(int state) {
-        attempted = false;
-        passwordField.setText("");
-        display.changeState(state);
+    private boolean submit() {
+        return true;
     }
 
     private class MyMouseListener implements MouseListener {
         public void mouseEntered(MouseEvent e) {
-
         }
 
         public void mouseClicked(MouseEvent e) {
             if (back.isMouseOnButton(panel)) {
-                leaveScreen(0);
-            } else if (submit.isMouseOnButton(panel)) {
-                if (validPassword()) {
-                    leaveScreen(5);
+                display.changeState(5);
+            }
+
+            if (submit.isMouseOnButton(panel)) {
+                if (submit()){
+                    attemptSuccessful = 2;
                 } else {
-                    passwordField.setText("");
-                    attempted = true;
+                    attemptSuccessful = 1;
                 }
             }
         }
 
         public void mousePressed(MouseEvent e) {
-
         }
 
         public void mouseExited(MouseEvent e) {
-
         }
 
         public void mouseReleased(MouseEvent e) {
-
         }
     }
+
 }

@@ -28,7 +28,7 @@ public class AddStudentPanel extends JPanel {
     private int maxY;
     private CustomButton back;
     private CustomButton submit;
-    private boolean attempted = false;
+    private int attemptValidation = 0;
 
     AddStudentPanel(Window display) {
         this.display = display;
@@ -62,9 +62,13 @@ public class AddStudentPanel extends JPanel {
         g.setFont(errorFont);
         g.setColor(Utils.colours[0]);
 
-        if (attempted) {
+        if (attemptValidation == 2) {
             g.drawString("Wrong password, please try again.",
                     maxX / 2 - errorFontMetrics.stringWidth("Wrong password, please try again.") / 2,
+                    Utils.scale(300));
+        } else if (attemptValidation == 1){
+            g.drawString("Successfully added student",
+                    maxX / 2 - errorFontMetrics.stringWidth("Successfully added student") / 2,
                     Utils.scale(300));
         }
 
@@ -104,7 +108,7 @@ public class AddStudentPanel extends JPanel {
     }
 
     public void leaveScreen(int state) {
-        attempted = false;
+        attemptValidation = 0;
         passwordField.setText("");
         display.changeState(state);
     }
@@ -116,13 +120,13 @@ public class AddStudentPanel extends JPanel {
 
         public void mouseClicked(MouseEvent e) {
             if (back.isMouseOnButton(panel)) {
-                leaveScreen(0);
+                leaveScreen(5);
             } else if (submit.isMouseOnButton(panel)) {
                 if (validPassword()) {
-                    leaveScreen(5);
+                    attemptValidation = 1;
                 } else {
                     passwordField.setText("");
-                    attempted = true;
+                    attemptValidation = 2;
                 }
             }
         }

@@ -54,18 +54,23 @@ public class PasswordPanel extends JPanel{
         back.draw(g, panel);
 
 
-        submit = new CustomButton("Submit",maxX/2-Utils.scale(100), Utils.scale(350), Utils.scale(200), Utils.scale(80), Utils.colours[2]);
+        submit = new CustomButton("Submit",maxX/2-Utils.scale(100), maxY/2, Utils.scale(200), Utils.scale(80), Utils.colours[2]);
         submit.draw(g, panel);
 
         Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30));
         FontMetrics errorFontMetrics = g.getFontMetrics(errorFont);
-        g.setFont(errorFont);
+        Font titleFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45));
+        FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
         g.setColor(Utils.colours[0]);
+        g.setFont(titleFont);
 
+        g.drawString("Password", maxX/2-titleFontMetrics.stringWidth("Password")/2, maxY/3);
+
+        g.setFont(errorFont);
         if (attempted) {
             g.drawString("Wrong password, please try again.",
                     maxX / 2 - errorFontMetrics.stringWidth("Wrong password, please try again.")/2,
-                    Utils.scale(300));
+                    maxY/4);
         }
 
         repaint();
