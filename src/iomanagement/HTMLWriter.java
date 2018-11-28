@@ -325,8 +325,8 @@ public class HTMLWriter {
                             out.println("    <th>" + studentSession[index].get(i).startTime);
                             out.println("    <th>" + studentSession[index].get(i).endTime);
                             out.println("    <th>" + studentSession[index].get(i).reason);
-                            out.println("    <th>" + studentSession[index].get(i).courseWork);
-                            out.println("    <th>" + studentSession[index].get(i).courseMissed);
+                            out.println("    <th>" + studentSession[index].get(i).cert);
+                            out.println("    <th>" + studentSession[index].get(i).course);
                             out.println("  <tr>");
                         }
                 }

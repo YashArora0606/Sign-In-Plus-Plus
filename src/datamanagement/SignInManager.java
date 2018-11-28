@@ -55,6 +55,7 @@ public class SignInManager {
         return database.addStudent(newStudent);
     }
 
+
     public boolean removeStudent(int id) throws StudentDoesNotExistException {
         Student existingStudent;
 
@@ -73,7 +74,7 @@ public class SignInManager {
     }
 
 
-    public boolean signIn(int id, String courseWork, String reason, String courseMissed) throws InvalidIdException, AlreadyLoggedInException {
+    public boolean signIn(int id, String reason, String cert, String course) throws InvalidIdException, AlreadyLoggedInException {
 
         //check if student exists
         Student student;
@@ -97,7 +98,7 @@ public class SignInManager {
             return false;
         }
 
-        Session session = new Session(student, Utils.getNow(), null, reason, courseWork, courseMissed);
+        Session session = new Session(student, Utils.getNow(), null, reason, cert, course);
         return database.addSession(session);
     }
 
@@ -129,7 +130,6 @@ public class SignInManager {
 
 
     public void generateHTML() {
-
     }
 
 

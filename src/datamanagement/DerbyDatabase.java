@@ -74,7 +74,6 @@ public class DerbyDatabase implements Database {
             removeStudent = con.prepareStatement(removeStudentSql);
             statements.add(removeStudent);
 
-
             //inserts a new row in the SESSIONS table
             String insertSql = "insert into sessions values (?, ?, ?, ?, ?, ?)";
             insertNewSession = con.prepareStatement(insertSql);
@@ -210,8 +209,8 @@ public class DerbyDatabase implements Database {
             insertNewSession.setTimestamp(2, session.startTime);
             insertNewSession.setTimestamp(3, session.endTime);
             insertNewSession.setString(4, session.reason);
-            insertNewSession.setString(5, session.courseWork);
-            insertNewSession.setString(6, session.courseMissed);
+            insertNewSession.setString(5, session.cert);
+            insertNewSession.setString(6, session.course);
             insertNewSession.executeUpdate();
 
             con.commit();
@@ -264,8 +263,8 @@ public class DerbyDatabase implements Database {
                         res.getTimestamp("signintime"),
                         res.getTimestamp("signouttime"),
                         res.getString("reason"),
-                        res.getString("coursework"),
-                        res.getString("coursemiss"));
+                        res.getString("cert"),
+                        res.getString("course"));
                 sessionList.add(session);
             }
 
@@ -345,8 +344,8 @@ public class DerbyDatabase implements Database {
                     "signintime timestamp not null," +
                     "signouttime timestamp, " +
                     "reason varchar(50) not null, " +
-                    "coursework varchar(50) not null, " +
-                    "coursemiss varchar(50) not null," +
+                    "cert varchar(50) not null, " +
+                    "course varchar(50) not null," +
                     "foreign key(id) references students(id))");
 
             con.commit();
