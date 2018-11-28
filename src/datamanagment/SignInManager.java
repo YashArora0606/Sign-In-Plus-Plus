@@ -5,8 +5,10 @@ import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
+import utilities.Utils;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class SignInManager {
 
@@ -71,9 +73,7 @@ public class SignInManager {
 
     }
 
-
-
-    public boolean signIn(int id, String course, String reason, String courseMissed) throws InvalidIdException, AlreadyLoggedInException {
+    public boolean signIn(int id, String courseWork, String reason, String courseMissed) throws InvalidIdException, AlreadyLoggedInException {
 
         //check if student exists
         Student student;
@@ -88,9 +88,17 @@ public class SignInManager {
             throw new InvalidIdException(id);
         }
 
+        try {
+            if (database.isStudentSignedIn(id)) {
+                throw new AlreadyLoggedInException();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-
-        return true;
+        Session session = new Session(student, new Date(Utils.getTime()), reason, courseWork, courseMissed);
+        return database.signIn(session);
     }
 
     public boolean signOut(int id) throws InvalidIdException, NotLoggedInException {
@@ -108,9 +116,16 @@ public class SignInManager {
             throw new InvalidIdException(id);
         }
 
+        try {
+            if (!database.isStudentSignedIn(id)) {
+                throw new NotLoggedInException();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-
-        return true;
+        return database.signOut(id);
     }
 
     public void close() {
