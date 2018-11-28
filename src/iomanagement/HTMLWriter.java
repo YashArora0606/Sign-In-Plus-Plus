@@ -19,6 +19,7 @@ public class HTMLWriter {
     String excelFile;
     Stack<Session>[] studentSession;
     Student[] studentList;
+    SinglyLinkedList<Session> sessionList;
     SinglyLinkedList<String> template;
     SinglyLinkedList<String> reportTemplate;
 
@@ -27,9 +28,10 @@ public class HTMLWriter {
      * @param excelFile
      * @param studentList
      */
-    HTMLWriter(String excelFile, Student[] studentList){
+    HTMLWriter(String excelFile, Student[] studentList, SinglyLinkedList<Session> sessionList){
         this.excelFile = excelFile;
         this.studentList = studentList;
+        this.sessionList = sessionList;
         studentSession = new Stack[studentList.length];
         // initializing
         for (int i = 0; i < studentList.length; i++) {
@@ -42,48 +44,17 @@ public class HTMLWriter {
     }
 
     public void go(){
-        readExcel();
+        generateStack(sessionList);
         writeFile("HTMLStuff/report.html");
     }
 
-    /**
-     * readExcel
-     * Retrieves all necessary values from excel spreadsheet
-     */
-    private void readExcel() {
-        try {
-            File file = new File(excelFile);
-            file.createNewFile();
-            FileInputStream inputStream = new FileInputStream(file);
-
-            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-            XSSFSheet spreadsheet = workbook.getSheet("Sheet1");
-
-            int id;
-            Date timeIn;
-            Date timeOut;
-            String reason;
-            String subjectWork;
-            String courseMissed;
-            for (int row = 1; row < spreadsheet.getLastRowNum() + 1; row++) {
-                id = Integer.parseInt(spreadsheet.getRow(row).getCell(0).getRawValue());
-                timeIn = createDate(spreadsheet.getRow(row).getCell(4).getRawValue());
-                timeOut = createDate(spreadsheet.getRow(row).getCell(5).getRawValue());
-                reason = spreadsheet.getRow(row).getCell(6).toString();
-                subjectWork = spreadsheet.getRow(row).getCell(7).toString();
-                courseMissed = spreadsheet.getRow(row).getCell(8).toString();
-
-
-                int index = findStudent(id);
-                studentSession[index].push(new Session(null, timeIn, timeOut, reason, subjectWork, courseMissed));
-            }
-
-            inputStream.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void generateStack(SinglyLinkedList<Session> sessionList){
+        for (int i = 0; i < sessionList.size(); i++){
+            int index = findStudent(sessionList.get(i).student.id);
+            studentSession[index].push(sessionList.get(i));
         }
     }
+
 
     private SinglyLinkedList<String> getTemplate(String fileName){
         SinglyLinkedList<String> list = new SinglyLinkedList<>();
@@ -136,8 +107,6 @@ public class HTMLWriter {
                             writeOverallGraph(out);
 
                     }
-
-                    out.println("<!--insert-->");
                 }
             }
             out.close();

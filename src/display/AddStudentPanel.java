@@ -91,11 +91,11 @@ public class AddStudentPanel extends JPanel {
         if (attemptValidation == 2) {
             g.drawString("One of the fields may have been inputted incorrectly. Please try again.",
                     maxX / 2 - errorFontMetrics.stringWidth("One of the fields may have been inputted incorrectly. Please try again.") / 2,
-                    4*maxY/6);
+                    (int) Math.round(0.75*maxY));
         } else if (attemptValidation == 1){
             g.drawString("Successfully added student",
                     maxX / 2 - errorFontMetrics.stringWidth("Successfully added student") / 2,
-                    5*maxY/6);
+                    (int) Math.round(0.75*maxY));
         }
 
         repaint();

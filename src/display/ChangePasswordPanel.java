@@ -4,9 +4,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import utilities.Utils;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -110,9 +115,9 @@ public class ChangePasswordPanel extends JPanel {
             if (back.isMouseOnButton(panel)){
                 leaveScreen(5);
             } else if (submit.isMouseOnButton(panel)) {
-                passwordField.setText("");
                 if (submit()) {
                     attemptSuccess = 2;
+                    passwordField.setText("");
                 } else {
                     attemptSuccess = 1;
                 }
