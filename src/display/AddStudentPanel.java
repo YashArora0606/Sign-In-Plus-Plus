@@ -50,24 +50,27 @@ public class AddStudentPanel extends JPanel {
         Dimension size = idField.getPreferredSize();
         this.add(idField);
         idField.setBounds(maxX / 2 - Utils.scale(size.width / 2), 2*maxY/10, Utils.scale(size.width), Utils.scale(size.height));
-        idField.setText("ID Number");
 
         size = firstNameField.getPreferredSize();
         this.add(firstNameField);
         firstNameField.setBounds(maxX / 2 - Utils.scale(size.width / 2), 3*maxY/10, Utils.scale(size.width), Utils.scale(size.height));
-        firstNameField.setText("First Name");
 
         size = lastNameField.getPreferredSize();
         this.add(lastNameField);
         lastNameField.setBounds(maxX / 2 - Utils.scale(size.width / 2), 4*maxY/10, Utils.scale(size.width), Utils.scale(size.height));
-        lastNameField.setText("Last Name");
 
         size = gradeField.getPreferredSize();
         this.add(gradeField);
         gradeField.setBounds(maxX / 2 - Utils.scale(size.width / 2), 5*maxY/10, Utils.scale(size.width), Utils.scale(size.height));
-        gradeField.setText("Grade");
 
         this.addMouseListener(new MyMouseListener());
+    }
+
+    public void initialize(){
+        idField.setText("ID Number");
+        firstNameField.setText("First Name");
+        lastNameField.setText("Last Name");
+        gradeField.setText("Grade");
     }
 
     public void paintComponent(Graphics g) {
@@ -130,13 +133,13 @@ public class AddStudentPanel extends JPanel {
                 try {
                     if (addStudent()) {
                         attemptValidation = 1;
+                        idField.setText("");
+                        firstNameField.setText("");
+                        lastNameField.setText("");
+                        gradeField.setText("");
                     } else {
                         attemptValidation = 2;
                     }
-                    idField.setText("");
-                    firstNameField.setText("");
-                    lastNameField.setText("");
-                    gradeField.setText("");
                 } catch (exceptions.StudentAlreadyExistsException error){
                     error.printStackTrace();
                 }

@@ -39,7 +39,6 @@ class RemoveStudentPanel extends JPanel {
 
         idField = new JTextField(7);
         idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
-        idField.setText("");
         idSize = idField.getPreferredSize();
         this.add(idField);
         this.addMouseListener(new MyMouseListener());

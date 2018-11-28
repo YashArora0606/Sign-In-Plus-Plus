@@ -104,6 +104,7 @@ public class Window extends JFrame {
 
             case 7:
                 switchPanel(addStudentPanel);
+                ((AddStudentPanel) addStudentPanel).initialize();
                 return;
 
             case 8:
