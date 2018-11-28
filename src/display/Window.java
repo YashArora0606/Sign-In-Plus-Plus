@@ -25,6 +25,9 @@ public class Window extends JFrame {
     private JPanel passwordPanel;
     private JPanel teacherDashboardPanel;
     private JPanel changePasswordPanel;
+    private JPanel addStudentPanel;
+    private JPanel removeStudentPanel;
+    private JPanel generateExcelPanel;
 
     public Window(SignInManager signInManager) {
 
@@ -32,10 +35,11 @@ public class Window extends JFrame {
 
         //generate frame
         this.setTitle("SignIn++");
-        this.maxX = Utils.scale(1000);
-        this.maxY = Utils.scale(600);
-        this.setLocation(Utils.scale(200), Utils.scale(100));
+        this.maxX = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        this.maxY = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        this.setLocation(Utils.scale(0), Utils.scale(0));
         this.setSize(new Dimension(maxX, maxY));
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //generate panels
@@ -46,6 +50,10 @@ public class Window extends JFrame {
         this.passwordPanel = new PasswordPanel(this);
         this.teacherDashboardPanel = new TeacherDashboardPanel(this);
         this.changePasswordPanel = new ChangePasswordPanel(this);
+        this.addStudentPanel = new AddStudentPanel();
+        this.removeStudentPanel = new RemoveStudentPanel();
+        this.generateExcelPanel = new GenerateExcelPanel();
+
 
         //set displayed panel to menu
         changeState(0);
@@ -61,7 +69,7 @@ public class Window extends JFrame {
     }
 
     /**
-     * Displays a panel based on state (0 = menu, 1 = sign in, 2 = sign out, other = error)
+     * Displays a panel based on state (0 = home, 1 = menu, 2 = sign in, 3 = sign out, 4 = password, other = error)
      * @param state
      */
     public void changeState(int state) {
@@ -92,6 +100,18 @@ public class Window extends JFrame {
 
             case 6:
                 switchPanel(changePasswordPanel);
+                return;
+
+            case 7:
+                switchPanel(addStudentPanel);
+                return;
+
+            case 8:
+                switchPanel(removeStudentPanel);
+                return;
+
+            case 9:
+                switchPanel(generateExcelPanel);
                 return;
 
             default:

@@ -64,7 +64,7 @@ public class SignInManager {
         }
 
         if (student == null) {
-            throw new InvalidIdException();
+            throw new InvalidIdException(id);
         }
 
 
@@ -84,7 +84,7 @@ public class SignInManager {
         }
 
         if (student == null) {
-            throw new InvalidIdException();
+            throw new InvalidIdException(id);
         }
 
 

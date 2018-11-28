@@ -35,10 +35,10 @@ class HomePanel extends JPanel {
         g.setColor(Utils.colours[1]);
         g.fillRect(maxX / 2, 0, maxX / 2, maxY);
 
-        student = new CustomButton("Student",maxX/4 - Utils.scale(100),maxY/2 - Utils.scale(100),
+        student = new CustomButton("Student",maxX/4 - Utils.scale(200)/2,maxY/2 - Utils.scale(200)/2,
                 Utils.scale(200), Utils.scale(100), Utils.colours[2]);
-        teacher = new CustomButton("Teacher",3*maxX/4 - Utils.scale(110),maxY/2 - Utils.scale(100),
-                Utils.scale(220), Utils.scale(100), Utils.colours[3]);
+        teacher = new CustomButton("Teacher",3*maxX/4 - Utils.scale(200)/2,maxY/2 - Utils.scale(200)/2,
+                Utils.scale(200), Utils.scale(100), Utils.colours[3]);
 
         student.draw(g, panel);
         teacher.draw(g,panel);

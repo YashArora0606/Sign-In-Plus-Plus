@@ -9,8 +9,10 @@ import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;
 import utilities.Utils;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.IllegalComponentStateException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -20,122 +22,97 @@ class SignInPanel extends JPanel {
 	private SignInManager signInManager;
 
 	private JTextField idField;
-	private JComboBox<String> reasonField;
-	private JComboBox<String> subjectField;
-	private JComboBox<String> courseMissedField;
 
 	private CustomButton submit;
 	private CustomButton back;
+	
+	private CustomButton studentId;
 
-	private int maxX;
-	private int maxY;
+	private int x;
+	private int y;
+	
+	DropDownMenu reasonDropDown;
+	DropDownMenu subjectDropDown;
+	DropDownMenu courseMissingDropDown;
+	
+	private Dimension idSize;
+	
+	private JPanel panel;
+	
+	private String errorMessage = "";
 
-	SignInPanel(Window display, SignInManager signInManager) {
-		
+	SignInPanel(Window display, SignInManager signInManager) throws IllegalComponentStateException{
+
+		this.panel = this;
 		this.display = display;
-		this.maxX = display.maxX;
-		this.maxY = display.maxY;
-
+		x = display.maxX;
+		y = display.maxY;
+	
 		this.signInManager = signInManager;
-		
-		
+		this.addMouseListener(new MyMouseListener());
+
+
 		setBackground(Utils.colours[2]);
-		
-		DropDownMenu reasonDropDown = new DropDownMenu(SignInManager.getReasons(), "Reason");
-		DropDownMenu subjectDropDown = new DropDownMenu(SignInManager.getCourses(), "Subject");
-		DropDownMenu courseMissingDropDown = new DropDownMenu(SignInManager.getCourses(), "Course Missed");
-			
+		setLayout(new BorderLayout());
+
+		reasonDropDown = new DropDownMenu(SignInManager.getReasons(), "Reason");
+		subjectDropDown = new DropDownMenu(SignInManager.getCourses(), "Subject");
+		courseMissingDropDown = new DropDownMenu(SignInManager.getCourses(), "Course Missed");
+
 		idField = new JTextField(7);
 		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
 		idField.setText("");
-		Dimension idSize = idField.getPreferredSize();
-		idField.setBounds(display.maxX/2-idSize.width/2, display.maxY/2-idSize.height-50, idSize.width, idSize.height);
-		this.addMouseListener(new MyMouseListener());
-        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
-        idField.setBackground(null);
-        
-//		add(reasonDropDown, BorderLayout.WEST);
-//		add(subjectDropDown, BorderLayout.CENTER);
-//		add(courseMissingDropDown, BorderLayout.EAST);
-        
-		JPanel id = new JPanel();
-		id.setBackground(null);
-		id.add(idField);
+		idSize = idField.getPreferredSize();
+		idField.setBounds(display.maxX / 2 - idSize.width / 2, display.maxY / 2 - idSize.height, idSize.width,
+				idSize.height);
+		idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+		idField.setBackground(null);
 		
-		add(idField);
+		JPanel northPanel = new JPanel();
 		
-//		add(id, BorderLayout.PAGE_START);
-//		
-//		JPanel dropdowns = new JPanel();
-//		
-//		dropdowns.setBackground(null);
-//		dropdowns.setPreferredSize(new Dimension(600, 50));
-//		dropdowns.add(reasonDropDown, BorderLayout.WEST);
-//		dropdowns.add(subjectDropDown, BorderLayout.CENTER);
-//		dropdowns.add(courseMissingDropDown, BorderLayout.EAST);
-//		
-//		add(dropdowns, BorderLayout.CENTER);
-		
-		//c.gridx = 2;
-		
-		
+		northPanel.setBackground(null);
+		northPanel.setPreferredSize(new Dimension(900, 100));
+		northPanel.add(idField);
+		northPanel.setOpaque(false);
+
+
+		JPanel centerPanel = new JPanel();
+		centerPanel.setPreferredSize(new Dimension(display.maxX, 620));
+		centerPanel.setBackground(null);
+		//centerPanel.setLayout(new BorderLayout());
+		centerPanel.add(reasonDropDown);
+		centerPanel.add(subjectDropDown);
+		centerPanel.add(courseMissingDropDown);
+		centerPanel.setOpaque(false);
 
 		
-
-//        
-//        idField = new JTextField(10);
-//        idField.setFont(idField.getFont().deriveFont(35f));
-//        add(idField);
-//
-//
-//        reasonField = new JComboBox<>();
-//        reasonField.addItem("Select Reason");
-//        for (String reason : signInManager.getReasons()) {
-//            reasonField.addItem(reason);
-//        }
-//        add(reasonField);
-//
-//
-//        subjectField = new JComboBox<>();
-//        subjectField.addItem("Select Subject");
-//        for (String subject : signInManager.getCourses()) {
-//            subjectField.addItem(subject);
-//        }
-//        add(subjectField);
-//
-//        courseMissedField = new JComboBox<>();
-//        courseMissedField.addItem("Select Missing Course");
-//        for (String courseMissed : signInManager.getCourses()) {
-//            courseMissedField.addItem(courseMissed);
-//        }
-//        add(courseMissedField);
-//
-//
-//        submitButton = new JButton("Sign In");
-//        submitButton.addActionListener(e -> submit());
-//        add(submitButton);
-//
-//
-//        backButton = new JButton("Back");
-//        backButton.addActionListener(e -> display.changeState(1));
-//        add(backButton);
+		JPanel topPanel = new JPanel();
+		topPanel.setPreferredSize(new Dimension(display.maxX, 100));
+		topPanel.setBackground(null);
+		topPanel.setOpaque(false);
+		
+		add(topPanel, BorderLayout.NORTH);
+		add(northPanel, BorderLayout.CENTER);
+		add(centerPanel, BorderLayout.SOUTH);
 
 		setVisible(true);
 	}
 
-	private void submit() {
+	private boolean submit() {
 		String id = idField.getText();
-		idField.setText("");
-		String subject = (String) subjectField.getSelectedItem();
-		String reason = (String) reasonField.getSelectedItem();
-		String courseMissed = (String) courseMissedField.getSelectedItem();
+		String subject = subjectDropDown.getSelectedText();
+		String reason = reasonDropDown.getSelectedText();
+		String courseMissed = courseMissingDropDown.getSelectedText();
 
 		try {
 			signInManager.signIn(Integer.parseInt(id), subject, reason, courseMissed);
-			idField.setText(null);
+			idField.setText("");
+			errorMessage = "";
 
+			return true;
 		} catch (InvalidIdException | AlreadyLoggedInException e) {
-			e.printStackTrace();
+			errorMessage = "Error: " + e.getMessage();
+			return false;
 		}
 	}
 
@@ -144,6 +121,25 @@ class SignInPanel extends JPanel {
 		}
 
 		public void mouseClicked(MouseEvent e) {
+			if(submit.isMouseOnButton(panel)) {
+				submit();
+			}
+			
+			if(back.isMouseOnButton(panel)) {
+                display.changeState(1);
+			}
+			
+			if(reasonDropDown.isMouseOnPanel(panel)) {
+				reasonDropDown.drop();
+			}
+			if(subjectDropDown.isMouseOnPanel(panel)) {
+				subjectDropDown.drop();
+			}
+			if(courseMissingDropDown.isMouseOnPanel(panel)) {
+				courseMissingDropDown.drop();
+			}
+			
+			
 		}
 
 		public void mousePressed(MouseEvent e) {
@@ -155,16 +151,26 @@ class SignInPanel extends JPanel {
 		public void mouseReleased(MouseEvent e) {
 		}
 	}
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		back = new CustomButton("Back", 20, 20, 115, 60, Utils.colours[1]);
+        back = new CustomButton("Back",0,0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
 		back.draw(g, this);
-		
-		submit = new CustomButton("Submit", 250, 200, 250, 80, Utils.colours[1]);
+
+		submit = new CustomButton("Submit", x/2 - Utils.scale(250)/2, (int)(y * 0.8), Utils.scale(250), Utils.scale(80), Utils.colours[1]);
 		submit.draw(g, this);
 		
+		studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220)/2,
+				display.maxY/15, Utils.scale(220), Utils.scale(50), Utils.colours[4]);
+		studentId.setSelectable(false);
+		studentId.draw(g, this);
+		
+		CustomButton errorButton = new CustomButton(errorMessage, display.maxX / 2 - Utils.scale(800)/2,
+				display.maxY/30, Utils.scale(800), Utils.scale(50), null);
+		errorButton.setSelectable(false);
+		errorButton.draw(g, this);
+
 		repaint();
 	}
 }

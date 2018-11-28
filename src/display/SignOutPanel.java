@@ -21,7 +21,16 @@ class SignOutPanel extends JPanel {
 	private CustomButton submit;
 	private CustomButton back;
 
-	SignOutPanel(Window display, SignInManager signInManager) {
+	private CustomButton studentId;
+	
+	private Dimension idSize;
+	
+	private String errorMessage = "";
+
+	private int x;
+	private int y;
+
+	SignOutPanel(Window display, SignInManager signInManager) throws IllegalComponentStateException {
 		this.panel = this;
 		this.display = display;
 		this.signInManager = signInManager;
@@ -29,43 +38,60 @@ class SignOutPanel extends JPanel {
 		this.setLayout(null);
 		this.setBackground(Utils.colours[2]);
 
+		this.x = display.maxX;
+		this.y = display.maxY;
+
 		idField = new JTextField(7);
 		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
 		idField.setText("");
-		Dimension idSize = idField.getPreferredSize();
+		idSize = idField.getPreferredSize();
 		this.add(idField);
 		this.addMouseListener(new MyMouseListener());
 
-		//idField.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		idField.setBounds(display.maxX/2-idSize.width/2, display.maxY/2-idSize.height-50, idSize.width, idSize.height);
+		idField.setBounds(display.maxX / 2 - idSize.width / 2, display.maxY / 2 - idSize.height - Utils.scale(100), idSize.width,
+				idSize.height);
 
-        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
-        idField.setBackground(null);
+		idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+		idField.setBackground(null);
 
-        setVisible(true);
+		setVisible(true);
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		back = new CustomButton("Back",0,0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
-		back.draw(g, panel);
+		back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+		back.draw(g, this);
 
-		submit = new CustomButton("Submit", Utils.scale(display.maxX/2)-Utils.scale(80), Utils.scale(320), Utils.scale(160), Utils.scale(90), Utils.colours[2]);
-		submit.draw(g, panel);
+		submit = new CustomButton("Submit", x / 2 - Utils.scale(250) / 2, (int) (y * 0.5), Utils.scale(250),
+				Utils.scale(80), Utils.colours[1]);
+		submit.draw(g, this);
 
+		studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220)/2,
+				display.maxY / 2 - idSize.height - Utils.scale(165), Utils.scale(220), Utils.scale(50), Utils.colours[4]);
+		studentId.setSelectable(false);
+		studentId.draw(g, this);
+
+		g.setColor(Utils.colours[0]);
+		
+		CustomButton errorButton = new CustomButton(errorMessage, display.maxX / 2 - Utils.scale(800)/2,
+				display.maxY/30, Utils.scale(800), Utils.scale(50), null);
+		errorButton.setSelectable(false);
+		errorButton.draw(g, this);
+		
 		repaint();
 	}
 
-	private void submit() {
+	private boolean submit() {
 		String id = idField.getText();
-		idField.setText("");
 		try {
 			signInManager.signOut(Integer.parseInt(id));
-			idField.setText(null);
-
+			errorMessage = "";
+			idField.setText("");
+			return true;
 		} catch (InvalidIdException | NotLoggedInException e) {
-			e.printStackTrace();
+			errorMessage = "Error: " + e.getMessage();
+			return false;
 		}
 	}
 
@@ -76,8 +102,9 @@ class SignOutPanel extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			if (back.isMouseOnButton(panel)) {
 				display.changeState(1);
-			} else if (submit.isMouseOnButton(panel)) {
-				idField.setText("");
+			}
+
+			if (submit.isMouseOnButton(panel)) {
 				submit();
 			}
 		}

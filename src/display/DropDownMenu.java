@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.IllegalComponentStateException;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -16,8 +17,6 @@ import javax.swing.Timer;
 
 
 import utilities.Utils;
-
-
 
 
 public class DropDownMenu extends JPanel {
@@ -35,33 +34,8 @@ public class DropDownMenu extends JPanel {
 		this.title = title;
 		
 		
-		//this.setBounds(100, 100, 550, 200);
-		this.setPreferredSize(new Dimension(180, 30));
-//		//this.setLayout(null);
-//		btnNewButton.setBackground(Color.ORANGE);
-//		//btnNewButton.setBounds(0, 0, 148, 60);
-//		
-//
-//		JButton button = new JButton("New button");
-//		button.setBackground(Color.ORANGE);
-//		//button.setBounds(0, 61, 148, 60);
-//		add(button);
-//
-//		JButton button_1 = new JButton("New button");
-//		button_1.setBackground(Color.ORANGE);
-//		//button_1.setBounds(0, 122, 148, 60);
-//		add(button_1);
-//
-//		JButton button_2 = new JButton("New button");
-//		button_2.setBackground(Color.ORANGE);
-//		//button_2.setBounds(0, 183, 148, 60);
-//		add(button_2);
-//
-//		JButton button_3 = new JButton("New button");
-//		button_3.setBackground(Color.ORANGE);
-//		//button_3.setBounds(0, 243, 148, 60);
-//		add(button_3);
-//
+		this.setPreferredSize(new Dimension(180, 60));
+
 		tm1 = new Timer(20, new ActionListener() {
 
 			@Override
@@ -82,13 +56,20 @@ public class DropDownMenu extends JPanel {
         setVisible(true);
 	}
 	
+	public String getSelectedText() {
+		return selectedText;
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		CustomButton select = new CustomButton(selectedText, 0, 0, 180, 30);
+		CustomButton titleButton = new CustomButton(title, 0, 0, 180, 30, Utils.colours[3]);
+		titleButton.setSelectable(false);
+		titleButton.draw(g, this);
 		
+		CustomButton select = new CustomButton(selectedText, 0, 30, 180, 30, Utils.colours[4]);
 		if (isMouseOnPanel(this)) {
-			setSize(180, 30 * (items.length + 1));
+			setSize(180, 30 * (items.length + 2));
 		} else {
 			setSize(this.preferredSize());
 		}
@@ -96,19 +77,17 @@ public class DropDownMenu extends JPanel {
 		select.draw(g, this);
 		
 		for (int i = 1; i <= items.length; i++) {
-			CustomButton b = new CustomButton(items[i-1], 0, i * 30, 180, 30);
+			CustomButton b = new CustomButton(items[i-1], 0, (i * 30) + 30, 180, 30);
 			if (b.isMouseOnButton(this) && isMouseOnPanel(this)) {
 				selectedText = items[i-1];
 			}
 			b.draw(g, this);
 		}
-		
-		//g.drawRect(0, 0, getWidth(), getHeight());
-		
+				
 		repaint();
 	}
 
-	private boolean isMouseOnPanel(JPanel panel) {
+	public boolean isMouseOnPanel(JPanel panel) throws IllegalComponentStateException{
 		Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
         Point relScreenLocation = panel.getLocationOnScreen().getLocation();
         int x = (int) Math.round(mouseLocation.getX() - relScreenLocation.getX());
@@ -116,6 +95,10 @@ public class DropDownMenu extends JPanel {
 
         return ((x >= 0) && (x <= panel.getWidth()) && (y >= 0) && (y <= panel.getHeight()));
         //return ((x >= panel.getX()) && (x <= panel.getX() + panel.getWidth()) && (y >= panel.getY()) && (y <= panel.getY() + panel.getHeight()));
+	}
+
+	public void drop() {
+		setSize(this.preferredSize());
 	}
 
 }
