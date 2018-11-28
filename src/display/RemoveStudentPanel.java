@@ -90,7 +90,7 @@ class RemoveStudentPanel extends JPanel {
             return false;
         }
         return true;
-       // return signInManager.removeStudent(Integer.parseInt(idField.getText()));
+       // return signInManager.removeStudentById(Integer.parseInt(idField.getText()));
     }
 
     private class MyMouseListener implements MouseListener {

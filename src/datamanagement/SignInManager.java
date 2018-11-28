@@ -7,6 +7,7 @@ import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
 import utilities.Utils;
 
+import javax.rmi.CORBA.Util;
 import java.io.IOException;
 import java.util.Date;
 
@@ -27,6 +28,7 @@ public class SignInManager {
         this.database = database;
     }
 
+
     public static String[] getReasons() {
         return reasons;
     }
@@ -35,12 +37,13 @@ public class SignInManager {
         return courses;
     }
 
+
     public boolean addStudent(int id, String firstName, String lastName, int grade) throws StudentAlreadyExistsException {
 
         Student existingStudent;
 
         try {
-            existingStudent = database.findStudent(id);
+            existingStudent = database.findStudentById(id);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -55,11 +58,10 @@ public class SignInManager {
     }
 
     public boolean removeStudent(int id) throws StudentDoesNotExistException {
-
         Student existingStudent;
 
         try {
-            existingStudent = database.findStudent(id);
+            existingStudent = database.findStudentById(id);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -69,9 +71,9 @@ public class SignInManager {
             throw new StudentDoesNotExistException();
         }
 
-        return database.removeStudent(id);
-
+        return database.removeStudentById(id);
     }
+
 
     public boolean signIn(int id, String courseWork, String reason, String courseMissed) throws InvalidIdException, AlreadyLoggedInException {
 
@@ -79,7 +81,7 @@ public class SignInManager {
         Student student;
 
         try {
-            student = database.findStudent(id);
+            student = database.findStudentById(id);
         } catch (IOException e) {
             return false;
         }
@@ -97,8 +99,8 @@ public class SignInManager {
             return false;
         }
 
-        Session session = new Session(student, new Date(Utils.getTime()), reason, courseWork, courseMissed);
-        return database.signIn(session);
+        Session session = new Session(student, Utils.getTime(), null, reason, courseWork, courseMissed);
+        return database.addSession(session);
     }
 
     public boolean signOut(int id) throws InvalidIdException, NotLoggedInException {
@@ -107,7 +109,7 @@ public class SignInManager {
         Student student;
 
         try {
-            student = database.findStudent(id);
+            student = database.findStudentById(id);
         } catch (IOException e) {
             return false;
         }
@@ -127,6 +129,16 @@ public class SignInManager {
 
         return database.signOut(id);
     }
+
+
+    public void generateHTML() {
+
+    }
+
+    public void generateExcel() {
+
+    }
+
 
     public void close() {
         database.close();

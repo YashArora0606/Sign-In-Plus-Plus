@@ -1,8 +1,14 @@
 package utilities;
-import java.awt.*;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
@@ -99,8 +105,8 @@ public class Utils {
         return newString;
     }
 
-    public static long getTime() {
-        return Calendar.getInstance().getTime().getTime();
+    public static Timestamp getTime() {
+        return new Timestamp(Calendar.getInstance().getTime().getTime());
     }
 
     public static String idToString(int id) {

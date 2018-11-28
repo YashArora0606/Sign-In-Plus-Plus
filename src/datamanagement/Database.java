@@ -9,17 +9,17 @@ public interface Database {
 
     boolean addStudent(Student student);
 
-    Student findStudent (int id) throws IOException;
+    Student findStudentById(int id) throws IOException;
 
-    boolean removeStudent(int id);
+    boolean isStudentSignedIn(int id) throws IOException;
 
-    boolean signIn(Session session);
+    boolean removeStudentById(int id);
 
-    boolean signOut(int id);
+    boolean addSession(Session session);
 
     List<Session> findSessions(HashMap<String, Object> criterion) throws IOException, InputMismatchException;
 
-    boolean isStudentSignedIn(int id) throws IOException;
+    boolean signOut(int id);
 
     void close();
 

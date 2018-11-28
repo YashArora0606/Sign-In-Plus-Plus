@@ -400,9 +400,9 @@ public class HTMLWriter {
 
 
     /**
-     *  findStudent()
+     *  findStudentById()
      *  Method that finds a student object based on their id
-     *  @param id id that is individual to each student, calling another findStudent() method to find a student based on id
+     *  @param id id that is individual to each student, calling another findStudentById() method to find a student based on id
      *  @return Student that is the student object based on the student number
      */
     private int findStudent(int id) {
@@ -410,7 +410,7 @@ public class HTMLWriter {
     }
 
     /**
-     *  findStudent()
+     *  findStudentById()
      *  Method that finds a student object based on their id and some recursive variables
      *  @param id student id that is individual to each student and recursively passed in
      *  @param low int low that is the lowest id length
