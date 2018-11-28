@@ -2,7 +2,7 @@ package display;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import datamanagment.SignInManager;
+import datamanagement.SignInManager;
 import utilities.Utils;
 
 import java.awt.*;
@@ -50,8 +50,8 @@ public class Window extends JFrame {
         this.passwordPanel = new PasswordPanel(this);
         this.teacherDashboardPanel = new TeacherDashboardPanel(this);
         this.changePasswordPanel = new ChangePasswordPanel(this);
-        this.addStudentPanel = new AddStudentPanel(this);
-        this.removeStudentPanel = new RemoveStudentPanel(this);
+        this.addStudentPanel = new AddStudentPanel(this, signInManager);
+        this.removeStudentPanel = new RemoveStudentPanel(this,signInManager);
         this.generateExcelPanel = new GenerateExcelPanel();
 
 
@@ -104,6 +104,7 @@ public class Window extends JFrame {
 
             case 7:
                 switchPanel(addStudentPanel);
+                ((AddStudentPanel) addStudentPanel).initialize();
                 return;
 
             case 8:

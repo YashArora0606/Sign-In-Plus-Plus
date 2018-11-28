@@ -1,20 +1,9 @@
-import datamanagment.Database;
-import datamanagment.DerbyDatabase;
-import datamanagment.SignInManager;
-import datamanagment.Student;
+import datamanagement.Database;
+import datamanagement.DerbyDatabase;
+import datamanagement.SignInManager;
 import display.Window;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Properties;
 
 /**
  * Basic launcher for the program - mainly for aesthetics

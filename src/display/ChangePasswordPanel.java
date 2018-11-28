@@ -32,7 +32,6 @@ public class ChangePasswordPanel extends JPanel {
         passwordField = new JTextField(20);
         mainFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45.0));
         passwordField.setFont(mainFont);
-        passwordField.setText("New Password");
         Dimension size = passwordField.getPreferredSize();
         this.add(passwordField);
         passwordField.setBounds(maxX/2-Utils.scale(size.width/2), maxY/2-2*Utils.scale(size.height), Utils.scale(size.width), Utils.scale(size.height));
@@ -47,22 +46,27 @@ public class ChangePasswordPanel extends JPanel {
         back.draw(g, panel);
 
 
-        submit = new CustomButton("Submit",maxX/2-Utils.scale(100), Utils.scale(350), Utils.scale(200), Utils.scale(80), Utils.colours[2]);
+        submit = new CustomButton("Submit",maxX/2-Utils.scale(100), maxY/2, Utils.scale(200), Utils.scale(80), Utils.colours[2]);
         submit.draw(g, panel);
 
         Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30));
         FontMetrics errorFontMetrics = g.getFontMetrics(errorFont);
-        g.setFont(errorFont);
+        Font titleFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45));
+        FontMetrics titleFontMetrics = g.getFontMetrics(titleFont);
         g.setColor(Utils.colours[0]);
+        g.setFont(titleFont);
 
+        g.drawString("New Password", maxX/2-titleFontMetrics.stringWidth("New Password")/2, maxY/3);
+
+        g.setFont(errorFont);
         if (attemptSuccess == 1) {
             g.drawString("Invalid Password. Please enter a password of 8+ characters",
                     maxX / 2 - errorFontMetrics.stringWidth("Invalid Password. Please enter a password of 8+ characters")/2,
-                    Utils.scale(300));
+                    maxY/4);
         } else if (attemptSuccess == 2){
             g.drawString("Successfully changed password!",
                     maxX / 2 - errorFontMetrics.stringWidth("Successfully changed password!")/2,
-                    Utils.scale(300));
+                    maxY/4);
         }
 
         repaint();

@@ -1,4 +1,4 @@
-package datamanagment;
+package datamanagement;
 
 import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;

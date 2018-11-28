@@ -1,10 +1,9 @@
 package display;
 
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import datamanagment.SignInManager;
+import datamanagement.SignInManager;
 import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;
 import utilities.Utils;

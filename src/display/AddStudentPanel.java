@@ -11,40 +11,66 @@ import java.awt.FontMetrics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import java.util.Scanner;
-
+import datamanagement.SignInManager;
 import utilities.Utils;
 
 public class AddStudentPanel extends JPanel {
     private Window display;
-
-    private JTextField passwordField;
+    private SignInManager signInManager;
+    private JTextField idField;
+    private JTextField firstNameField;
+    private JTextField lastNameField;
+    private JTextField gradeField;
     private JPanel panel;
     private int maxX;
     private int maxY;
     private CustomButton back;
     private CustomButton submit;
-    private boolean attempted = false;
+    private int attemptValidation = 0;
 
-    AddStudentPanel(Window display) {
+    AddStudentPanel(Window display, SignInManager signInManager) {
         this.display = display;
+        this.signInManager = signInManager;
         this.panel = this;
         this.maxX = display.maxX;
         this.maxY = display.maxY;
 
         this.setLayout(null);
-        passwordField = new JTextField(20);
+        idField = new JTextField(20);
+        firstNameField = new JTextField(20);
+        lastNameField = new JTextField(20);
+        gradeField = new JTextField(20);
+
         Font mainFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45.0));
-        passwordField.setFont(mainFont);
-        Dimension size = passwordField.getPreferredSize();
-        this.add(passwordField);
-        passwordField.setBounds(maxX / 2 - Utils.scale(size.width / 2), maxY / 2 - 2 * Utils.scale(size.height), Utils.scale(size.width), Utils.scale(size.height));
+        idField.setFont(mainFont);
+        firstNameField.setFont(mainFont);
+        lastNameField.setFont(mainFont);
+        gradeField.setFont(mainFont);
+
+        Dimension size = idField.getPreferredSize();
+        this.add(idField);
+        idField.setBounds(maxX / 2 - Utils.scale(size.width / 2), 2*maxY/10, Utils.scale(size.width), Utils.scale(size.height));
+
+        size = firstNameField.getPreferredSize();
+        this.add(firstNameField);
+        firstNameField.setBounds(maxX / 2 - Utils.scale(size.width / 2), 3*maxY/10, Utils.scale(size.width), Utils.scale(size.height));
+
+        size = lastNameField.getPreferredSize();
+        this.add(lastNameField);
+        lastNameField.setBounds(maxX / 2 - Utils.scale(size.width / 2), 4*maxY/10, Utils.scale(size.width), Utils.scale(size.height));
+
+        size = gradeField.getPreferredSize();
+        this.add(gradeField);
+        gradeField.setBounds(maxX / 2 - Utils.scale(size.width / 2), 5*maxY/10, Utils.scale(size.width), Utils.scale(size.height));
 
         this.addMouseListener(new MyMouseListener());
+    }
+
+    public void initialize(){
+        idField.setText("ID Number");
+        firstNameField.setText("First Name");
+        lastNameField.setText("Last Name");
+        gradeField.setText("Grade");
     }
 
     public void paintComponent(Graphics g) {
@@ -54,7 +80,7 @@ public class AddStudentPanel extends JPanel {
         back.draw(g, panel);
 
 
-        submit = new CustomButton("Submit", maxX / 2 - Utils.scale(100), Utils.scale(350), Utils.scale(200), Utils.scale(80), Utils.colours[2]);
+        submit = new CustomButton("Submit", maxX / 2 - Utils.scale(100), 3*maxY/5, Utils.scale(200), Utils.scale(80), Utils.colours[2]);
         submit.draw(g, panel);
 
         Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30));
@@ -62,51 +88,37 @@ public class AddStudentPanel extends JPanel {
         g.setFont(errorFont);
         g.setColor(Utils.colours[0]);
 
-        if (attempted) {
-            g.drawString("Wrong password, please try again.",
-                    maxX / 2 - errorFontMetrics.stringWidth("Wrong password, please try again.") / 2,
-                    Utils.scale(300));
+        if (attemptValidation == 2) {
+            g.drawString("One of the fields may have been inputted incorrectly. Please try again.",
+                    maxX / 2 - errorFontMetrics.stringWidth("One of the fields may have been inputted incorrectly. Please try again.") / 2,
+                    4*maxY/6);
+        } else if (attemptValidation == 1){
+            g.drawString("Successfully added student",
+                    maxX / 2 - errorFontMetrics.stringWidth("Successfully added student") / 2,
+                    5*maxY/6);
         }
 
         repaint();
     }
 
-    private String retrievePassword() {
-        try {
-            File myFile = new File("assets/password.txt");
-            Scanner input = new Scanner(myFile);
-            String password = input.nextLine();
-            input.close();
-            rewritePassword(password);
-            return password;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void rewritePassword(String string) {
-        try {
-            File myFile = new File("assets/password.txt");
-            PrintWriter out = new PrintWriter(myFile);
-            out.println(string);
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean validPassword() {
-        if (retrievePassword() != null) {
-            return (passwordField.getText().equals(Utils.decode(retrievePassword())));
-        }
-        return false;
-    }
-
     public void leaveScreen(int state) {
-        attempted = false;
-        passwordField.setText("");
+        attemptValidation = 0;
+        idField.setText("");
+        firstNameField.setText("");
+        lastNameField.setText("");
+        gradeField.setText("");
         display.changeState(state);
+    }
+
+    public boolean addStudent() throws exceptions.StudentAlreadyExistsException{
+        int id = Integer.parseInt(idField.getText());
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        int grade = Integer.parseInt(gradeField.getText());
+        if (idField.getText().length() != 9){
+            return false;
+        }
+        return (signInManager.addStudent(id, firstName, lastName, grade));
     }
 
     private class MyMouseListener implements MouseListener {
@@ -114,15 +126,22 @@ public class AddStudentPanel extends JPanel {
 
         }
 
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(MouseEvent e){
             if (back.isMouseOnButton(panel)) {
-                leaveScreen(0);
+                leaveScreen(5);
             } else if (submit.isMouseOnButton(panel)) {
-                if (validPassword()) {
-                    leaveScreen(5);
-                } else {
-                    passwordField.setText("");
-                    attempted = true;
+                try {
+                    if (addStudent()) {
+                        attemptValidation = 1;
+                        idField.setText("");
+                        firstNameField.setText("");
+                        lastNameField.setText("");
+                        gradeField.setText("");
+                    } else {
+                        attemptValidation = 2;
+                    }
+                } catch (exceptions.StudentAlreadyExistsException error){
+                    error.printStackTrace();
                 }
             }
         }
