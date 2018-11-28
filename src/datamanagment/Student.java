@@ -1,21 +1,16 @@
 package datamanagment;
 
-public class Student implements Comparable<Student> {
+public class Student {
     public final String firstName;
     public final String lastName;
-    public final String id;
-    public final String grade;
+    public final int id;
+    public final int grade;
 
-    public Student(String firstName, String lastName, String id, String grade) {
+    public Student(int id, String firstName, String lastName, int grade) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.id = id;
         this.grade = grade;
-    }
-
-    @Override
-    public int compareTo(Student student) {    	
-        return id.compareTo(student.id);
     }
 }
 

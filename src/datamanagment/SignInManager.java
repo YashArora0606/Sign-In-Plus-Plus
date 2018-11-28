@@ -32,7 +32,7 @@ public class SignInManager {
         return courses;
     }
 
-    public boolean addStudent(String id, String firstName, String lastName, String grade) throws StudentAlreadyExistsException {
+    public boolean addStudent(int id, String firstName, String lastName, int grade) throws StudentAlreadyExistsException {
         Student existingStudent;
 
         try {
@@ -51,7 +51,8 @@ public class SignInManager {
     }
 
 
-    public boolean signIn(String id, String course, String reason, String courseMissed) throws InvalidIdException, AlreadyLoggedInException {
+
+    public boolean signIn(int id, String course, String reason, String courseMissed) throws InvalidIdException, AlreadyLoggedInException {
 
         //check if student exists
         Student student;
@@ -63,7 +64,7 @@ public class SignInManager {
         }
 
         if (student == null) {
-            throw new InvalidIdException(id);
+            throw new InvalidIdException();
         }
 
 
@@ -71,7 +72,7 @@ public class SignInManager {
         return true;
     }
 
-    public boolean signOut(String id) throws InvalidIdException, NotLoggedInException {
+    public boolean signOut(int id) throws InvalidIdException, NotLoggedInException {
 
         //check if student exists
         Student student;
@@ -83,7 +84,7 @@ public class SignInManager {
         }
 
         if (student == null) {
-            throw new InvalidIdException(id);
+            throw new InvalidIdException();
         }
 
 

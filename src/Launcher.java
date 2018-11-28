@@ -28,8 +28,8 @@ public class Launcher {
 
 
         try {
-            signInManager.addStudent("074264672", "Alston", "Lo", "12");
-            signInManager.addStudent("074264672", "Alston", "Lo", "12");
+            signInManager.addStudent(74264672, "Alston", "Lo", 12);
+            signInManager.addStudent(74264672, "Alston", "Lo", 12);
         } catch (StudentAlreadyExistsException e) {
             e.printStackTrace();
         }

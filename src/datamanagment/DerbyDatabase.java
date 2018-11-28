@@ -1,6 +1,5 @@
 package datamanagment;
 
-import iomanagement.StudentListReader;
 import utilities.Utils;
 
 import java.io.IOException;
@@ -24,9 +23,6 @@ import java.util.Properties;
  */
 public class DerbyDatabase implements Database {
 
-    //list of students
-    private final Student[] students;
-
     //con variables
     private Connection con = null;
     private ArrayList<Statement> statements = new ArrayList<>();
@@ -38,28 +34,27 @@ public class DerbyDatabase implements Database {
 
 
     public DerbyDatabase() {
-        students = new StudentListReader().getStudents();
-
         try {
             //connect to con
             Properties props = new Properties();
-            con = DriverManager.getConnection("jdbc:derby:SignInSystemDatabase", props);
+            con = DriverManager.getConnection("jdbc:derby:SignInSystemDatabase;create=true", props);
 
             //statements
             statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statements.add(statement);
 
-            statement.executeUpdate("delete from students");
+            //create tables if they don't exist
+            createTablesIfNotExist();
 
             String addStudentSql = "insert into students values (?, ?, ?, ?)";
             addStudent = con.prepareStatement(addStudentSql);
             statements.add(addStudent);
 
             String findStudentSql = "select * from students where id=?";
-            findStudent = con.prepareStatement(findStudentSql);
+            findStudent = con.prepareStatement(findStudentSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statements.add(findStudent);
 
-            String insertSql = "insert into sessions values (?, ?, ?, ?, ?, null, ?, ?, ?)";
+            String insertSql = "insert into sessions values (?, ?, null, ?, ?, ?)";
             signIn = con.prepareStatement(insertSql);
             statements.add(signIn);
 
@@ -69,6 +64,9 @@ public class DerbyDatabase implements Database {
 
             con.commit();
 
+            printStudents();
+            printSessions();
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(1); //kill the program if the con fails
@@ -77,10 +75,10 @@ public class DerbyDatabase implements Database {
 
     public boolean addStudent(Student student) {
         try {
-            addStudent.setString(1, student.id);
+            addStudent.setInt(1, student.id);
             addStudent.setString(2, student.firstName);
             addStudent.setString(3, student.lastName);
-            addStudent.setInt(4, Integer.parseInt(student.grade));
+            addStudent.setInt(4, student.grade);
             addStudent.executeUpdate();
 
             con.commit();
@@ -89,29 +87,26 @@ public class DerbyDatabase implements Database {
 
             return true;
 
-        } catch (SQLException e) {
+        } catch (SQLException  e) {
             e.printStackTrace();
             return false;
-
         }
     }
 
-    public Student findStudent(String id) throws IOException {
-
+    public Student findStudent(int id) throws IOException {
         try {
-            findStudent.setString(1, id);
+            findStudent.setInt(1, id);
 
             ResultSet res = findStudent.executeQuery();
-
-            if (!res.next()) {
+            if (!res.isBeforeFirst()) {
                 return null;
             }
 
-            Student student = new Student(res.getString(1),
-                                          res.getString(2),
-                                          res.getString(3),
-                                          String.valueOf(res.getInt(4)));
-
+            res.next();
+            Student student = new Student(res.getInt("id"),
+                                          res.getString("firstname"),
+                                          res.getString("lastname"),
+                                          res.getInt("grade"));
             res.close();
 
             return student;
@@ -119,52 +114,47 @@ public class DerbyDatabase implements Database {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new IOException();
-
         }
     }
 
     public boolean signIn(Session session) {
-
         try {
-            signIn.setString(1, session.student.id);
-            signIn.setString(2, session.student.firstName);
-            signIn.setString(3, session.student.lastName);
-            signIn.setInt(4, Integer.parseInt(session.student.grade));
-            signIn.setTimestamp(5, new Timestamp(Utils.getTime()));
-            signIn.setString(6, session.reason);
-            signIn.setString(7, session.courseWork);
-            signIn.setString(8, session.courseMissed);
+            signIn.setInt(1, session.student.id);
+            signIn.setTimestamp(2, new Timestamp(Utils.getTime()));
+            signIn.setString(4, session.reason);
+            signIn.setString(5, session.courseWork);
+            signIn.setString(6, session.courseMissed);
             signIn.executeUpdate();
 
             con.commit();
 
             printSessions(); //debugging code
 
+            return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-
-        return true;
     }
 
-    public boolean signOut(String id) {
+    public boolean signOut(int id) {
         try {
             //update database
             signOut.setTimestamp(1, new Timestamp(Utils.getTime()));
-            signOut.setString(2, id);
+            signOut.setInt(2, id);
             signOut.executeUpdate();
 
             con.commit();
 
             printSessions(); //debugging code
 
+            return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-
-        return true;
     }
 
     public List<Session> findSessions(HashMap<String, Object> criterion) throws IOException {
@@ -183,10 +173,7 @@ public class DerbyDatabase implements Database {
         return sessions;
     }
 
-
     public void close() {
-
-        //close statements
         for (Statement stmt : statements) {
             try {
                 if (stmt != null) {
@@ -197,7 +184,6 @@ public class DerbyDatabase implements Database {
             }
         }
 
-        //close connections
         try {
             if (con != null) {
                 con.close();
@@ -207,27 +193,43 @@ public class DerbyDatabase implements Database {
         }
     }
 
+    private boolean createTablesIfNotExist() {
+        boolean created = true;
 
-//------------------------------------------DEVELOPMENT/DEBUGGING CODE -------------------------------------------------
-
-    private void printSessions() {
         try {
-            ResultSet rs = statement.executeQuery("select * from sessions");
-            int count = 0;
-            while (rs.next()) {
-                for (int i = 1; i <= 9; i++) {
-                    System.out.print(rs.getString(i) + ", ");
-                }
-                count++;
-                System.out.println();
-            }
-            System.out.println(count + " results logged.");
-            rs.close();
+            statement.executeUpdate("create table students(" +
+                    "id int not null primary key, " +
+                    "firstname varchar(50) not null, " +
+                    "lastname varchar(50) not null, " +
+                    "grade int not null check (grade >= 9 and grade <= 13))");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Students table already exists");
+            created = false;
         }
+
+        try {
+            statement.executeUpdate("create table sessions(" +
+                    "id int not null , " +
+                    "signintime timestamp not null," +
+                    "signouttime timestamp, " +
+                    "reason varchar(50) not null, " +
+                    "coursework varchar(50) not null, " +
+                    "coursemiss varchar(50) not null," +
+                    "foreign key(id) references students(id))");
+
+            con.commit();
+
+        } catch (SQLException e) {
+            System.out.println("Session table already exists");
+            created = false;
+        }
+
+        return created;
     }
+
+
+//------------------------------------------DEVELOPMENT/DEBUGGING CODE -------------------------------------------------
 
     private void printStudents() {
         try {
@@ -240,11 +242,31 @@ public class DerbyDatabase implements Database {
                 count++;
                 System.out.println();
             }
-            System.out.println(count + " results logged.");
+            System.out.println(count + " students logged.");
             rs.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    private void printSessions() {
+        try {
+            ResultSet rs = statement.executeQuery("select * from sessions");
+            int count = 0;
+            while (rs.next()) {
+                for (int i = 1; i <= 9; i++) {
+                    System.out.print(rs.getString(i) + ", ");
+                }
+                count++;
+                System.out.println();
+            }
+            System.out.println(count + " sessions logged.");
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

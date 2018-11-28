@@ -61,7 +61,7 @@ class SignOutPanel extends JPanel {
 		String id = idField.getText();
 		idField.setText("");
 		try {
-			signInManager.signOut(id);
+			signInManager.signOut(Integer.parseInt(id));
 			idField.setText(null);
 
 		} catch (InvalidIdException | NotLoggedInException e) {

@@ -57,14 +57,14 @@ public class HTMLWriter {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet spreadsheet = workbook.getSheet("Sheet1");
 
-            String id;
+            int id;
             Date timeIn;
             Date timeOut;
             String reason;
             String subjectWork;
             String courseMissed;
             for (int row = 1; row < spreadsheet.getLastRowNum() + 1; row++) {
-                id = spreadsheet.getRow(row).getCell(0).getRawValue();
+                id = Integer.parseInt(spreadsheet.getRow(row).getCell(0).getRawValue());
                 timeIn = createDate(spreadsheet.getRow(row).getCell(4).getRawValue());
                 timeOut = createDate(spreadsheet.getRow(row).getCell(5).getRawValue());
                 reason = spreadsheet.getRow(row).getCell(6).toString();
@@ -403,10 +403,7 @@ public class HTMLWriter {
      *  @param id id that is individual to each student, calling another findStudent() method to find a student based on id
      *  @return Student that is the student object based on the student number
      */
-    private int findStudent(String id) {
-        if (id == null || id.length() != 9 || !Utils.isAnInteger(id)) {
-            return -1;
-        }
+    private int findStudent(int id) {
         return findStudent(id, 0, studentList.length - 1);
     }
 
@@ -418,14 +415,14 @@ public class HTMLWriter {
      *  @param high int high that is the highest id length
      *  @return Student that is the student object based on the student number
      */
-    private int findStudent(String id, int low, int high) {
+    private int findStudent(int id, int low, int high) {
 //      System.out.println(id + ", " + low + ", " + high);
         if (high >= low) {
             int mid = (low + high)/2;
 
-            if (id.compareTo(studentList[mid].id) == 0) {
+            if (id == studentList[mid].id) {
                 return mid;
-            } else if (id.compareTo(studentList[mid].id) < 0) {
+            } else if (id < studentList[mid].id) {
                 return findStudent(id, low, mid-1);
             } else {
                 return findStudent(id, mid+1, high);

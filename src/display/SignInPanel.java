@@ -131,7 +131,7 @@ class SignInPanel extends JPanel {
 		String courseMissed = (String) courseMissedField.getSelectedItem();
 
 		try {
-			signInManager.signIn(id, subject, reason, courseMissed);
+			signInManager.signIn(Integer.parseInt(id), subject, reason, courseMissed);
 			idField.setText(null);
 
 		} catch (InvalidIdException | AlreadyLoggedInException e) {
