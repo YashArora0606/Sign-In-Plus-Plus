@@ -1,10 +1,11 @@
 package iomanagement;
 
-import datamanagement.Session;
-import datamanagement.Student;
+import datamanagment.Session;
+import datamanagment.Student;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
+import utilities.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,14 +57,14 @@ public class HTMLWriter {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet spreadsheet = workbook.getSheet("Sheet1");
 
-            int id;
+            String id;
             Date timeIn;
             Date timeOut;
             String reason;
             String subjectWork;
             String courseMissed;
             for (int row = 1; row < spreadsheet.getLastRowNum() + 1; row++) {
-                id = Integer.parseInt(spreadsheet.getRow(row).getCell(0).getRawValue());
+                id = spreadsheet.getRow(row).getCell(0).getRawValue();
                 timeIn = createDate(spreadsheet.getRow(row).getCell(4).getRawValue());
                 timeOut = createDate(spreadsheet.getRow(row).getCell(5).getRawValue());
                 reason = spreadsheet.getRow(row).getCell(6).toString();
@@ -72,7 +73,7 @@ public class HTMLWriter {
 
 
                 int index = findStudent(id);
-                studentSession[index].push(new Session(null, timeIn, timeOut, reason, subjectWork, courseMissed));
+                studentSession[index].push(new Session(courseMissed, reason, subjectWork,timeIn, timeOut));
             }
 
             inputStream.close();
@@ -352,8 +353,8 @@ public class HTMLWriter {
                     case 2:
                         for (int i = 0; i < studentSession[index].size(); i++) {
                             out.println("  <tr>");
-                            out.println("    <th>" + studentSession[index].get(i).startTime);
-                            out.println("    <th>" + studentSession[index].get(i).endTime);
+                            out.println("    <th>" + studentSession[index].get(i).getStartTime());
+                            out.println("    <th>" + studentSession[index].get(i).getEndTime());
                             out.println("    <th>" + studentSession[index].get(i).reason);
                             out.println("    <th>" + studentSession[index].get(i).courseWork);
                             out.println("    <th>" + studentSession[index].get(i).courseMissed);
@@ -402,7 +403,10 @@ public class HTMLWriter {
      *  @param id id that is individual to each student, calling another findStudent() method to find a student based on id
      *  @return Student that is the student object based on the student number
      */
-    private int findStudent(int id) {
+    private int findStudent(String id) {
+        if (id == null || id.length() != 9 || !Utils.isAnInteger(id)) {
+            return -1;
+        }
         return findStudent(id, 0, studentList.length - 1);
     }
 
@@ -414,14 +418,14 @@ public class HTMLWriter {
      *  @param high int high that is the highest id length
      *  @return Student that is the student object based on the student number
      */
-    private int findStudent(int id, int low, int high) {
+    private int findStudent(String id, int low, int high) {
 //      System.out.println(id + ", " + low + ", " + high);
         if (high >= low) {
             int mid = (low + high)/2;
 
-            if (id == studentList[mid].id) {
+            if (id.compareTo(studentList[mid].id) == 0) {
                 return mid;
-            } else if (id < studentList[mid].id) {
+            } else if (id.compareTo(studentList[mid].id) < 0) {
                 return findStudent(id, low, mid-1);
             } else {
                 return findStudent(id, mid+1, high);
