@@ -69,7 +69,7 @@ public class Window extends JFrame {
     }
 
     /**
-     * Displays a panel based on state (0 = menu, 1 = sign in, 2 = sign out, other = error)
+     * Displays a panel based on state (0 = home, 1 = menu, 2 = sign in, 3 = sign out, 4 = password, other = error)
      * @param state
      */
     public void changeState(int state) {
