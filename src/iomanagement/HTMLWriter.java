@@ -107,8 +107,6 @@ public class HTMLWriter {
                             writeOverallGraph(out);
 
                     }
-
-                    out.println("<!--insert-->");
                 }
             }
             out.close();
