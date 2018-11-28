@@ -35,9 +35,9 @@ public class Window extends JFrame {
 
         //generate frame
         this.setTitle("SignIn++");
-        this.maxX = Utils.scale(1000);
-        this.maxY = Utils.scale(600);
-        this.setLocation(Utils.scale(200), Utils.scale(100));
+        this.maxX = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        this.maxY = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        this.setLocation(Utils.scale(0), Utils.scale(0));
         this.setSize(new Dimension(maxX, maxY));
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
