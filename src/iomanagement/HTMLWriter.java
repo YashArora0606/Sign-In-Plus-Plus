@@ -1,11 +1,10 @@
 package iomanagement;
 
-import datamanagment.Session;
-import datamanagment.Student;
+import datamanagement.Session;
+import datamanagement.Student;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
-import utilities.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -125,11 +124,11 @@ public class HTMLWriter {
                             modNum++;
 
                         case 1:
-                           for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
-                               outputStudent(out, stuNum);
-                               writeStudentGraph(out, stuNum);
-                           }
-                           modNum++; //if we want the overall graph
+                            for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
+                                outputStudent(out, stuNum);
+                                writeStudentGraph(out, stuNum);
+                            }
+                            modNum++; //if we want the overall graph
                         case 2:
                             writeOverallGraph(out);
 
@@ -327,7 +326,7 @@ public class HTMLWriter {
         percentageArray[4] = asNum;
         percentageArray[5] = total;
         return percentageArray;
-        }
+    }
 
     /**
      * outputStudent
@@ -434,36 +433,30 @@ public class HTMLWriter {
 
 
     /**private void addToQueue() {
-        boolean alreadyAdded;
-        //adds current session to students list of sessions
-        for (int i = 0; i < sessionList.size(); i++) {
-            sessionList.get(i).student.addSession(sessionList.get(i)); //???? what the fuck
-        }
-
-        //filters out duplicate students and adds to an list of students
-        for (int i = 0; i < sessionList.size(); i++) {
-            alreadyAdded = false;
-            if (addedStudents.size() == 0) {
-                addedStudents.add(sessionList.get(i).student);
-
-            } else {
-                for (int j = 0; j < addedStudents.size(); j++) { //checks if the student has already been added to the list
-                    if (sessionList.get(i).student.id.equals(addedStudents.get(j).id)) {
-                        alreadyAdded = true;
-                    }
-
-                }
-                if (!alreadyAdded) { // adds the student to the list if it hasn't been already
-                    addedStudents.add(sessionList.get(i).student);
-                }
-            }
-
-
-        }
-
-        //adds the students in the list to a priority queue
-        for (int i = 0; i < addedStudents.size(); i++) {
-            studentList.add(addedStudents.get(i));
-        }
-    }**/
+     boolean alreadyAdded;
+     //adds current session to students list of sessions
+     for (int i = 0; i < sessionList.size(); i++) {
+     sessionList.get(i).student.addSession(sessionList.get(i)); //???? what the fuck
+     }
+     //filters out duplicate students and adds to an list of students
+     for (int i = 0; i < sessionList.size(); i++) {
+     alreadyAdded = false;
+     if (addedStudents.size() == 0) {
+     addedStudents.add(sessionList.get(i).student);
+     } else {
+     for (int j = 0; j < addedStudents.size(); j++) { //checks if the student has already been added to the list
+     if (sessionList.get(i).student.id.equals(addedStudents.get(j).id)) {
+     alreadyAdded = true;
+     }
+     }
+     if (!alreadyAdded) { // adds the student to the list if it hasn't been already
+     addedStudents.add(sessionList.get(i).student);
+     }
+     }
+     }
+     //adds the students in the list to a priority queue
+     for (int i = 0; i < addedStudents.size(); i++) {
+     studentList.add(addedStudents.get(i));
+     }
+     }**/
 }
