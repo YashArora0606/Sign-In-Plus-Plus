@@ -1,4 +1,4 @@
-package datamanagment;
+package datamanagement;
 
 import java.io.IOException;
 import java.util.HashMap;

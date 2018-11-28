@@ -3,9 +3,7 @@ package display;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import datamanagment.SignInManager;
-import exceptions.InvalidIdException;
-import exceptions.NotLoggedInException;
+import datamanagement.SignInManager;
 import utilities.Utils;
 
 import java.awt.*;
@@ -20,24 +18,24 @@ class RemoveStudentPanel extends JPanel {
     private JTextField idField;
     private CustomButton submit;
     private CustomButton back;
-    private int attemptSuccessful = 0;
-    private CustomButton studentId;
+    private int attemptValidation = 0;
 
     private Dimension idSize;
 
 
-    private int x;
-    private int y;
+    private int maxX;
+    private int maxY;
 
-    RemoveStudentPanel(Window display) {
+    RemoveStudentPanel(Window display, SignInManager signInManager) {
         this.panel = this;
         this.display = display;
+        this.signInManager = signInManager;
         this.addMouseListener(new MyMouseListener());
         this.setLayout(null);
         this.setBackground(Utils.colours[2]);
 
-        this.x = display.maxX;
-        this.y = display.maxY;
+        this.maxX = display.maxX;
+        this.maxY = display.maxY;
 
         idField = new JTextField(7);
         idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
@@ -61,26 +59,39 @@ class RemoveStudentPanel extends JPanel {
         back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
         back.draw(g, this);
 
-        submit = new CustomButton("Submit", x / 2 - Utils.scale(250) / 2, (int) (y * 0.5), Utils.scale(250),
+        submit = new CustomButton("Submit", maxX / 2 - Utils.scale(250) / 2, (int) Math.round(0.45*maxY), Utils.scale(250),
                 Utils.scale(80), Utils.colours[1]);
         submit.draw(g, this);
 
-        studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220)/2,
-                display.maxY / 2 - idSize.height - Utils.scale(165), Utils.scale(220), Utils.scale(50), Utils.colours[4]);
-        studentId.setSelectable(false);
-        studentId.draw(g, this);
+        Font mainFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(40));
+        FontMetrics mainFontMetrics = g.getFontMetrics(mainFont);
+        Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30));
+        FontMetrics errorFontMetrics = g.getFontMetrics(errorFont);
 
+        g.setFont(mainFont);
         g.setColor(Utils.colours[0]);
+        g.drawString("Student Number", maxX/2-mainFontMetrics.stringWidth("Student Number")/2, maxY/3);
 
-        if (attemptSuccessful == 1){
-
+        g.setFont(errorFont);
+        if (attemptValidation == 1){
+            g.drawString("That is not an existing student number. Please try again.",
+                    maxX / 2 - errorFontMetrics.stringWidth("That is not an existing student Number. Please try again.") / 2,
+                    3*maxY/5);
+        }else if (attemptValidation == 2){
+            g.drawString("Successfully removed student",
+                    maxX / 2 - errorFontMetrics.stringWidth("Successfully removed student") / 2,
+                    3*maxY/5);
         }
 
         repaint();
     }
 
-    private boolean submit() {
+    private boolean removeStudent() {
+        if (idField.getText().length()!=9){
+            return false;
+        }
         return true;
+       // return signInManager.removeStudent(Integer.parseInt(idField.getText()));
     }
 
     private class MyMouseListener implements MouseListener {
@@ -89,15 +100,18 @@ class RemoveStudentPanel extends JPanel {
 
         public void mouseClicked(MouseEvent e) {
             if (back.isMouseOnButton(panel)) {
+                attemptValidation = 0;
+                idField.setText("");
                 display.changeState(5);
             }
 
             if (submit.isMouseOnButton(panel)) {
-                if (submit()){
-                    attemptSuccessful = 2;
+                if (removeStudent()){
+                    attemptValidation = 2;
                 } else {
-                    attemptSuccessful = 1;
+                    attemptValidation = 1;
                 }
+                idField.setText("");
             }
         }
 

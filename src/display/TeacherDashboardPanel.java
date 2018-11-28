@@ -40,6 +40,7 @@ public class TeacherDashboardPanel extends JPanel{
         removeStudent = new CustomButton("Remove Student", Utils.scale(maxX/2+25), Utils.scale(80), Utils.scale(350), Utils.scale(80), Utils.colours[2]);
         changePassword = new CustomButton("Change Password", Utils.scale(maxX/2-400), Utils.scale(200), Utils.scale(375), Utils.scale(80), Utils.colours[3]);
         generateExcel = new CustomButton("Generate Excel Sheet", Utils.scale(maxX/2+25), Utils.scale(200), Utils.scale(400), Utils.scale(80), Utils.colours[4]);
+        generateExcel.setSelectable(false);
 
         addStudent.draw(g, panel);
         removeStudent.draw(g, panel);
@@ -61,8 +62,8 @@ public class TeacherDashboardPanel extends JPanel{
                 display.changeState(8);
             } else if (changePassword.isMouseOnButton(panel)) {
                 display.changeState(6);
-            } else if (generateExcel.isMouseOnButton(panel)) {
-                display.changeState(9);
+            //} else if (generateExcel.isMouseOnButton(panel)) {
+              //  display.changeState(9);
             } else if (back.isMouseOnButton(panel)){
                 display.changeState(0);
             }

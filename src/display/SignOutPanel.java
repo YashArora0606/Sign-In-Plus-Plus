@@ -3,7 +3,7 @@ package display;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import datamanagment.SignInManager;
+import datamanagement.SignInManager;
 import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
 import utilities.Utils;
