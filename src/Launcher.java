@@ -5,6 +5,8 @@ import display.Window;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
 
+import java.io.IOException;
+
 /**
  * Basic launcher for the program - mainly for aesthetics
  */
