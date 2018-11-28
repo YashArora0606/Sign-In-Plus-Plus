@@ -1,4 +1,4 @@
-package datamanagment;
+package datamanagement;
 
 public class Student {
     public final int id;
