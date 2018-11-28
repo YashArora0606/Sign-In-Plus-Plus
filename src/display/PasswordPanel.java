@@ -1,14 +1,20 @@
 package display;
 
-import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
-import java.awt.*;
+
+import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.util.Scanner;
 
 import utilities.Utils;
