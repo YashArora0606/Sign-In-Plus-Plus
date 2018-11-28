@@ -4,6 +4,7 @@ import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
 import exceptions.StudentAlreadyExistsException;
+import exceptions.StudentDoesNotExistException;
 
 import java.io.IOException;
 
@@ -33,6 +34,7 @@ public class SignInManager {
     }
 
     public boolean addStudent(int id, String firstName, String lastName, int grade) throws StudentAlreadyExistsException {
+
         Student existingStudent;
 
         try {
@@ -48,6 +50,25 @@ public class SignInManager {
 
         Student newStudent = new Student(id, firstName, lastName, grade);
         return database.addStudent(newStudent);
+    }
+
+    public boolean removeStudent(int id) throws StudentDoesNotExistException {
+
+        Student existingStudent;
+
+        try {
+            existingStudent = database.findStudent(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (existingStudent == null) {
+            throw new StudentDoesNotExistException();
+        }
+
+        return database.removeStudent(id);
+
     }
 
 

@@ -27,8 +27,11 @@ public class DerbyDatabase implements Database {
     private Connection con = null;
     private ArrayList<Statement> statements = new ArrayList<>();
     private Statement statement;
+
     private PreparedStatement addStudent;
     private PreparedStatement findStudent;
+    private PreparedStatement removeStudent;
+
     private PreparedStatement signIn;
     private PreparedStatement signOut;
 
@@ -53,6 +56,10 @@ public class DerbyDatabase implements Database {
             String findStudentSql = "select * from students where id=?";
             findStudent = con.prepareStatement(findStudentSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statements.add(findStudent);
+
+            String removeStudentSql = "delete from students where id=?";
+            removeStudent = con.prepareStatement(removeStudentSql);
+            statements.add(removeStudent);
 
             String insertSql = "insert into sessions values (?, ?, null, ?, ?, ?)";
             signIn = con.prepareStatement(insertSql);
@@ -114,6 +121,24 @@ public class DerbyDatabase implements Database {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new IOException();
+        }
+    }
+
+    public boolean removeStudent(int id) {
+        try {
+
+            removeStudent.setInt(1, id);
+            removeStudent.executeUpdate();
+
+            con.commit();
+
+            printStudents();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
