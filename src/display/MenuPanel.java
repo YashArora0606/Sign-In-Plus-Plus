@@ -43,7 +43,7 @@ class MenuPanel extends JPanel {
 
 //		addSession = new CustomButton("Sign In", Utils.scale(maxX / 4 - 100), Utils.scale(maxY / 2 - 100), Utils.scale(200),
 //				Utils.scale(100), Utils.colours[4]);
-//		signOut = new CustomButton("Sign Out", Utils.scale(3 * maxX / 4 - 110), Utils.scale(maxY / 2 - 100),
+//		resolveOpenSessions = new CustomButton("Sign Out", Utils.scale(3 * maxX / 4 - 110), Utils.scale(maxY / 2 - 100),
 //				Utils.scale(220), Utils.scale(100), Utils.colours[1]);
 
 		signIn = new CustomButton("Sign In", (int) (maxX * 0.25) - Utils.scale(200) / 2,

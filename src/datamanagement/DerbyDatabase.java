@@ -1,7 +1,5 @@
 package datamanagement;
 
-import utilities.Utils;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
@@ -35,7 +34,7 @@ public class DerbyDatabase implements Database {
     private PreparedStatement removeStudent;
 
     private PreparedStatement insertNewSession;
-    private PreparedStatement signOut;
+    private PreparedStatement resolveSessions;
 
 
     public DerbyDatabase() {
@@ -74,8 +73,8 @@ public class DerbyDatabase implements Database {
             statements.add(insertNewSession);
 
             String signOutSql = "update sessions set signouttime=? where id=? and signouttime is null";
-            signOut = con.prepareStatement(signOutSql);
-            statements.add(signOut);
+            resolveSessions = con.prepareStatement(signOutSql);
+            statements.add(resolveSessions);
 
 
             con.commit();
@@ -228,12 +227,12 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    public boolean signOut(int id) {
+    public boolean resolveOpenSessions(int id, Timestamp time) {
         try {
             //update database
-            signOut.setTimestamp(1, Utils.getTime());
-            signOut.setInt(2, id);
-            signOut.executeUpdate();
+            resolveSessions.setTimestamp(1, time);
+            resolveSessions.setInt(2, id);
+            resolveSessions.executeUpdate();
 
             con.commit();
 
@@ -270,9 +269,7 @@ public class DerbyDatabase implements Database {
     }
 
 
-    private boolean createTablesIfNotExist() {
-        boolean created = true;
-
+    private void createTablesIfNotExist() {
         try {
             statement.executeUpdate("create table students(" +
                     "id int not null primary key, " +
@@ -282,7 +279,6 @@ public class DerbyDatabase implements Database {
 
         } catch (SQLException e) {
             System.out.println("Students table already exists");
-            created = false;
         }
 
         try {
@@ -299,10 +295,7 @@ public class DerbyDatabase implements Database {
 
         } catch (SQLException e) {
             System.out.println("Session table already exists");
-            created = false;
         }
-
-        return created;
     }
 
     private String buildQuery(HashMap<String, Object> criteria) throws InputMismatchException{

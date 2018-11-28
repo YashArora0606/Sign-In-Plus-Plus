@@ -7,9 +7,7 @@ import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
 import utilities.Utils;
 
-import javax.rmi.CORBA.Util;
 import java.io.IOException;
-import java.util.Date;
 
 public class SignInManager {
 
@@ -99,7 +97,7 @@ public class SignInManager {
             return false;
         }
 
-        Session session = new Session(student, Utils.getTime(), null, reason, courseWork, courseMissed);
+        Session session = new Session(student, Utils.getNow(), null, reason, courseWork, courseMissed);
         return database.addSession(session);
     }
 
@@ -127,7 +125,7 @@ public class SignInManager {
             return false;
         }
 
-        return database.signOut(id);
+        return database.resolveOpenSessions(id, Utils.getNow());
     }
 
 
