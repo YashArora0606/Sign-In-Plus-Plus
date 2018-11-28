@@ -102,4 +102,12 @@ public class Utils {
     public static long getTime() {
         return Calendar.getInstance().getTime().getTime();
     }
+
+    public static String idToString(int id) {
+        String stringId = String.valueOf(id);
+        for (int i = stringId.length(); i < 9; i++) {
+            stringId = "0" + stringId;
+        }
+        return stringId;
+    }
 }
