@@ -5,9 +5,12 @@
 *.class
 *.xml
 .idea/workspace.xml
-.idea/workspace.xml
 *.iml
 *.xlsx
 *.class
 *.html
 *.zip
+*.lck
+*.ctrl
+*.dat
+*.log
