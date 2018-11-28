@@ -201,7 +201,7 @@ public class DerbyDatabase implements Database {
     /**
      * Adds a session to the database
      *
-     * @param session
+     * @param session Session to add
      * @return true, if the session was successfully added
      */
     public boolean addSession(Session session) {
@@ -356,7 +356,14 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    
+
+    /**
+     * Builds a String SQL from a HashMap of specified criteria
+     *
+     * @param criteria a HashMap with Map.Entry<field, specification>
+     * @return the String SQL query
+     * @throws InputMismatchException if the
+     */
     private String buildQuery(HashMap<String, Object> criteria) throws InputMismatchException {
         StringBuilder query = new StringBuilder("select * from sessions");
 

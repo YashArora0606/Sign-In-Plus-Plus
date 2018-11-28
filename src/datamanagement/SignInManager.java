@@ -103,7 +103,6 @@ public class SignInManager {
 
     public boolean signOut(int id) throws InvalidIdException, NotLoggedInException {
 
-        //check if student exists
         Student student;
 
         try {
@@ -112,7 +111,7 @@ public class SignInManager {
             return false;
         }
 
-        if (student == null) {
+        if (student == null) {  //check if student exists
             throw new InvalidIdException(id);
         }
 
@@ -133,7 +132,8 @@ public class SignInManager {
 
     }
 
-    public void generateExcel(String[] ids) {
+
+    public void generateExcel() {
 
     }
 
