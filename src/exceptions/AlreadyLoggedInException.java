@@ -1,6 +1,6 @@
 package exceptions;
 public class AlreadyLoggedInException extends Exception {
     public AlreadyLoggedInException() {
-        super();
+        super("That id is already logged in!");
     }
 }

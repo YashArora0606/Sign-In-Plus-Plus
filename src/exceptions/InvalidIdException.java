@@ -5,6 +5,6 @@ package exceptions;
  */
 public class InvalidIdException extends Exception {
     public InvalidIdException(String id) {
-        super(id + " is an invalid student ID");
+        super("\"" + id + "\"" + " is an invalid student ID");
     }
 }

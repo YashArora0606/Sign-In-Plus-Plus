@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.IllegalComponentStateException;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -86,7 +87,7 @@ public class DropDownMenu extends JPanel {
 		repaint();
 	}
 
-	public boolean isMouseOnPanel(JPanel panel) {
+	public boolean isMouseOnPanel(JPanel panel) throws IllegalComponentStateException{
 		Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
         Point relScreenLocation = panel.getLocationOnScreen().getLocation();
         int x = (int) Math.round(mouseLocation.getX() - relScreenLocation.getX());

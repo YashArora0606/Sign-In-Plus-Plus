@@ -12,6 +12,7 @@ import utilities.Utils;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.IllegalComponentStateException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -24,6 +25,8 @@ class SignInPanel extends JPanel {
 
 	private CustomButton submit;
 	private CustomButton back;
+	
+	private CustomButton studentId;
 
 	private int x;
 	private int y;
@@ -32,9 +35,13 @@ class SignInPanel extends JPanel {
 	DropDownMenu subjectDropDown;
 	DropDownMenu courseMissingDropDown;
 	
+	private Dimension idSize;
+	
 	private JPanel panel;
+	
+	private String errorMessage = "";
 
-	SignInPanel(Window display, SignInManager signInManager) {
+	SignInPanel(Window display, SignInManager signInManager) throws IllegalComponentStateException{
 
 		this.panel = this;
 		this.display = display;
@@ -42,6 +49,8 @@ class SignInPanel extends JPanel {
 		y = display.maxY;
 	
 		this.signInManager = signInManager;
+		this.addMouseListener(new MyMouseListener());
+
 
 		setBackground(Utils.colours[2]);
 		setLayout(new BorderLayout());
@@ -53,10 +62,9 @@ class SignInPanel extends JPanel {
 		idField = new JTextField(7);
 		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
 		idField.setText("");
-		Dimension idSize = idField.getPreferredSize();
+		idSize = idField.getPreferredSize();
 		idField.setBounds(display.maxX / 2 - idSize.width / 2, display.maxY / 2 - idSize.height, idSize.width,
 				idSize.height);
-		this.addMouseListener(new MyMouseListener());
 		idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
 		idField.setBackground(null);
 		
@@ -95,22 +103,17 @@ class SignInPanel extends JPanel {
 		String subject = subjectDropDown.getSelectedText();
 		String reason = reasonDropDown.getSelectedText();
 		String courseMissed = courseMissingDropDown.getSelectedText();
-		
-		System.out.println(id);
-		System.out.println(subject);
-		System.out.println(reason);
-		System.out.println(courseMissed);
 
-		return true;
+		try {
+			signInManager.signIn(id, subject, reason, courseMissed);
+			idField.setText("");
+			errorMessage = "";
 
-//		try {
-//			signInManager.signIn(id, subject, reason, courseMissed);
-//			idField.setText("");
-//			return true;
-//		} catch (InvalidIdException | AlreadyLoggedInException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
+			return true;
+		} catch (InvalidIdException | AlreadyLoggedInException e) {
+			errorMessage = "Error: " + e.getMessage();
+			return false;
+		}
 	}
 
 	private class MyMouseListener implements MouseListener {
@@ -157,6 +160,16 @@ class SignInPanel extends JPanel {
 
 		submit = new CustomButton("Submit", x/2 - Utils.scale(250)/2, (int)(y * 0.8), Utils.scale(250), Utils.scale(80), Utils.colours[1]);
 		submit.draw(g, this);
+		
+		studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220)/2,
+				display.maxY/15, Utils.scale(220), Utils.scale(50), Utils.colours[4]);
+		studentId.setSelectable(false);
+		studentId.draw(g, this);
+		
+		CustomButton errorButton = new CustomButton(errorMessage, display.maxX / 2 - Utils.scale(800)/2,
+				display.maxY/30, Utils.scale(800), Utils.scale(50), null);
+		errorButton.setSelectable(false);
+		errorButton.draw(g, this);
 
 		repaint();
 	}

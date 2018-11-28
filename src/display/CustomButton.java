@@ -5,6 +5,7 @@ import utilities.Utils;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.IllegalComponentStateException;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Point;
@@ -52,7 +53,7 @@ public class CustomButton{
     }
     
 
-    public boolean isMouseOnButton(JPanel panel) {
+    public boolean isMouseOnButton(JPanel panel) throws IllegalComponentStateException{
         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
         Point relScreenLocation = panel.getLocationOnScreen().getLocation();
         int x = (int) Math.round(mouseLocation.getX() - relScreenLocation.getX());
@@ -69,7 +70,10 @@ public class CustomButton{
         } else {
             g.setColor(primaryBackgroundColour);
         }
-        g.fillRect(x,y, width, height);
+        
+        if (primaryBackgroundColour != null) {
+            g.fillRect(x,y, width, height);
+        }
 
         g.setFont(buttonFont);
         FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);
