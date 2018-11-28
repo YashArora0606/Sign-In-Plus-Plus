@@ -1,11 +1,10 @@
 package iomanagement;
 
-import datamanagment.Session;
-import datamanagment.Student;
+import datamanagement.Session;
+import datamanagement.Student;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
-import utilities.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,14 +56,14 @@ public class HTMLWriter {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet spreadsheet = workbook.getSheet("Sheet1");
 
-            String id;
+            int id;
             Date timeIn;
             Date timeOut;
             String reason;
             String subjectWork;
             String courseMissed;
             for (int row = 1; row < spreadsheet.getLastRowNum() + 1; row++) {
-                id = spreadsheet.getRow(row).getCell(0).getRawValue();
+                id = Integer.parseInt(spreadsheet.getRow(row).getCell(0).getRawValue());
                 timeIn = createDate(spreadsheet.getRow(row).getCell(4).getRawValue());
                 timeOut = createDate(spreadsheet.getRow(row).getCell(5).getRawValue());
                 reason = spreadsheet.getRow(row).getCell(6).toString();
@@ -73,7 +72,7 @@ public class HTMLWriter {
 
 
                 int index = findStudent(id);
-                studentSession[index].push(new Session(courseMissed, reason, subjectWork,timeIn, timeOut));
+                studentSession[index].push(new Session(null, timeIn, timeOut, reason, subjectWork, courseMissed));
             }
 
             inputStream.close();
@@ -353,8 +352,8 @@ public class HTMLWriter {
                     case 2:
                         for (int i = 0; i < studentSession[index].size(); i++) {
                             out.println("  <tr>");
-                            out.println("    <th>" + studentSession[index].get(i).getStartTime());
-                            out.println("    <th>" + studentSession[index].get(i).getEndTime());
+                            out.println("    <th>" + studentSession[index].get(i).startTime);
+                            out.println("    <th>" + studentSession[index].get(i).endTime);
                             out.println("    <th>" + studentSession[index].get(i).reason);
                             out.println("    <th>" + studentSession[index].get(i).courseWork);
                             out.println("    <th>" + studentSession[index].get(i).courseMissed);
@@ -403,10 +402,7 @@ public class HTMLWriter {
      *  @param id id that is individual to each student, calling another findStudent() method to find a student based on id
      *  @return Student that is the student object based on the student number
      */
-    private int findStudent(String id) {
-        if (id == null || id.length() != 9 || !Utils.isAnInteger(id)) {
-            return -1;
-        }
+    private int findStudent(int id) {
         return findStudent(id, 0, studentList.length - 1);
     }
 
@@ -418,14 +414,14 @@ public class HTMLWriter {
      *  @param high int high that is the highest id length
      *  @return Student that is the student object based on the student number
      */
-    private int findStudent(String id, int low, int high) {
+    private int findStudent(int id, int low, int high) {
 //      System.out.println(id + ", " + low + ", " + high);
         if (high >= low) {
             int mid = (low + high)/2;
 
-            if (id.compareTo(studentList[mid].id) == 0) {
+            if (id == studentList[mid].id) {
                 return mid;
-            } else if (id.compareTo(studentList[mid].id) < 0) {
+            } else if (id < studentList[mid].id) {
                 return findStudent(id, low, mid-1);
             } else {
                 return findStudent(id, mid+1, high);
@@ -442,28 +438,22 @@ public class HTMLWriter {
         for (int i = 0; i < sessionList.size(); i++) {
             sessionList.get(i).student.addSession(sessionList.get(i)); //???? what the fuck
         }
-
         //filters out duplicate students and adds to an list of students
         for (int i = 0; i < sessionList.size(); i++) {
             alreadyAdded = false;
             if (addedStudents.size() == 0) {
                 addedStudents.add(sessionList.get(i).student);
-
             } else {
                 for (int j = 0; j < addedStudents.size(); j++) { //checks if the student has already been added to the list
                     if (sessionList.get(i).student.id.equals(addedStudents.get(j).id)) {
                         alreadyAdded = true;
                     }
-
                 }
                 if (!alreadyAdded) { // adds the student to the list if it hasn't been already
                     addedStudents.add(sessionList.get(i).student);
                 }
             }
-
-
         }
-
         //adds the students in the list to a priority queue
         for (int i = 0; i < addedStudents.size(); i++) {
             studentList.add(addedStudents.get(i));
