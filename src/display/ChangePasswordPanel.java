@@ -110,9 +110,9 @@ public class ChangePasswordPanel extends JPanel {
             if (back.isMouseOnButton(panel)){
                 leaveScreen(5);
             } else if (submit.isMouseOnButton(panel)) {
-                passwordField.setText("");
                 if (submit()) {
                     attemptSuccess = 2;
+                    passwordField.setText("");
                 } else {
                     attemptSuccess = 1;
                 }
