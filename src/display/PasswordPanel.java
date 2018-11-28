@@ -45,6 +45,8 @@ public class PasswordPanel extends JPanel{
         passwordField.setBounds(maxX/2-Utils.scale(size.width/2), maxY/2-2*Utils.scale(size.height), Utils.scale(size.width), Utils.scale(size.height));
 
         this.addMouseListener(new MyMouseListener());
+        
+        setBackground(Utils.colours[1]);
     }
 
     public void paintComponent(Graphics g){
@@ -64,8 +66,11 @@ public class PasswordPanel extends JPanel{
         g.setColor(Utils.colours[0]);
         g.setFont(titleFont);
 
-        g.drawString("Password", maxX/2-titleFontMetrics.stringWidth("Password")/2, maxY/3);
-
+        CustomButton passwordLabel = new CustomButton("Password", display.maxX/2 - Utils.scale(200)/2,
+        		passwordField.getY() - (int)(Utils.scale(50)*(1.2)), Utils.scale(200), Utils.scale(50), Utils.colours[4]);
+        passwordLabel.setSelectable(false);
+        passwordLabel.draw(g, panel);
+        
         g.setFont(errorFont);
         if (attempted) {
             g.drawString("Wrong password, please try again.",

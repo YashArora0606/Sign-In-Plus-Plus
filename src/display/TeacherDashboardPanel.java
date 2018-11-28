@@ -12,70 +12,82 @@ import java.awt.event.MouseListener;
 
 import utilities.Utils;
 
-public class TeacherDashboardPanel extends JPanel{
-    private JPanel panel;
-    private Window display;
-    private final int maxX;
-    private final int maxY;
-    private CustomButton addStudent;
-    private CustomButton removeStudent;
-    private CustomButton changePassword;
-    private CustomButton generateExcel;
-    private CustomButton back;
+public class TeacherDashboardPanel extends JPanel {
+	private JPanel panel;
+	private Window display;
+	private final int maxX;
+	private final int maxY;
+	private CustomButton addStudent;
+	private CustomButton removeStudent;
+	private CustomButton changePassword;
+	private CustomButton generateSheet;
+	private CustomButton back;
 
-    TeacherDashboardPanel(Window display){
-        this.panel = this;
-        this.maxX = display.maxX;
-        this.maxY = display.maxY;
-        this.display = display;
-        this.addMouseListener(new MyMouseListener());
-    }
+	TeacherDashboardPanel(Window display) {
+		this.panel = this;
+		this.maxX = display.maxX;
+		this.maxY = display.maxY;
+		this.display = display;
+		this.addMouseListener(new MyMouseListener());
 
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
+		setBackground(Utils.colours[4]);
+	}
 
-        back = new CustomButton("Back",0,0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-        addStudent = new CustomButton("Add Student", Utils.scale(maxX/2-325), Utils.scale(80), Utils.scale(300), Utils.scale(80), Utils.colours[1]);
-        removeStudent = new CustomButton("Remove Student", Utils.scale(maxX/2+25), Utils.scale(80), Utils.scale(350), Utils.scale(80), Utils.colours[2]);
-        changePassword = new CustomButton("Change Password", Utils.scale(maxX/2-400), Utils.scale(200), Utils.scale(375), Utils.scale(80), Utils.colours[3]);
-        generateExcel = new CustomButton("Generate Excel Sheet", Utils.scale(maxX/2+25), Utils.scale(200), Utils.scale(400), Utils.scale(80), Utils.colours[4]);
-        generateExcel.setSelectable(false);
+		back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
 
-        addStudent.draw(g, panel);
-        removeStudent.draw(g, panel);
-        changePassword.draw(g, panel);
-        generateExcel.draw(g, panel);
-        back.draw(g, panel);
+		int padding = Utils.scale(30);
 
-        repaint();
-    }
+		addStudent = new CustomButton("Add Student", maxX / 2 - Utils.scale(300) - padding, Utils.scale(400),
+				Utils.scale(300), Utils.scale(80), Utils.colours[1]);
+		removeStudent = new CustomButton("Remove Student", maxX / 2 + padding, Utils.scale(400), Utils.scale(350),
+				Utils.scale(80), Utils.colours[1]);
+		changePassword = new CustomButton("Change Password", maxX / 2 - Utils.scale(375) - padding, Utils.scale(520),
+				Utils.scale(375), Utils.scale(80), Utils.colours[2]);
+		generateSheet = new CustomButton("Generate Sheet", maxX / 2 + padding, Utils.scale(520), Utils.scale(400),
+				Utils.scale(80), Utils.colours[2]);
+		// generateExcel.setSelectable(false);
 
-    private class MyMouseListener implements MouseListener{
-        public void mouseEntered(MouseEvent e){
+		addStudent.draw(g, panel);
+		removeStudent.draw(g, panel);
+		changePassword.draw(g, panel);
+		generateSheet.draw(g, panel);
+		back.draw(g, panel);
 
-        }
-        public void mouseClicked(MouseEvent e) {
-            if (addStudent.isMouseOnButton(panel)){
-                display.changeState(7);
-            } else if (removeStudent.isMouseOnButton(panel)){
-                display.changeState(8);
-            } else if (changePassword.isMouseOnButton(panel)) {
-                display.changeState(6);
-            //} else if (generateExcel.isMouseOnButton(panel)) {
-              //  display.changeState(9);
-            } else if (back.isMouseOnButton(panel)){
-                display.changeState(0);
-            }
-        }
-        public void mousePressed(MouseEvent e){
+		repaint();
+	}
 
-        }
-        public void mouseExited(MouseEvent e){
+	private class MyMouseListener implements MouseListener {
+		public void mouseEntered(MouseEvent e) {
 
-        }
-        public void mouseReleased(MouseEvent e){
+		}
 
-        }
-    }
+		public void mouseClicked(MouseEvent e) {
+			if (addStudent.isMouseOnButton(panel)) {
+				display.changeState(7);
+			} else if (removeStudent.isMouseOnButton(panel)) {
+				display.changeState(8);
+			} else if (changePassword.isMouseOnButton(panel)) {
+				display.changeState(6);
+			} else if (generateSheet.isMouseOnButton(panel)) {
+				 display.changeState(9);
+			} else if (back.isMouseOnButton(panel)) {
+				display.changeState(0);
+			}
+		}
+
+		public void mousePressed(MouseEvent e) {
+
+		}
+
+		public void mouseExited(MouseEvent e) {
+
+		}
+
+		public void mouseReleased(MouseEvent e) {
+
+		}
+	}
 }

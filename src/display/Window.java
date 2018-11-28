@@ -27,7 +27,7 @@ public class Window extends JFrame {
     private JPanel changePasswordPanel;
     private JPanel addStudentPanel;
     private JPanel removeStudentPanel;
-    private JPanel generateExcelPanel;
+    private JPanel generateSheetPanel;
 
     public Window(SignInManager signInManager) {
 
@@ -52,7 +52,7 @@ public class Window extends JFrame {
         this.changePasswordPanel = new ChangePasswordPanel(this);
         this.addStudentPanel = new AddStudentPanel(this, signInManager);
         this.removeStudentPanel = new RemoveStudentPanel(this,signInManager);
-        this.generateExcelPanel = new GenerateExcelPanel();
+        this.generateSheetPanel = new GenerateSheetPanel(this);
 
 
         //set displayed panel to menu
@@ -104,7 +104,7 @@ public class Window extends JFrame {
 
             case 7:
                 switchPanel(addStudentPanel);
-                ((AddStudentPanel) addStudentPanel).initialize();
+//                ((AddStudentPanel) addStudentPanel).initialize();
                 return;
 
             case 8:
@@ -112,7 +112,7 @@ public class Window extends JFrame {
                 return;
 
             case 9:
-                switchPanel(generateExcelPanel);
+                switchPanel(generateSheetPanel);
                 return;
 
             default:

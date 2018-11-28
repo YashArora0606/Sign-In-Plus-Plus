@@ -32,27 +32,7 @@ public class DropDownMenu extends JPanel {
 	DropDownMenu(String[] items, String title) {
 		this.items = items;
 		this.title = title;
-		
-		
 		this.setPreferredSize(new Dimension(180, 60));
-
-		tm1 = new Timer(20, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				// 300 the maximum height
-				if (pl1 > 303) {
-					tm1.stop();
-				} else {
-					setSize(getWidth(), pl1);
-					pl1 += 20;
-				}
-
-			}
-		});
-
-		
         setVisible(true);
 	}
 	
