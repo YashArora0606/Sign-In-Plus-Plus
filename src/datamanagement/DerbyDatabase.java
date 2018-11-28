@@ -2,6 +2,7 @@ package datamanagement;
 
 import utilities.Utils;
 
+import javax.rmi.CORBA.Util;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -171,10 +172,10 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    public boolean signOut(int id, Timestamp time) {
+    public boolean signOut(int id) {
         try {
             //update database
-            signOut.setTimestamp(1, time);
+            signOut.setTimestamp(1, new Timestamp(Utils.getTime()));
             signOut.setInt(2, id);
             signOut.executeUpdate();
 
