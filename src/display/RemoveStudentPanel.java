@@ -85,12 +85,8 @@ class RemoveStudentPanel extends JPanel {
         repaint();
     }
 
-    private boolean removeStudent() {
-        if (idField.getText().length()!=9){
-            return false;
-        }
-        return true;
-       // return signInManager.removeStudent(Integer.parseInt(idField.getText()));
+    private boolean removeStudent() throws exceptions.StudentDoesNotExistException{
+        return signInManager.removeStudent(Integer.parseInt(idField.getText()));
     }
 
     private class MyMouseListener implements MouseListener {
@@ -103,12 +99,14 @@ class RemoveStudentPanel extends JPanel {
                 idField.setText("");
                 display.changeState(5);
             }
-
             if (submit.isMouseOnButton(panel)) {
-                if (removeStudent()){
-                    attemptValidation = 2;
-                } else {
+                try {
+                    if (removeStudent()) {
+                        attemptValidation = 2;
+                    }
+                } catch (exceptions.StudentDoesNotExistException error) {
                     attemptValidation = 1;
+                    error.printStackTrace();
                 }
                 idField.setText("");
             }
