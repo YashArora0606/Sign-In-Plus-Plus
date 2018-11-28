@@ -18,4 +18,6 @@ public interface Database {
 
     boolean addStudent(Student student);
 
+    boolean removeStudent(int id);
+
 }
