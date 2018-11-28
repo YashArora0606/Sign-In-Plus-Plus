@@ -1,6 +1,6 @@
 package datamanagment;
 
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,12 +8,14 @@ public interface Database {
 
     void close();
 
-    Student findStudent (String id);
-
     boolean signIn(Session session);
 
     boolean signOut(String id);
 
-    List<Session> querySessions(HashMap<String, Object> criterion) throws SQLException;
+    List<Session> findSessions(HashMap<String, Object> criterion) throws IOException;
+
+    Student findStudent (String id) throws IOException;
+
+    boolean addStudent(Student student);
 
 }

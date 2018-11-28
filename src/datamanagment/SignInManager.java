@@ -3,6 +3,9 @@ package datamanagment;
 import exceptions.AlreadyLoggedInException;
 import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
+import exceptions.StudentAlreadyExistsException;
+
+import java.io.IOException;
 
 public class SignInManager {
 
@@ -29,14 +32,36 @@ public class SignInManager {
         return courses;
     }
 
-    public void close() {
-        database.close();
+    public boolean addStudent(String id, String firstName, String lastName, String grade) throws StudentAlreadyExistsException {
+        Student existingStudent;
+
+        try {
+            existingStudent = database.findStudent(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (existingStudent != null) {
+            throw new StudentAlreadyExistsException();
+        }
+
+        Student newStudent = new Student(id, firstName, lastName, grade);
+        return database.addStudent(newStudent);
     }
+
 
     public boolean signIn(String id, String course, String reason, String courseMissed) throws InvalidIdException, AlreadyLoggedInException {
 
         //check if student exists
-        Student student = database.findStudent(id);
+        Student student;
+
+        try {
+            student = database.findStudent(id);
+        } catch (IOException e) {
+            return false;
+        }
+
         if (student == null) {
             throw new InvalidIdException(id);
         }
@@ -49,8 +74,15 @@ public class SignInManager {
     public boolean signOut(String id) throws InvalidIdException, NotLoggedInException {
 
         //check if student exists
-        Student student = database.findStudent(id);
-        if (student == null) { //if no such student exists
+        Student student;
+
+        try {
+            student = database.findStudent(id);
+        } catch (IOException e) {
+            return false;
+        }
+
+        if (student == null) {
             throw new InvalidIdException(id);
         }
 
@@ -58,4 +90,9 @@ public class SignInManager {
 
         return true;
     }
+
+    public void close() {
+        database.close();
+    }
+
 }

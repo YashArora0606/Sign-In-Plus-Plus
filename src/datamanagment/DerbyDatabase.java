@@ -3,6 +3,7 @@ package datamanagment;
 import iomanagement.StudentListReader;
 import utilities.Utils;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,8 +29,10 @@ public class DerbyDatabase implements Database {
 
     //con variables
     private Connection con = null;
-    private ArrayList<Statement> statements = new ArrayList<Statement>(); // list of Statements, PreparedStatements
+    private ArrayList<Statement> statements = new ArrayList<>();
     private Statement statement;
+    private PreparedStatement addStudent;
+    private PreparedStatement findStudent;
     private PreparedStatement signIn;
     private PreparedStatement signOut;
 
@@ -46,6 +49,16 @@ public class DerbyDatabase implements Database {
             statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statements.add(statement);
 
+            statement.executeUpdate("delete from students");
+
+            String addStudentSql = "insert into students values (?, ?, ?, ?)";
+            addStudent = con.prepareStatement(addStudentSql);
+            statements.add(addStudent);
+
+            String findStudentSql = "select * from students where id=?";
+            findStudent = con.prepareStatement(findStudentSql);
+            statements.add(findStudent);
+
             String insertSql = "insert into sessions values (?, ?, ?, ?, ?, null, ?, ?, ?)";
             signIn = con.prepareStatement(insertSql);
             statements.add(signIn);
@@ -54,54 +67,60 @@ public class DerbyDatabase implements Database {
             signOut = con.prepareStatement(signOutSql);
             statements.add(signOut);
 
+            con.commit();
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(1); //kill the program if the con fails
         }
     }
 
-
-    public void close() {
-
-        //close statements
-        for (Statement stmt : statements) {
-            try {
-                if (stmt != null) {
-                    stmt.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //close connections
+    public boolean addStudent(Student student) {
         try {
-            if (con != null) {
-                con.close();
-            }
+            addStudent.setString(1, student.id);
+            addStudent.setString(2, student.firstName);
+            addStudent.setString(3, student.lastName);
+            addStudent.setInt(4, Integer.parseInt(student.grade));
+            addStudent.executeUpdate();
+
+            con.commit();
+
+            printStudents();
+
+            return true;
+
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+
         }
     }
 
-    public Student findStudent(String id) {
-        return findStudent(id, 0, students.length - 1);
-    }
+    public Student findStudent(String id) throws IOException {
 
-    private Student findStudent(String id, int low, int high) {
-        if (high >= low) {
-            int mid = (low + high) / 2;
+        try {
+            findStudent.setString(1, id);
 
-            if (id.compareTo(students[mid].id) == 0) {
-                return students[mid];
-            } else if (id.compareTo(students[mid].id) < 0) {
-                return findStudent(id, low, mid - 1);
-            } else {
-                return findStudent(id, mid + 1, high);
+            ResultSet res = findStudent.executeQuery();
+
+            if (!res.next()) {
+                return null;
             }
-        }
 
-        return null;
+            Student student = new Student(res.getString(1),
+                                          res.getString(2),
+                                          res.getString(3),
+                                          String.valueOf(res.getInt(4)));
+
+            res.close();
+
+            return student;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new IOException();
+
+        }
     }
 
     public boolean signIn(Session session) {
@@ -148,15 +167,44 @@ public class DerbyDatabase implements Database {
         return true;
     }
 
-    public List<Session> querySessions(HashMap<String, Object> criterion) throws SQLException {
+    public List<Session> findSessions(HashMap<String, Object> criterion) throws IOException {
 
         String query = "select * from tables";
 
         List<Session> sessions = new ArrayList<>();
 
-        ResultSet res = statement.executeQuery(query);
+        try {
+            ResultSet res = statement.executeQuery(query);
+
+        } catch (SQLException e) {
+            throw new IOException();
+        }
 
         return sessions;
+    }
+
+
+    public void close() {
+
+        //close statements
+        for (Statement stmt : statements) {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //close connections
+        try {
+            if (con != null) {
+                con.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -169,10 +217,30 @@ public class DerbyDatabase implements Database {
             while (rs.next()) {
                 for (int i = 1; i <= 9; i++) {
                     System.out.print(rs.getString(i) + ", ");
-                    count++;
                 }
-                System.out.println(count + " results logged.");
+                count++;
+                System.out.println();
             }
+            System.out.println(count + " results logged.");
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void printStudents() {
+        try {
+            ResultSet rs = statement.executeQuery("select * from students");
+            int count = 0;
+            while (rs.next()) {
+                for (int i = 1; i <= 4; i++) {
+                    System.out.print(rs.getString(i) + ", ");
+                }
+                count++;
+                System.out.println();
+            }
+            System.out.println(count + " results logged.");
             rs.close();
 
         } catch (SQLException e) {

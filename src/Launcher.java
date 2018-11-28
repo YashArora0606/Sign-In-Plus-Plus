@@ -2,7 +2,9 @@ import datamanagment.Database;
 import datamanagment.DerbyDatabase;
 import datamanagment.SignInManager;
 import display.Window;
+import exceptions.StudentAlreadyExistsException;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -23,6 +25,15 @@ public class Launcher {
     public static void run() {
         Database database = new DerbyDatabase();
         SignInManager signInManager = new SignInManager(database);
+
+
+        try {
+            signInManager.addStudent("074264672", "Alston", "Lo", "12");
+            signInManager.addStudent("074264672", "Alston", "Lo", "12");
+        } catch (StudentAlreadyExistsException e) {
+            e.printStackTrace();
+        }
+
         Window frame = new Window(signInManager);
     }
 }
