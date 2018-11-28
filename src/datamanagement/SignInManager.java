@@ -133,7 +133,7 @@ public class SignInManager {
 
     }
 
-    public void generateExcel() {
+    public void generateExcel(String[] ids) {
 
     }
 

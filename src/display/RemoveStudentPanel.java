@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import datamanagement.SignInManager;
+import exceptions.StudentDoesNotExistException;
 import utilities.Utils;
 
 import java.awt.*;
@@ -85,12 +86,11 @@ class RemoveStudentPanel extends JPanel {
         repaint();
     }
 
-    private boolean removeStudent() {
+    private boolean removeStudent() throws StudentDoesNotExistException {
         if (idField.getText().length()!=9){
             return false;
         }
-        return true;
-       // return signInManager.removeStudentById(Integer.parseInt(idField.getText()));
+        return signInManager.removeStudent(Integer.parseInt(idField.getText()));
     }
 
     private class MyMouseListener implements MouseListener {
@@ -108,7 +108,7 @@ class RemoveStudentPanel extends JPanel {
                     if (removeStudent()) {
                         attemptValidation = 2;
                     }
-                } catch (exceptions.StudentDoesNotExistException error) {
+                } catch (StudentDoesNotExistException error) {
                     attemptValidation = 1;
                     error.printStackTrace();
                 }
