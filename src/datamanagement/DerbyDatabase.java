@@ -210,7 +210,7 @@ public class DerbyDatabase implements Database {
             insertNewSession.setTimestamp(2, session.startTime);
             insertNewSession.setTimestamp(3, session.endTime);
             insertNewSession.setString(4, session.reason);
-            insertNewSession.setString(5, session.cert);
+            insertNewSession.setString(5, session.sert);
             insertNewSession.setString(6, session.course);
             insertNewSession.executeUpdate();
 
@@ -264,7 +264,7 @@ public class DerbyDatabase implements Database {
                         res.getTimestamp("signintime"),
                         res.getTimestamp("signouttime"),
                         res.getString("reason"),
-                        res.getString("cert"),
+                        res.getString("sert"),
                         res.getString("course"));
                 sessionList.add(session);
             }
@@ -345,7 +345,7 @@ public class DerbyDatabase implements Database {
                     "signintime timestamp not null," +
                     "signouttime timestamp, " +
                     "reason varchar(50) not null, " +
-                    "cert varchar(50) not null, " +
+                    "sert varchar(50) not null, " +
                     "course varchar(50) not null," +
                     "foreign key(id) references students(id))");
 

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
 
 public interface Database {
 
