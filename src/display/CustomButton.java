@@ -28,6 +28,8 @@ public class CustomButton{
 
     boolean selectable = true;
     
+    boolean appearSelected = false;
+    
     public CustomButton(String text, int x, int y, int width, int height, Color mainColor) {
         this.x = x;
         this.y = y;
@@ -38,6 +40,7 @@ public class CustomButton{
         this.secondaryTextColour = mainColor;
         this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height *0.5));
         this.selectable = true;
+        this.appearSelected = false;
 
     }
         
@@ -65,7 +68,7 @@ public class CustomButton{
     public void draw(Graphics g, JPanel panel) {
         g.setColor(primaryTextColour);
         //g.drawRect(x-Utils.scale(1),y-Utils.scale(1), width+Utils.scale(1), height+Utils.scale(1));
-        if (isMouseOnButton(panel) && selectable) {
+        if ((isMouseOnButton(panel) && selectable) || appearSelected) {
             g.setColor(secondaryBackgroundColour);
         } else {
             g.setColor(primaryBackgroundColour);
@@ -80,7 +83,7 @@ public class CustomButton{
         int textWidth = buttonFontMetrics.stringWidth(text);
         int textHeight = buttonFontMetrics.getMaxAscent();
 
-        if (isMouseOnButton(panel) && selectable) {
+        if ((isMouseOnButton(panel) && selectable) || appearSelected) {
             g.setColor(secondaryTextColour);
         } else {
             g.setColor(primaryTextColour);
@@ -92,6 +95,14 @@ public class CustomButton{
 	public void setSelectable(boolean selectable) {
 		this.selectable = selectable;
 		
+	}
+
+	public void changeSelectedAppearance() {
+		if (appearSelected) {
+			appearSelected = false;
+		} else {
+			appearSelected = true;
+		}
 	}
 
 }

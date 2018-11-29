@@ -41,6 +41,8 @@ public class ChangePasswordPanel extends JPanel {
         this.add(passwordField);
         passwordField.setBounds(maxX/2-Utils.scale(size.width/2), maxY/2-2*Utils.scale(size.height), Utils.scale(size.width), Utils.scale(size.height));
 
+        setBackground(Utils.colours[1]);
+        
         this.addMouseListener(new MyMouseListener());
     }
 
@@ -61,8 +63,11 @@ public class ChangePasswordPanel extends JPanel {
         g.setColor(Utils.colours[0]);
         g.setFont(titleFont);
 
-        g.drawString("New Password", maxX/2-titleFontMetrics.stringWidth("New Password")/2, maxY/3);
-
+        CustomButton passwordLabel = new CustomButton("Change password", display.maxX/2 - Utils.scale(250)/2,
+        		passwordField.getY() - (int)(Utils.scale(50)*(1.2)), Utils.scale(250), Utils.scale(50), Utils.colours[4]);
+        passwordLabel.setSelectable(false);
+        passwordLabel.draw(g, panel);
+        
         g.setFont(errorFont);
         if (attemptSuccess == 1) {
             g.drawString("Invalid Password. Please enter a password of 8+ characters",

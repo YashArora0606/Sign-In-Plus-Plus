@@ -19,6 +19,9 @@ class RemoveStudentPanel extends JPanel {
     private JTextField idField;
     private CustomButton submit;
     private CustomButton back;
+    
+    private CustomButton studentId;
+    
     private int attemptValidation = 0;
 
     private Dimension idSize;
@@ -70,7 +73,12 @@ class RemoveStudentPanel extends JPanel {
 
         g.setFont(mainFont);
         g.setColor(Utils.colours[0]);
-        g.drawString("Student Number", maxX/2-mainFontMetrics.stringWidth("Student Number")/2, maxY/3);
+        //g.drawString("Student Number", maxX/2-mainFontMetrics.stringWidth("Student Number")/2, maxY/3);
+        
+		studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220)/2,
+				display.maxY / 2 - idSize.height - Utils.scale(165), Utils.scale(220), Utils.scale(50), Utils.colours[4]);
+		studentId.setSelectable(false);
+		studentId.draw(g, this);
 
         g.setFont(errorFont);
         if (attemptValidation == 1){

@@ -31,7 +31,7 @@ class SignInPanel extends JPanel {
 	private int y;
 	
 	DropDownMenu reasonDropDown;
-	DropDownMenu subjectDropDown;
+	DropDownMenu sertDropDown;
 	DropDownMenu courseMissingDropDown;
 	
 	private Dimension idSize;
@@ -55,7 +55,7 @@ class SignInPanel extends JPanel {
 		setLayout(new BorderLayout());
 
 		reasonDropDown = new DropDownMenu(SignInManager.getReasons(), "Reason");
-		subjectDropDown = new DropDownMenu(SignInManager.getCourses(), "Subject");
+		sertDropDown = new DropDownMenu(SignInManager.getSerts(), "SERT");
 		courseMissingDropDown = new DropDownMenu(SignInManager.getCourses(), "Course Missed");
 
 		idField = new JTextField(7);
@@ -80,7 +80,7 @@ class SignInPanel extends JPanel {
 		centerPanel.setBackground(null);
 		//centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(reasonDropDown);
-		centerPanel.add(subjectDropDown);
+		centerPanel.add(sertDropDown);
 		centerPanel.add(courseMissingDropDown);
 		centerPanel.setOpaque(false);
 
@@ -99,7 +99,7 @@ class SignInPanel extends JPanel {
 
 	private boolean submit() {
 		String id = idField.getText();
-		String subject = subjectDropDown.getSelectedText();
+		String subject = sertDropDown.getSelectedText();
 		String reason = reasonDropDown.getSelectedText();
 		String courseMissed = courseMissingDropDown.getSelectedText();
 
@@ -131,8 +131,8 @@ class SignInPanel extends JPanel {
 			if(reasonDropDown.isMouseOnPanel(panel)) {
 				reasonDropDown.drop();
 			}
-			if(subjectDropDown.isMouseOnPanel(panel)) {
-				subjectDropDown.drop();
+			if(sertDropDown.isMouseOnPanel(panel)) {
+				sertDropDown.drop();
 			}
 			if(courseMissingDropDown.isMouseOnPanel(panel)) {
 				courseMissingDropDown.drop();
