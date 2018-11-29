@@ -55,8 +55,8 @@ public class SignInManager {
         return database.addStudent(newStudent);
     }
 
-
     public boolean removeStudent(int id) throws StudentDoesNotExistException {
+
         Student existingStudent;
 
         try {

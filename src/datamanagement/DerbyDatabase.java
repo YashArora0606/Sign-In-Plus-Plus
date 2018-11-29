@@ -1,5 +1,7 @@
 package datamanagement;
 
+import utilities.SinglyLinkedList;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +13,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Properties;
 
 
@@ -233,11 +234,11 @@ public class DerbyDatabase implements Database {
      * @throws IOException            thrown if any error occurs
      * @throws InputMismatchException thrown if criteria format is incorrect
      */
-    public List<Session> findSessions(HashMap<String, Object> criteria) throws IOException, InputMismatchException {
+    public SinglyLinkedList<Session> findSessions(HashMap<String, Object> criteria) throws IOException, InputMismatchException {
 
         String query = buildQuery(criteria);
 
-        List<Session> sessionList = new ArrayList<>();
+        SinglyLinkedList<Session> sessionList = new SinglyLinkedList<>();
         HashMap<Integer, Student> usedStudents = new HashMap<>();
 
         try {
