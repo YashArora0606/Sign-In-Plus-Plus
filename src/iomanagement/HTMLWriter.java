@@ -3,6 +3,7 @@ package iomanagement;
 import datamanagement.Session;
 import datamanagement.Student;
 import utilities.SinglyLinkedList;
+import utilities.Stack;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.Stack;
+
 
 public class HTMLWriter {
     String excelFile;
@@ -324,8 +325,8 @@ public class HTMLWriter {
                             out.println("    <th>" + studentSession[index].get(i).startTime);
                             out.println("    <th>" + studentSession[index].get(i).endTime);
                             out.println("    <th>" + studentSession[index].get(i).reason);
-                            out.println("    <th>" + studentSession[index].get(i).courseWork);
-                            out.println("    <th>" + studentSession[index].get(i).courseMissed);
+                            out.println("    <th>" + studentSession[index].get(i).cert);
+                            out.println("    <th>" + studentSession[index].get(i).course);
                             out.println("  <tr>");
                         }
                 }
