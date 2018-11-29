@@ -1,5 +1,7 @@
 package datamanagement;
 
+import utilities.SinglyLinkedList;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +13,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Properties;
 
 
@@ -209,7 +210,7 @@ public class DerbyDatabase implements Database {
             insertNewSession.setTimestamp(2, session.startTime);
             insertNewSession.setTimestamp(3, session.endTime);
             insertNewSession.setString(4, session.reason);
-            insertNewSession.setString(5, session.cert);
+            insertNewSession.setString(5, session.sert);
             insertNewSession.setString(6, session.course);
             insertNewSession.executeUpdate();
 
@@ -233,11 +234,11 @@ public class DerbyDatabase implements Database {
      * @throws IOException            thrown if any error occurs
      * @throws InputMismatchException thrown if criteria format is incorrect
      */
-    public List<Session> findSessions(HashMap<String, Object> criteria) throws IOException, InputMismatchException {
+    public SinglyLinkedList<Session> findSessions(HashMap<String, Object> criteria) throws IOException, InputMismatchException {
 
         String query = buildQuery(criteria);
 
-        List<Session> sessionList = new ArrayList<>();
+        SinglyLinkedList<Session> sessionList = new SinglyLinkedList<>();
         HashMap<Integer, Student> usedStudents = new HashMap<>();
 
         try {
@@ -263,7 +264,7 @@ public class DerbyDatabase implements Database {
                         res.getTimestamp("signintime"),
                         res.getTimestamp("signouttime"),
                         res.getString("reason"),
-                        res.getString("cert"),
+                        res.getString("sert"),
                         res.getString("course"));
                 sessionList.add(session);
             }
@@ -344,7 +345,7 @@ public class DerbyDatabase implements Database {
                     "signintime timestamp not null," +
                     "signouttime timestamp, " +
                     "reason varchar(50) not null, " +
-                    "cert varchar(50) not null, " +
+                    "sert varchar(50) not null, " +
                     "course varchar(50) not null," +
                     "foreign key(id) references students(id))");
 

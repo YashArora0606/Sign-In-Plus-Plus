@@ -1,10 +1,11 @@
 package datamanagement;
 
+import utilities.SinglyLinkedList;
+
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.List;
 
 public interface Database {
 
@@ -19,7 +20,7 @@ public interface Database {
 
     boolean addSession(Session session);
 
-    List<Session> findSessions(HashMap<String, Object> criterion) throws IOException, InputMismatchException;
+    SinglyLinkedList<Session> findSessions(HashMap<String, Object> criterion) throws IOException, InputMismatchException;
 
     boolean resolveOpenSessions(int id, Timestamp time);
 

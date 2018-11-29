@@ -75,7 +75,7 @@ public class SignInManager {
 		return database.removeStudentById(id);
 	}
 
-	public boolean signIn(int id, String reason, String cert, String course)
+	public boolean signIn(int id, String reason, String sert, String course)
 			throws InvalidIdException, AlreadyLoggedInException {
 
 		// check if student exists
@@ -100,7 +100,7 @@ public class SignInManager {
 			return false;
 		}
 
-		Session session = new Session(student, Utils.getNow(), null, reason, cert, course);
+		Session session = new Session(student, Utils.getNow(), null, reason, sert, course);
 		return database.addSession(session);
 	}
 
