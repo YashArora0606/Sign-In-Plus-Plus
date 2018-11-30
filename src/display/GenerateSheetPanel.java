@@ -9,6 +9,7 @@ import java.awt.Dimension;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import datamanagement.SignInManager;
@@ -34,8 +35,11 @@ public class GenerateSheetPanel extends JPanel {
 	CustomTextField lastNameField;
 	CustomTextField maxTimeField;
 	CustomTextField minTimeField;
-
+	
+	
+	private String errorMessage = "";
 	private static final int PADDING_CONSTANT = Utils.scale(20);
+
 
 	GenerateSheetPanel(Window display) {
 		this.display = display;
@@ -136,6 +140,10 @@ public class GenerateSheetPanel extends JPanel {
 				Utils.scale(200), Utils.scale(80), Utils.colours[2]);
 		generate.draw(g, panel);
 
+		CustomButton errorButton = new CustomButton(errorMessage, maxX / 2, (int) (maxY * 0.88), 0, Utils.scale(30));
+		errorButton.setSelectable(false);
+		errorButton.draw(g, panel);
+
 		repaint();
 	}
 
@@ -152,8 +160,30 @@ public class GenerateSheetPanel extends JPanel {
 		String lastName = lastNameField.getText();
 		String maxTime = maxTimeField.getText();
 		String minTime = minTimeField.getText();
+
+		Timestamp earliestDateAsTimestamp;
+		Timestamp latestDateAsTimestamp;
+		int idAsInt;
+		int minTimeAsInt;
+		int maxTimeAsInt;
 		
-		// PASS THIS DATA INTO ALSTON'S METHOD
+		if (!Utils.isStudentId(id)) {
+			errorMessage = "That is not a valid student id.";
+		} else if (!Utils.isDate(earliestDate) && !Utils.isDate(latestDate)) {
+			errorMessage = "That is not a valid date format.";
+		} else if (!Utils.isTime(minTime) && !Utils.isTime(maxTime)) {
+			errorMessage = "That is not a valid time format.";
+		} else {
+			errorMessage = "";
+			earliestDateAsTimestamp = Utils.getTimeStamp(earliestDate);
+			latestDateAsTimestamp = Utils.getTimeStamp(latestDate);
+			idAsInt = Utils.getInt(id);
+			minTimeAsInt = Utils.getInt(minTime);
+			maxTimeAsInt = Utils.getInt(maxTime);
+			
+			// PASS THIS DATA INTO ALSTON'S METHOD
+		}
+
 	}
 
 	public class MyMouseListener implements MouseListener {
