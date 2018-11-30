@@ -31,14 +31,14 @@ public class CustomTextField extends JPanel {
 	
 	CustomTextField(String title) {
 		this.title = title;
-		this.setPreferredSize(new Dimension(270, 70));
+		this.setPreferredSize(new Dimension(Utils.scale(270), Utils.scale(70)));
 		setBackground(null);
 		setLayout(new BorderLayout());
         
 		textField = new JTextField(7);
 		textField.setBorder(BorderFactory.createDashedBorder(Utils.colours[0]));
 		textField.setBackground(null);
-		textField.setFont(Utils.getFont("assets/Kollektif.ttf", 30f));
+		textField.setFont(Utils.getFont("assets/Kollektif.ttf", Utils.scale(30)));
 		textField.setText("");
 		//textField.setBounds(0, 30, 250, 60);
 		
@@ -56,7 +56,7 @@ public class CustomTextField extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		titleButton = new CustomButton(title, getPreferredSize().width/2 - 220/2, 0, 220, 30, Utils.colours[3]);
+		titleButton = new CustomButton(title, getPreferredSize().width/2 - 220/2, 0, Utils.scale(220), Utils.scale(30), Utils.colours[3]);
 		titleButton.setSelectable(false);
 		titleButton.draw(g, this);
 		
