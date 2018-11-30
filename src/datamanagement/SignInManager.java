@@ -11,31 +11,19 @@ import java.io.IOException;
 
 public class SignInManager {
 
-	private final static String[] reasons = new String[] { "Test", "Chill Zone", "Quiet Work", "Academic Help",
+	public final static String[] reasons = new String[] { "Test", "Chill Zone", "Quiet Work", "Academic Help",
 			"Group Work" };
 
-	private final static String[] courses = new String[] { "Art", "Math", "Music", "Science", "History", "Geography",
+	public final static String[] courses = new String[] { "Art", "Math", "Music", "Science", "History", "Geography",
 			"Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare" };
 
-	private final static String[] serts = new String[] { "Baulk", "Borshiov", "Hamilton", "Ingber", "Irving", "Lachner",
+	public final static String[] serts = new String[] { "Baulk", "Borshiov", "Hamilton", "Ingber", "Irving", "Lachner",
 			"Wengle" };
 
 	private Database database;
 
 	public SignInManager(Database database) {
 		this.database = database;
-	}
-
-	public static String[] getReasons() {
-		return reasons;
-	}
-
-	public static String[] getCourses() {
-		return courses;
-	}
-
-	public static String[] getSerts() {
-		return serts;
 	}
 
 	public boolean addStudent(int id, String firstName, String lastName, int grade)
@@ -75,7 +63,7 @@ public class SignInManager {
 		return database.removeStudentById(id);
 	}
 
-	public boolean signIn(int id, String reason, String cert, String course)
+	public boolean signIn(int id, String reason, String sert, String course)
 			throws InvalidIdException, AlreadyLoggedInException {
 
 		// check if student exists
@@ -100,7 +88,7 @@ public class SignInManager {
 			return false;
 		}
 
-		Session session = new Session(student, Utils.getNow(), null, reason, cert, course);
+		Session session = new Session(student, Utils.getNow(), null, reason, sert, course);
 		return database.addSession(session);
 	}
 

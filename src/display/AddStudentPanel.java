@@ -105,12 +105,12 @@ public class AddStudentPanel extends JPanel {
         firstNameLabel.setSelectable(false);
         firstNameLabel.draw(g, panel);
         
-        CustomButton lastNameLabel = new CustomButton("Student Id", (int)lastNameField.getBounds().getX(),
+        CustomButton lastNameLabel = new CustomButton("Last Name", (int)lastNameField.getBounds().getX(),
         		(int)lastNameField.getBounds().getY() - (int)(Utils.scale(50)*1.2), Utils.scale(200), Utils.scale(50), Utils.colours[4]);
         lastNameLabel.setSelectable(false);
         lastNameLabel.draw(g, panel);
         
-        CustomButton gradeLabel = new CustomButton("First Name", (int)gradeField.getBounds().getX(),
+        CustomButton gradeLabel = new CustomButton("Grade", (int)gradeField.getBounds().getX(),
         		(int)gradeField.getBounds().getY() - (int)(Utils.scale(50)*1.2), Utils.scale(200), Utils.scale(50), Utils.colours[4]);
         gradeLabel.setSelectable(false);
         gradeLabel.draw(g, panel);

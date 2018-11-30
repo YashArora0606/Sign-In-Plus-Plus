@@ -93,6 +93,7 @@ public class HTMLWriter {
                             for (int stuNum = 0; stuNum < studentList.length; stuNum++){
                                 out.println("<a href=\"#"+studentList[stuNum].firstName+" "+studentList[stuNum].lastName+"\">Student 1</a><br/>");
                             }
+                            out.println("<a href = \"#OverallGraph\" > Overall Graph </a>");
                             modNum++;
 
                         case 1:
@@ -123,6 +124,7 @@ public class HTMLWriter {
         String[] id = {"Test", "ChillZone", "QuietWork", "GroupWork", "AcademicSupport","Total"};
         String[] displayText = {"Test", "Chill Zone", "Quiet Work", "Group Work", "Academic Support","Total"};
 
+        out.println("<a name=\"Overall Graph\"> </a>");
         out.println("<div id=\"graph\">");
         out.print("<table id = ");
         out.print( "\"s-graph\" </table>");
@@ -325,7 +327,7 @@ public class HTMLWriter {
                             out.println("    <th>" + studentSession[index].get(i).startTime);
                             out.println("    <th>" + studentSession[index].get(i).endTime);
                             out.println("    <th>" + studentSession[index].get(i).reason);
-                            out.println("    <th>" + studentSession[index].get(i).cert);
+                            out.println("    <th>" + studentSession[index].get(i).sert);
                             out.println("    <th>" + studentSession[index].get(i).course);
                             out.println("  <tr>");
                         }
