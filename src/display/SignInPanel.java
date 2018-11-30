@@ -54,29 +54,28 @@ class SignInPanel extends JPanel {
 		setBackground(Utils.colours[2]);
 		setLayout(new BorderLayout());
 
-		reasonDropDown = new DropDownMenu(SignInManager.getReasons(), "Reason");
-		sertDropDown = new DropDownMenu(SignInManager.getSerts(), "SERT");
-		courseMissingDropDown = new DropDownMenu(SignInManager.getCourses(), "Course Missed");
+		reasonDropDown = new DropDownMenu(SignInManager.reasons, "Reason");
+		sertDropDown = new DropDownMenu(SignInManager.serts, "SERT");
+		courseMissingDropDown = new DropDownMenu(SignInManager.courses, "Course Missed");
 
 		idField = new JTextField(7);
 		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
 		idField.setText("");
 		idSize = idField.getPreferredSize();
-		idField.setBounds(display.maxX / 2 - idSize.width / 2, display.maxY / 2 - idSize.height, idSize.width,
-				idSize.height);
 		idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
 		idField.setBackground(null);
-		
+
+
 		JPanel northPanel = new JPanel();
-		
+
 		northPanel.setBackground(null);
-		northPanel.setPreferredSize(new Dimension(900, 100));
-		northPanel.add(idField);
+		northPanel.setPreferredSize(new Dimension(Utils.scale(900), Utils.scale(100)));
 		northPanel.setOpaque(false);
+		northPanel.add(idField);
 
 
 		JPanel centerPanel = new JPanel();
-		centerPanel.setPreferredSize(new Dimension(display.maxX, 620));
+		centerPanel.setPreferredSize(new Dimension(display.maxX, Utils.scale(900)));
 		centerPanel.setBackground(null);
 		//centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(reasonDropDown);
@@ -86,7 +85,7 @@ class SignInPanel extends JPanel {
 
 		
 		JPanel topPanel = new JPanel();
-		topPanel.setPreferredSize(new Dimension(display.maxX, 100));
+		topPanel.setPreferredSize(new Dimension(display.maxX, Utils.scale(150)));
 		topPanel.setBackground(null);
 		topPanel.setOpaque(false);
 		

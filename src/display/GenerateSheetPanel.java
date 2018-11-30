@@ -1,20 +1,16 @@
 package display;
 
-import javax.swing.JTextField;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import java.awt.Graphics;
-import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import datamanagement.Database;
 import datamanagement.SignInManager;
 import utilities.Utils;
 
@@ -22,8 +18,8 @@ public class GenerateSheetPanel extends JPanel {
 	private Window display;
 
 	private JPanel panel;
-	private int x;
-	private int y;
+	private int maxX;
+	private int maxY;
 	private CustomButton back;
 	private CustomButton generate;
 
@@ -39,38 +35,38 @@ public class GenerateSheetPanel extends JPanel {
 	CustomTextField maxTimeField;
 	CustomTextField minTimeField;
 
-	private static final int PADDING_CONSTANT = 20;
+	private static final int PADDING_CONSTANT = Utils.scale(20);
 
 	GenerateSheetPanel(Window display) {
 		this.display = display;
 		this.panel = this;
-		this.x = display.maxX;
-		this.y = display.maxY;
+		this.maxX = display.maxX;
+		this.maxY = display.maxY;
 		this.setLayout(null);
 		setBackground(Utils.colours[4]);
 		setLayout(new BorderLayout());
 
 		JLayeredPane pane = new JLayeredPane();
-		pane.setPreferredSize(new Dimension(x, y));
+		pane.setPreferredSize(new Dimension(maxX, maxY));
 
-		reasonSelect = new SelectMultipleMenu(SignInManager.getReasons(), "Reason");
-		sertSelect = new SelectMultipleMenu(SignInManager.getSerts(), "SERT");
-		courseMissingSelect = new SelectMultipleMenu(SignInManager.getCourses(), "Course Missing");
+		reasonSelect = new SelectMultipleMenu(SignInManager.reasons, "Reason");
+		sertSelect = new SelectMultipleMenu(SignInManager.serts, "SERT");
+		courseMissingSelect = new SelectMultipleMenu(SignInManager.courses, "Course Missing");
 
 		reasonSelect.setBounds(
-				x / 2 - reasonSelect.getPreferredSize().width - sertSelect.getPreferredSize().width / 2
+				maxX / 2 - reasonSelect.getPreferredSize().width - sertSelect.getPreferredSize().width / 2
 						- PADDING_CONSTANT,
-				(int) (y * 0.83) - Utils.scale(80) / 2 - courseMissingSelect.getPreferredSize().height
+				(int) (maxY * 0.7) - Utils.scale(80) / 2 - courseMissingSelect.getPreferredSize().height
 						- PADDING_CONSTANT,
 				reasonSelect.getPreferredSize().width, reasonSelect.getPreferredSize().height);
 
 		sertSelect.setBounds(
-				x / 2 - sertSelect.getPreferredSize().width / 2, (int) (y * 0.83) - Utils.scale(80) / 2
+				maxX / 2 - sertSelect.getPreferredSize().width / 2, (int) (maxY * 0.7) - Utils.scale(80) / 2
 						- courseMissingSelect.getPreferredSize().height - PADDING_CONSTANT,
 				sertSelect.getPreferredSize().width, sertSelect.getPreferredSize().height);
 
-		courseMissingSelect.setBounds(x / 2 + sertSelect.getPreferredSize().width / 2 + PADDING_CONSTANT,
-				(int) (y * 0.83) - Utils.scale(80) / 2 - courseMissingSelect.getPreferredSize().height
+		courseMissingSelect.setBounds(maxX / 2 + sertSelect.getPreferredSize().width / 2 + PADDING_CONSTANT,
+				(int) (maxY * 0.7) - Utils.scale(80) / 2 - courseMissingSelect.getPreferredSize().height
 						- PADDING_CONSTANT,
 				courseMissingSelect.getPreferredSize().width, courseMissingSelect.getPreferredSize().height);
 
@@ -79,40 +75,40 @@ public class GenerateSheetPanel extends JPanel {
 		pane.add(courseMissingSelect);
 
 		idField = new CustomTextField("Student Id");
-		idField.setBounds(x / 2 - idField.getPreferredSize().width / 2, PADDING_CONSTANT,
+		idField.setBounds(maxX / 2 - idField.getPreferredSize().width / 2, PADDING_CONSTANT,
 				idField.getPreferredSize().width, idField.getPreferredSize().height);
 
 		firstNameField = new CustomTextField("First Name");
-		firstNameField.setBounds(x / 2 - firstNameField.getPreferredSize().width / 2,
+		firstNameField.setBounds(maxX / 2 - firstNameField.getPreferredSize().width / 2,
 				idField.getBounds().y + idField.getPreferredSize().height + PADDING_CONSTANT,
 				firstNameField.getPreferredSize().width, firstNameField.getPreferredSize().height);
 
 		lastNameField = new CustomTextField("Last Name");
-		lastNameField.setBounds(x / 2 - lastNameField.getPreferredSize().width / 2,
+		lastNameField.setBounds(maxX / 2 - lastNameField.getPreferredSize().width / 2,
 				firstNameField.getBounds().y + firstNameField.getPreferredSize().height + PADDING_CONSTANT,
 				lastNameField.getPreferredSize().width, lastNameField.getPreferredSize().height);
 
 		earliestDateField = new CustomTextField("Earliest Date (DD/MM/YYYY)");
 		earliestDateField.setBounds(
-				(int) (x / 2 - firstNameField.getPreferredSize().width / 2
+				(int) (maxX / 2 - firstNameField.getPreferredSize().width / 2
 						- earliestDateField.getPreferredSize().getWidth() - PADDING_CONSTANT),
 				idField.getBounds().y + idField.getPreferredSize().height + PADDING_CONSTANT,
 				firstNameField.getPreferredSize().width, firstNameField.getPreferredSize().height);
 
 		latestDateField = new CustomTextField("Latest Date (DD/MM/YYYY)");
 		latestDateField.setBounds(
-				(int) (x / 2 - firstNameField.getPreferredSize().width / 2
+				(int) (maxX / 2 - firstNameField.getPreferredSize().width / 2
 						- latestDateField.getPreferredSize().getWidth() - PADDING_CONSTANT),
 				firstNameField.getBounds().y + firstNameField.getPreferredSize().height + PADDING_CONSTANT,
 				lastNameField.getPreferredSize().width, lastNameField.getPreferredSize().height);
 
 		minTimeField = new CustomTextField("Min Time (Minutes)");
-		minTimeField.setBounds((int) (x / 2 + firstNameField.getPreferredSize().width / 2 + PADDING_CONSTANT),
+		minTimeField.setBounds((int) (maxX / 2 + firstNameField.getPreferredSize().width / 2 + PADDING_CONSTANT),
 				idField.getBounds().y + idField.getPreferredSize().height + PADDING_CONSTANT,
 				firstNameField.getPreferredSize().width, firstNameField.getPreferredSize().height);
 
 		maxTimeField = new CustomTextField("Max Time (Minutes)");
-		maxTimeField.setBounds((int) (x / 2 + firstNameField.getPreferredSize().width / 2 + PADDING_CONSTANT),
+		maxTimeField.setBounds((int) (maxX / 2 + firstNameField.getPreferredSize().width / 2 + PADDING_CONSTANT),
 				firstNameField.getBounds().y + firstNameField.getPreferredSize().height + PADDING_CONSTANT,
 				lastNameField.getPreferredSize().width, lastNameField.getPreferredSize().height);
 
@@ -139,7 +135,7 @@ public class GenerateSheetPanel extends JPanel {
 		back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
 		back.draw(g, panel);
 
-		generate = new CustomButton("Filter", x / 2 - Utils.scale(200) / 2, (int) (y * 0.83) - Utils.scale(80) / 2,
+		generate = new CustomButton("Filter", maxX / 2 - Utils.scale(200) / 2, (int) (maxY * 0.83) - Utils.scale(80) / 2,
 				Utils.scale(200), Utils.scale(80), Utils.colours[2]);
 		generate.draw(g, panel);
 

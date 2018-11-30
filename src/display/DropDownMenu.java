@@ -32,7 +32,7 @@ public class DropDownMenu extends JPanel {
 	DropDownMenu(String[] items, String title) {
 		this.items = items;
 		this.title = title;
-		this.setPreferredSize(new Dimension(180, 60));
+		this.setPreferredSize(new Dimension(Utils.scale(180), Utils.scale(60)));
         setVisible(true);
 	}
 	
@@ -43,21 +43,21 @@ public class DropDownMenu extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		CustomButton titleButton = new CustomButton(title, 0, 0, 180, 30, Utils.colours[3]);
+		CustomButton titleButton = new CustomButton(title, 0, 0, Utils.scale(180), Utils.scale(30), Utils.colours[3]);
 		titleButton.setSelectable(false);
 		titleButton.draw(g, this);
 		
-		CustomButton select = new CustomButton(selectedText, 0, 30, 180, 30, Utils.colours[4]);
+		CustomButton select = new CustomButton(selectedText, 0, Utils.scale(30), Utils.scale(180), Utils.scale(30), Utils.colours[4]);
 		if (isMouseOnPanel(this)) {
-			setSize(180, 30 * (items.length + 2));
+			setSize(Utils.scale(180), Utils.scale(30) * (items.length + 2));
 		} else {
-			setSize(this.preferredSize());
+			setSize(this.getSize());
 		}
 		
 		select.draw(g, this);
 		
 		for (int i = 1; i <= items.length; i++) {
-			CustomButton b = new CustomButton(items[i-1], 0, (i * 30) + 30, 180, 30);
+			CustomButton b = new CustomButton(items[i-1], 0, (i * 30) + 30, Utils.scale(180), Utils.scale(30));
 			if (b.isMouseOnButton(this) && isMouseOnPanel(this)) {
 				selectedText = items[i-1];
 			}
