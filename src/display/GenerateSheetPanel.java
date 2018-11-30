@@ -56,18 +56,15 @@ public class GenerateSheetPanel extends JPanel {
 		reasonSelect.setBounds(
 				maxX / 2 - reasonSelect.getPreferredSize().width - sertSelect.getPreferredSize().width / 2
 						- PADDING_CONSTANT,
-				(int) (maxY * 0.7) - Utils.scale(80) / 2 - courseMissingSelect.getPreferredSize().height
-						- PADDING_CONSTANT,
+				Utils.scale(300),
 				reasonSelect.getPreferredSize().width, reasonSelect.getPreferredSize().height);
 
 		sertSelect.setBounds(
-				maxX / 2 - sertSelect.getPreferredSize().width / 2, (int) (maxY * 0.7) - Utils.scale(80) / 2
-						- courseMissingSelect.getPreferredSize().height - PADDING_CONSTANT,
+				maxX / 2 - sertSelect.getPreferredSize().width / 2, Utils.scale(300),
 				sertSelect.getPreferredSize().width, sertSelect.getPreferredSize().height);
 
 		courseMissingSelect.setBounds(maxX / 2 + sertSelect.getPreferredSize().width / 2 + PADDING_CONSTANT,
-				(int) (maxY * 0.7) - Utils.scale(80) / 2 - courseMissingSelect.getPreferredSize().height
-						- PADDING_CONSTANT,
+				Utils.scale(300),
 				courseMissingSelect.getPreferredSize().width, courseMissingSelect.getPreferredSize().height);
 
 		pane.add(reasonSelect);
