@@ -56,7 +56,7 @@ public class CustomTextField extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		titleButton = new CustomButton(title, getPreferredSize().width/2 - 220/2, 0, Utils.scale(220), Utils.scale(30), Utils.colours[3]);
+		titleButton = new CustomButton(title, getPreferredSize().width/2 - Utils.scale(220)/2, 0, Utils.scale(220), Utils.scale(30), Utils.colours[3]);
 		titleButton.setSelectable(false);
 		titleButton.draw(g, this);
 		
