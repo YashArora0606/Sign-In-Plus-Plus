@@ -47,7 +47,11 @@ public class SelectMultipleMenu extends DropDownMenu{
 		repaint();
 	}
 
-	
+	/**
+	 * getSelectedTexts
+	 * returns button values selected
+	 * @return ArrayList of Strings that holds every selected values
+	 */
 	public ArrayList<String> getSelectedTexts() {
 		return selectedTexts;
 	}
@@ -86,6 +90,13 @@ public class SelectMultipleMenu extends DropDownMenu{
 		}
 	}
 
+	/**
+	 * isMouseOnButton
+	 * checks whether or not the cursor is over the button
+	 * @param b custom button to check
+	 * @return true = is on button, false = not on button
+	 * @throws IllegalComponentStateException
+	 */
     public boolean isMouseOnButton(CustomButton b) throws IllegalComponentStateException{
         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
         Point relScreenLocation = this.getLocationOnScreen().getLocation();

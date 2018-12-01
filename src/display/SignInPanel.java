@@ -96,6 +96,11 @@ class SignInPanel extends JPanel {
 		setVisible(true);
 	}
 
+	/**
+	 * submit
+	 * sets all variables and re initializes placeholders in the button fields
+	 * @return true = successfully submitted false = error thrown/user input incorrect
+	 */
 	private boolean submit() {
 		String id = idField.getText();
 		String subject = sertDropDown.getSelectedText();
@@ -150,6 +155,11 @@ class SignInPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * paintComponent
+	 * draws all buttons and text on screen
+	 * @param g Graphics
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
