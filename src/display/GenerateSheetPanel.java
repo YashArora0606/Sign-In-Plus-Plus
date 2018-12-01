@@ -9,18 +9,19 @@ import java.awt.Dimension;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
 import datamanagement.SignInManager;
 import utilities.Utils;
 
 public class GenerateSheetPanel extends JPanel {
 	private Window display;
-
 	private JPanel panel;
+
 	private int maxX;
 	private int maxY;
+
 	private CustomButton back;
 	private CustomButton generate;
 
@@ -28,27 +29,25 @@ public class GenerateSheetPanel extends JPanel {
 	private SelectMultipleMenu sertSelect;
 	private SelectMultipleMenu courseMissingSelect;
 
-	CustomTextField idField;
-	CustomTextField earliestDateField;
-	CustomTextField latestDateField;
-	CustomTextField firstNameField;
-	CustomTextField lastNameField;
-	CustomTextField maxTimeField;
-	CustomTextField minTimeField;
-	
-	
+	private CustomTextField idField;
+	private CustomTextField earliestDateField;
+	private CustomTextField latestDateField;
+	private CustomTextField firstNameField;
+	private CustomTextField lastNameField;
+	private CustomTextField maxTimeField;
+	private CustomTextField minTimeField;
+
 	private String errorMessage = "";
 	private static final int PADDING_CONSTANT = Utils.scale(20);
-
 
 	GenerateSheetPanel(Window display) {
 		this.display = display;
 		this.panel = this;
 		this.maxX = display.maxX;
 		this.maxY = display.maxY;
-		this.setLayout(null);
-		setBackground(Utils.colours[4]);
-		setLayout(new BorderLayout());
+
+		this.setBackground(Utils.colours[4]);
+		this.setLayout(new BorderLayout());
 
 		JLayeredPane pane = new JLayeredPane();
 		pane.setPreferredSize(new Dimension(maxX, maxY));
