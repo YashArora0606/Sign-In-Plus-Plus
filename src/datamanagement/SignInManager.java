@@ -7,12 +7,19 @@ import exceptions.NotLoggedInException;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
 import iomanagement.StudentListReader;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.HashMap;
 
 public class SignInManager {
 
@@ -160,10 +167,31 @@ public class SignInManager {
 
         SinglyLinkedList<Session> sessions = database.findSessions(query);
 
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        XSSFCellStyle dateStyle = workbook.createCellStyle();
+
+        XSSFSheet sheet = workbook.createSheet("Log");
+
+        String[] header = {"Student id", "First Name", "Last Name", "Grade", "Sign-in Time", "Sign-out Time", "Reason", "SERT", "Course"};
+        XSSFRow headerRow = sheet.createRow(0);
+        for (int colIndex = 0; colIndex < header.length; colIndex++) {
+            headerRow.createCell(0).setCellValue(header[colIndex]);
+        }
+
+        int rowIndex = 1;
+        for (Session session : sessions) {
+
+        }
 
 
 
-
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(new File("database/"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void close() {

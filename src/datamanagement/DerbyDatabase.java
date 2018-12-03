@@ -41,14 +41,14 @@ public class DerbyDatabase implements Database {
 
             //create prepared statements
             String[][] statements = {
-                    {"insert student", "INSERT INTO STUDENTS (ID, FIRSTNAME, LASTNAME, GRADE) VALUES (?, ?, ?, ?)"},
-                    {"find student", "SELECT * FROM STUDENTS WHERE ID=?"},
-                    {"get all students", "SELECT * FROM STUDENTS"},
-                    {"update student", "UPDATE STUDENTS SET FIRSTNAME=?, LASTNAME=?, GRADE=? WHERE ID=?"},
-                    {"check student", "SELECT * FROM SESSIONS WHERE ID=? AND SIGNOUTTIME IS NULL"},
-                    {"remove student", "DELETE FROM STUDENTS WHERE ID=?"},
-                    {"insert sessions", "INSERT INTO SESSIONS (ID, SIGNINTIME, SIGNOUTTIME, REASON, SERT, COURSE) VALUES (?, ?, ?, ?, ?, ?)"},
-                    {"resolve sessions", "UPDATE SESSIONS SET SIGNOUTTIME=? WHERE ID=? AND SIGNOUTTIME IS NULL"},
+                    {"insert student", "insert into students (id, firstname, lastname, grade) values (?, ?, ?, ?)"},
+                    {"find student", "select * from students where id=?"},
+                    {"get all students", "select * from students"},
+                    {"update student", "update students set firstname=?, lastname=?, grade=? where id=?"},
+                    {"check student", "select * from sessions where id=? and signouttime is null"},
+                    {"remove student", "delete from students where id=?"},
+                    {"insert sessions", "insert into sessions (id, signintime, signouttime, reason, sert, course) values (?, ?, ?, ?, ?, ?)"},
+                    {"resolve sessions", "update sessions set signouttime=? where id=? and signouttime is null"},
             };
 
             for (String[] pair : statements) {
@@ -69,15 +69,19 @@ public class DerbyDatabase implements Database {
 
     private void createTablesIfNotExist() {
         try {
-            statement.executeUpdate("CREATE TABLE STUDENTS(" +
-                    "ID INT NOT NULL PRIMARY KEY, " +
-                    "FIRSTNAME VARCHAR(100) NOT NULL, " +
-                    "LASTNAME VARCHAR(100) NOT NULL, " +
-                    "GRADE INT CHECK (GRADE IS NULL OR (GRADE >= 9 AND GRADE <= 13))");
+            statement.executeUpdate("create table students(" +
+                    "id int not null primary key, " +
+                    "firstname varchar(100) not null, " +
+                    "lastname varchar(100) not null, " +
+                    "grade int check (grade >= 9 and grade <= 13))");
             con.commit();
 
         } catch (SQLException e) {
-            System.out.println("Students table already exists");
+            if (e.getSQLState().equals("X0Y32")) {
+                System.out.println("Session table already exists");
+            } else {
+                e.printStackTrace();
+            }
         }
 
         try {
@@ -92,7 +96,11 @@ public class DerbyDatabase implements Database {
             con.commit();
 
         } catch (SQLException e) { //thrown if the table does not exist
-            System.out.println("Session table already exists");
+            if (e.getSQLState().equals("X0Y32")) {
+                System.out.println("Session table already exists");
+            } else {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -214,7 +222,6 @@ public class DerbyDatabase implements Database {
             return true;
 
         } catch (SQLException e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -288,40 +295,40 @@ public class DerbyDatabase implements Database {
 
     private String buildQuery(Query query) {
 
-        StringBuilder sqlQuery = new StringBuilder("SELECT * FROM SESSIONS WHERE (SIGNOUTTIME IS NOT NULL)");
+        StringBuilder sqlQuery = new StringBuilder("select * from sessions where (signouttime is not null)");
 
         SinglyLinkedList<String> conditions = new SinglyLinkedList<>();
 
         if (query.id == -1) {
-            conditions.add("(ID=" + query.id + ")");
+            conditions.add("(id=" + query.id + ")");
         }
 
         if (query.earliestDate != null) {
-            conditions.add("(SIGNINTIME>" + query.earliestDate + ")");
+            conditions.add("(signintime>" + query.earliestDate + ")");
         }
 
         if (query.latestDate != null) {
-            conditions.add("(SIGNOUTTIME<" + query.latestDate + ")");
+            conditions.add("(signouttime<" + query.latestDate + ")");
         }
 
         if (query.minTime > 0) {
-            conditions.add("({fn TIMESTAMPDIFF(SQL_TSI_MINUTE, SIGNINTIME, SIGNOUTTIME)}>" + query.minTime + ")");
+            conditions.add("({fn timestampdiff(sql_tsi_minute, signintime, signouttime)}>" + query.minTime + ")");
         }
 
         if (query.maxTime > 0) {
-            conditions.add("({fn TIMESTAMPDIFF(SQL_TSI_MINUTE, SIGNINTIME, SIGNOUTTIME)}<" + query.maxTime + ")");
+            conditions.add("({fn timestampdiff(sql_tsi_minute, signintime, signouttime)}<" + query.maxTime + ")");
         }
 
         if (query.reasons.size() > 0) {
-            conditions.add("(REASON IN " + toSqlList(query.reasons) + ")");
+            conditions.add("(reason in " + toSqlList(query.reasons) + ")");
         }
 
         if (query.serts.size() > 0) {
-            conditions.add("(SERT IN " + toSqlList(query.serts) + ")");
+            conditions.add("(sert in " + toSqlList(query.serts) + ")");
         }
 
         if (query.courses.size() > 0) {
-            conditions.add("(COURSE IN " + toSqlList(query.courses) + ")");
+            conditions.add("(course in " + toSqlList(query.courses) + ")");
         }
 
         if (conditions.size() == 0) {
@@ -329,7 +336,7 @@ public class DerbyDatabase implements Database {
         }
 
         for (String condition : conditions) {
-            sqlQuery.append(" AND ");
+            sqlQuery.append(" and ");
             sqlQuery.append(condition);
         }
 
