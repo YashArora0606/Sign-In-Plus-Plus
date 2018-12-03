@@ -1,9 +1,9 @@
 package datamanagement;
 
-import exceptions.AlreadyLoggedInException;
+import exceptions.AlreadySignedInException;
 import exceptions.ImproperFormatException;
 import exceptions.InvalidIdException;
-import exceptions.NotLoggedInException;
+import exceptions.NotSignedInException;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
 import iomanagement.StudentListReader;
@@ -98,7 +98,7 @@ public class SignInManager {
     }
 
     public boolean signIn(int id, String reason, String sert, String course)
-            throws InvalidIdException, AlreadyLoggedInException {
+            throws InvalidIdException, AlreadySignedInException {
 
         // check if student exists
         Student student;
@@ -115,7 +115,7 @@ public class SignInManager {
 
         try {
             if (database.isStudentSignedIn(id)) {
-                throw new AlreadyLoggedInException();
+                throw new AlreadySignedInException();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,7 +126,7 @@ public class SignInManager {
         return database.addSession(session);
     }
 
-    public boolean signOut(int id) throws InvalidIdException, NotLoggedInException {
+    public boolean signOut(int id) throws InvalidIdException, NotSignedInException {
 
         Student student;
 
@@ -142,7 +142,7 @@ public class SignInManager {
 
         try {
             if (!database.isStudentSignedIn(id)) {
-                throw new NotLoggedInException();
+                throw new NotSignedInException();
             }
         } catch (IOException e) {
             e.printStackTrace();

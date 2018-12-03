@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import datamanagement.SignInManager;
-import exceptions.AlreadyLoggedInException;
+import exceptions.AlreadySignedInException;
 import exceptions.InvalidIdException;
 import utilities.Utils;
 
@@ -113,7 +113,7 @@ class SignInPanel extends JPanel {
 			errorMessage = "";
 
 			return true;
-		} catch (InvalidIdException | AlreadyLoggedInException e) {
+		} catch (InvalidIdException | AlreadySignedInException e) {
 			errorMessage = "Error: " + e.getMessage();
 			return false;
 		}
