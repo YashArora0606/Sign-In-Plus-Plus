@@ -19,5 +19,11 @@ public class Launcher {
         Database database = new DerbyDatabase();
         SignInManager signInManager = new SignInManager(database);
         Window frame = new Window(signInManager);
+
+        try {
+            signInManager.configureStudents();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

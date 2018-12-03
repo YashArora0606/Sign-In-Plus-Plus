@@ -1,132 +1,156 @@
 package datamanagement;
 
 import exceptions.AlreadyLoggedInException;
+import exceptions.ImproperFormatException;
 import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
+import iomanagement.StudentListReader;
+import utilities.SinglyLinkedList;
 import utilities.Utils;
 
 import java.io.IOException;
 
 public class SignInManager {
 
-	public final static String[] reasons = new String[] { "Test", "Chill Zone", "Quiet Work", "Academic Help",
-			"Group Work" };
+    public final static String[] reasons = new String[]{"Test", "Chill Zone", "Quiet Work", "Academic Help",
+            "Group Work"};
 
-	public final static String[] courses = new String[] { "Art", "Math", "Music", "Science", "History", "Geography",
-			"Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare" };
+    public final static String[] courses = new String[]{"Art", "Math", "Music", "Science", "History", "Geography",
+            "Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare"};
 
-	public final static String[] serts = new String[] { "Baulk", "Borshiov", "Hamilton", "Ingber", "Irving", "Lachner",
-			"Wengle" };
+    public final static String[] serts = new String[]{"Baulk", "Borshiov", "Hamilton", "Ingber", "Irving", "Lachner",
+            "Wengle"};
 
-	private Database database;
 
-	public SignInManager(Database database) {
-		this.database = database;
-	}
+    private Database database;
 
-	public boolean addStudent(int id, String firstName, String lastName, int grade)
-			throws StudentAlreadyExistsException {
+    public SignInManager(Database database) {
+        this.database = database;
+    }
 
-		Student existingStudent;
 
-		try {
-			existingStudent = database.findStudentById(id);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+    public boolean addStudent(int id, String firstName, String lastName, int grade)
+            throws StudentAlreadyExistsException {
 
-		if (existingStudent != null) {
-			throw new StudentAlreadyExistsException();
-		}
+        Student existingStudent;
 
-		Student newStudent = new Student(id, firstName, lastName, grade);
-		return database.addStudent(newStudent);
-	}
+        try {
+            existingStudent = database.findStudentById(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-	public boolean removeStudent(int id) throws StudentDoesNotExistException {
-		Student existingStudent;
+        if (existingStudent != null) {
+            throw new StudentAlreadyExistsException();
+        }
 
-		try {
-			existingStudent = database.findStudentById(id);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+        Student newStudent = new Student(id, firstName, lastName, grade);
+        return database.addStudent(newStudent);
+    }
 
-		if (existingStudent == null) {
-			throw new StudentDoesNotExistException();
-		}
+    public void configureStudents() throws IOException, ImproperFormatException {
 
-		return database.removeStudentById(id);
-	}
+        SinglyLinkedList<Student> newStudents = StudentListReader.getStudents();
+        SinglyLinkedList<Student> currStudents = database.getStudents();
 
-	public boolean signIn(int id, String reason, String sert, String course)
-			throws InvalidIdException, AlreadyLoggedInException {
+        for (Student newStudent : newStudents) {
+            if (currStudents.indexOf(newStudent) == -1) {
+                database.addStudent(newStudent);
+            } else {
+                database.updateStudent(newStudent);
+            }
+        }
 
-		// check if student exists
-		Student student;
+        for (Student currStudent : currStudents) {
+            if (newStudents.indexOf(currStudent) == -1) {
+                database.removeStudentById(currStudent.id);
+            }
+        }
+    }
 
-		try {
-			student = database.findStudentById(id);
-		} catch (IOException e) {
-			return false;
-		}
+    public boolean removeStudent(int id) throws StudentDoesNotExistException {
+        Student existingStudent;
 
-		if (student == null) {
-			throw new InvalidIdException(id);
-		}
+        try {
+            existingStudent = database.findStudentById(id);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-		try {
-			if (database.isStudentSignedIn(id)) {
-				throw new AlreadyLoggedInException();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+        if (existingStudent == null) {
+            throw new StudentDoesNotExistException();
+        }
 
-		Session session = new Session(student, Utils.getNow(), null, reason, sert, course);
-		return database.addSession(session);
-	}
+        return database.removeStudentById(id);
+    }
 
-	public boolean signOut(int id) throws InvalidIdException, NotLoggedInException {
+    public boolean signIn(int id, String reason, String sert, String course)
+            throws InvalidIdException, AlreadyLoggedInException {
 
-		Student student;
+        // check if student exists
+        Student student;
 
-		try {
-			student = database.findStudentById(id);
-		} catch (IOException e) {
-			return false;
-		}
+        try {
+            student = database.findStudentById(id);
+        } catch (IOException e) {
+            return false;
+        }
 
-		if (student == null) { // check if student exists
-			throw new InvalidIdException(id);
-		}
+        if (student == null) {
+            throw new InvalidIdException(id);
+        }
 
-		try {
-			if (!database.isStudentSignedIn(id)) {
-				throw new NotLoggedInException();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+        try {
+            if (database.isStudentSignedIn(id)) {
+                throw new AlreadyLoggedInException();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
 
-		return database.resolveOpenSessions(id, Utils.getNow());
-	}
+        Session session = new Session(student, Utils.getNow(), null, reason, sert, course);
+        return database.addSession(session);
+    }
 
-	public void generateHTML() {
-	}
+    public boolean signOut(int id) throws InvalidIdException, NotLoggedInException {
 
-	public void generateExcel() {
+        Student student;
 
-	}
+        try {
+            student = database.findStudentById(id);
+        } catch (IOException e) {
+            return false;
+        }
 
-	public void close() {
-		database.close();
-	}
+        if (student == null) {
+            throw new InvalidIdException(id);
+        }
+
+        try {
+            if (!database.isStudentSignedIn(id)) {
+                throw new NotLoggedInException();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return database.resolveOpenSessions(id, Utils.getNow());
+    }
+
+    public void generateHTML() {
+    }
+
+    public void generateExcel() {
+    }
+
+    public void close() {
+        database.close();
+    }
 
 }

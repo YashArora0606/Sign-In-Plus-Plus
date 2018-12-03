@@ -1,5 +1,6 @@
 package datamanagement;
 
+import exceptions.ImproperFormatException;
 import utilities.SinglyLinkedList;
 
 import java.io.IOException;
@@ -9,16 +10,20 @@ import java.util.InputMismatchException;
 
 public interface Database {
 
-    boolean addStudent(Student student);
+    boolean addStudent(Student newStudent);
 
     Student findStudentById(int id) throws IOException;
 
+    SinglyLinkedList<Student> getStudents();
+
     boolean isStudentSignedIn(int id) throws IOException;
+
+    boolean updateStudent(Student updatedStudent);
 
     boolean removeStudentById(int id);
 
 
-    boolean addSession(Session session);
+    boolean addSession(Session newSession);
 
     SinglyLinkedList<Session> findSessions(HashMap<String, Object> criterion) throws IOException, InputMismatchException;
 

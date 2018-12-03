@@ -1,136 +1,102 @@
 package iomanagement;
 
 import datamanagement.Student;
-import display.ErrorWindow;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import exceptions.ImproperFormatException;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.ExcelUtils;
+import utilities.SinglyLinkedList;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 /**
  * Reads from an .xlsx file of students
  * 11/25/2018
+ *
  * @author Alston
  */
 public class StudentListReader {
 
-    private final String STUDENTS_DIR = "database/";
-    private final String STUDENTS_FILE = "Students.xlsx";
+    private static final String STUDENTS_DIR = "database/";
+    private static final String STUDENTS_FILE = "Students.xlsx";
 
-    private final String[] header = {"Student ID", "First Name", "Last Name", "Grade"};
 
-    private ArrayList<Student> students = new ArrayList<>();
+    public static SinglyLinkedList<Student> getStudents() throws IOException, ImproperFormatException {
 
-    /**
-     * Constructs the reader and reads from the file
-     */
-    public StudentListReader() {
+        DataFormatter formatter = new DataFormatter();
 
-        XSSFWorkbook workbook = null;
-
-        try {
-            workbook = ExcelUtils.loadFile(STUDENTS_DIR + STUDENTS_FILE);
-
-        } catch (FileNotFoundException e) {
-            new ErrorWindow("Students.xlsx could not be found and was auto-generated");
-            createNewStudentFile();
-            openDirectory();
-            System.exit(1);
-
-        } catch (IOException e) {
-            new ErrorWindow("Unknown error in Students.xlsx");
-            System.exit(1);
-        }
-
-        //open first sheet (by default, an excel file must contain at least 1 sheet
+        XSSFWorkbook workbook = ExcelUtils.loadFile(STUDENTS_DIR + STUDENTS_FILE);
         XSSFSheet sheet = workbook.getSheetAt(0);
 
-        //create cell styles
-        XSSFCellStyle redCell = workbook.createCellStyle();
-        redCell.setFillForegroundColor(IndexedColors.RED.getIndex());
-        redCell.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
-        XSSFCellStyle defaultCell = workbook.createCellStyle();
-        defaultCell.setFillPattern(FillPatternType.NO_FILL);
-
-        //read file
-        boolean fileProperlyFormatted = true;
+        SinglyLinkedList<Student> students = new SinglyLinkedList<>();
 
         for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
 
             XSSFRow row = sheet.getRow(rowIndex);
-            if (row == null) {
-                row = sheet.createRow(rowIndex);
+            if (sheet.getRow(rowIndex) == null) {
+                throw new ImproperFormatException();
             }
 
+            for (int colIndex = 0; colIndex < 4; colIndex++) {
+                if (row.getCell(colIndex) == null) {
+                    throw new ImproperFormatException();
+                }
+            }
 
+            int id = formatId(formatter.formatCellValue(row.getCell(0)));
+            String firstName = formatName(formatter.formatCellValue(row.getCell(1)));
+            String lastName = formatName(formatter.formatCellValue(row.getCell(2)));
+            int grade = formatGrade(formatter.formatCellValue(row.getCell(3)));
+            students.add(new Student(id, firstName, lastName, grade));
         }
+
+        return students;
+    }
+
+
+    private static int formatId(String id) throws ImproperFormatException {
+
+        int idNum;
 
         try {
-            ExcelUtils.saveFile(workbook, STUDENTS_DIR + STUDENTS_FILE);
-        } catch (IOException e) {
-            new ErrorWindow("Unknown error in Students.xlsx");
-            System.exit(1);
+            idNum = Integer.parseInt(id);
+        } catch (NullPointerException | NumberFormatException e) {
+            throw new ImproperFormatException();
         }
 
-        if (!fileProperlyFormatted) {
-            new ErrorWindow("Students.xlsx improperly formatted");
-            openDirectory();
-            System.exit(1);
+        if (idNum < 0 || idNum > 999999999) {
+            throw new ImproperFormatException();
         }
+
+        return idNum;
     }
 
-    public Student[] getStudents() {
-        return students.toArray(new Student[0]);
+    private static String formatName(String name) {
+
+        name = name.trim();
+
+        return name;
     }
 
-    /**
-     * Creates a new Students.xlsx file
-     */
-    private void createNewStudentFile() {
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("Student List");;
+    private static int formatGrade(String grade) throws ImproperFormatException {
 
-        XSSFRow row = sheet.createRow(0);
-        for (int i = 0; i < header.length; i++) {
-            row.createCell(i).setCellValue(header[i]);
-            sheet.autoSizeColumn(i);
-        }
+        int gradeNum;
 
         try {
-            ExcelUtils.saveFile(workbook, STUDENTS_DIR + STUDENTS_FILE);
-        } catch (IOException e) {
-            e.printStackTrace();
+            gradeNum = Integer.parseInt(grade);
+        } catch (NullPointerException | NumberFormatException e) {
+            throw new ImproperFormatException();
         }
-    }
 
-    /**
-     * Opens the directory to the Students.xlsx file on the desktop
-     */
-    private void openDirectory() {
-        try {
-            Desktop desktop = Desktop.getDesktop();
-            desktop.open(new File(STUDENTS_DIR));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (gradeNum < 9 || gradeNum > 13) {
+            throw new ImproperFormatException();
         }
+
+        return gradeNum;
     }
 
-    private boolean isValidId(int id) {
-        return (id >= 0 && id <= 999999999);
-    }
 
-    private boolean isValidGrade(int grade) {
-        return (grade >= 9 && grade <= 13);
-    }
 }

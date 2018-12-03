@@ -1,13 +1,16 @@
 package utilities;
 
-import java.util.List;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 /**
  * Singly linked list implementation
  * @param <E>
  */
-public class SinglyLinkedList<E> implements Queue<E> {
+public class SinglyLinkedList<E> implements Queue<E>, Iterable<E> {
+
     private Node<E> head;
     private Node<E> tail;
     private int size = 0;
@@ -44,7 +47,7 @@ public class SinglyLinkedList<E> implements Queue<E> {
         return getNode(index).item;
     }
 
-    public int indexOf(Object o) {
+    public int indexOf(E o) {
         Node<E> node = head;
         for (int i = 0; i < size; i++) {
             if (o == node.item || o.equals(node.item)) {
@@ -79,7 +82,7 @@ public class SinglyLinkedList<E> implements Queue<E> {
         return removed.item;
     }
 
-    public boolean remove(Object o) {
+    public boolean remove(E o) {
         int index = indexOf(o);
         if (index == -1) {
             return false;
@@ -87,14 +90,6 @@ public class SinglyLinkedList<E> implements Queue<E> {
             remove(index);
             return true;
         }
-    }
-
-    public static SinglyLinkedList copyOf(SinglyLinkedList list){
-        SinglyLinkedList newList = new SinglyLinkedList<>();
-        for (int i = 0; i < list.size(); i++){
-            newList.add(list.get(i));
-        }
-        return newList;
     }
 
     public void clear() {
@@ -106,6 +101,7 @@ public class SinglyLinkedList<E> implements Queue<E> {
     public int size() {
         return size;
     }
+
 
     // Queue Methods
     @Override
@@ -146,6 +142,26 @@ public class SinglyLinkedList<E> implements Queue<E> {
     }
 
 
+    //Iterable methods
+    @Override
+    public Iterator<E> iterator() {
+        return new SinglyLinkedListIterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super E> action) {
+        for (E e : this) {
+            action.accept(e);
+        }
+    }
+
+    @Override
+    public Spliterator<E> spliterator() {
+        throw new UnsupportedOperationException();
+    }
+
+
+
     // Privated Components
     private Node<E> getNode(int index) {
         if (index < 0 || index >= size) {
@@ -164,6 +180,48 @@ public class SinglyLinkedList<E> implements Queue<E> {
                 node = node.next;
             }
             return node;
+        }
+    }
+
+    private class SinglyLinkedListIterator implements Iterator<E> {
+
+        private Node<E> last = null;
+        private Node<E> next = head;
+        private int lastIndex = -1;
+
+        @Override
+        public boolean hasNext() {
+            return next != null;
+        }
+
+        @Override
+        public E next() {
+            if (next == null) {
+                throw new NoSuchElementException();
+            }
+
+            last = next;
+            next = next.next;
+            lastIndex++;
+            return last.item;
+        }
+
+        @Override
+        public void remove() {
+            if (last == null) {
+                throw new IllegalStateException();
+            }
+
+            SinglyLinkedList.this.remove(lastIndex);
+            last = null;
+            lastIndex--;
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super E> action) {
+            while (hasNext()) {
+                action.accept(next());
+            }
         }
     }
 

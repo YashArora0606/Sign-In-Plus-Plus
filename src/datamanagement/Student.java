@@ -12,4 +12,12 @@ public class Student {
         this.lastName = lastName;
         this.grade = grade;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Student) {
+            return id == ((Student)obj).id;
+        }
+        return super.equals(obj);
+    }
 }
