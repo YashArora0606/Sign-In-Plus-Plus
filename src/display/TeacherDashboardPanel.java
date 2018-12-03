@@ -52,7 +52,7 @@ public class TeacherDashboardPanel extends JPanel {
 				Utils.scale(80), Utils.colours[1]);
 		changePassword = new CustomButton("Change Password", maxX / 2 - Utils.scale(375) - padding, Utils.scale(520),
 				Utils.scale(375), Utils.scale(80), Utils.colours[2]);
-		generateSheet = new CustomButton("Generate Sheet", maxX / 2 + padding, Utils.scale(520), Utils.scale(400),
+		generateSheet = new CustomButton("Generate Files", maxX / 2 + padding, Utils.scale(520), Utils.scale(300),
 				Utils.scale(80), Utils.colours[2]);
 		
 		changeSerts = new CustomButton("Edit Serts", maxX / 2 - Utils.scale(400)/2, Utils.scale(640), Utils.scale(400),

@@ -29,7 +29,8 @@ public class GenerateSheetPanel extends JPanel {
 	private int maxY;
 
 	private CustomButton back;
-	private CustomButton generate;
+	private CustomButton generateExcel;
+	private CustomButton generateHTML;
 
 	private SelectMultipleMenu reasonSelect;
 	private SelectMultipleMenu sertSelect;
@@ -154,9 +155,13 @@ public class GenerateSheetPanel extends JPanel {
 		back.draw(g, panel);
 
 		//generate button generates excel file
-		generate = new CustomButton("Filter", maxX / 2 - Utils.scale(200) / 2, (int) (maxY * 0.83) - Utils.scale(80) / 2,
-				Utils.scale(200), Utils.scale(80), Utils.colours[2]);
-		generate.draw(g, panel);
+		generateExcel = new CustomButton("Generate Excel", maxX / 2 - Utils.scale(430), (int) (maxY * 0.83) - Utils.scale(80) / 2,
+				Utils.scale(330), Utils.scale(80), Utils.colours[2]);
+		generateExcel.draw(g, panel);
+
+		generateHTML = new CustomButton("Generate Report", maxX / 2 + Utils.scale(100), (int) (maxY * 0.83) - Utils.scale(80) / 2,
+				Utils.scale(350), Utils.scale(80), Utils.colours[2]);
+		generateHTML.draw(g, panel);
 
 		//display error message using custom button as a label (unclickable)
 		CustomButton errorButton = new CustomButton(errorMessage, maxX / 2, (int) (maxY * 0.88), 0, Utils.scale(30));
@@ -168,8 +173,9 @@ public class GenerateSheetPanel extends JPanel {
 
 	/**
 	 * Filters the reasons and calls on the calls on the database to create excel file
+	 * @param type whether the output file is a HTML or Excel (0=Excel, 1=HTML)
 	 */
-	private void filterAndSubmit() {
+	private void filterAndSubmit(int type) {
 
 		ArrayList<String> reasons = reasonSelect.getSelectedTexts(); //creating arraylists of the selected factors
 		ArrayList<String> serts = sertSelect.getSelectedTexts();
@@ -204,6 +210,7 @@ public class GenerateSheetPanel extends JPanel {
 			maxTimeAsInt = Utils.getInt(maxTime);
 			
 			// PASS THIS DATA INTO ALSTON'S METHOD
+			//BASED ON THE TYPE OF FILE WANTED
 		}
 
 	}
@@ -230,8 +237,10 @@ public class GenerateSheetPanel extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			if (back.isMouseOnButton(panel)) { //back button returns to teacher dashboard
 				leaveScreen(5);
-			} else if (generate.isMouseOnButton(panel)) { //generate button creates excel
-				filterAndSubmit();
+			} else if (generateExcel.isMouseOnButton(panel)) { //generate button creates excel
+				filterAndSubmit(0);
+			} else if (generateHTML.isMouseOnButton(panel)){
+				filterAndSubmit(1);
 			}
 		}
 

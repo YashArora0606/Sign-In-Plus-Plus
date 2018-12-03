@@ -144,7 +144,7 @@ public class Utils {
 	public static int getInt(String str) {
 		
 		if (str.length() == 0) {
-			return (Integer) null;
+			return -1;
 		} else {
 			return Integer.parseInt(str);
 		}

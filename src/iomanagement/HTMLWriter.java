@@ -14,20 +14,17 @@ import java.util.Scanner;
 
 
 public class HTMLWriter {
-    String excelFile;
-    Stack<Session>[] studentSession;
-    Student[] studentList;
-    SinglyLinkedList<Session> sessionList;
-    SinglyLinkedList<String> template;
-    SinglyLinkedList<String> reportTemplate;
+    private Stack<Session>[] studentSession;
+    private Student[] studentList;
+    private SinglyLinkedList<Session> sessionList;
+    private SinglyLinkedList<String> template;
+    private SinglyLinkedList<String> reportTemplate;
 
     /**
      * Constructor - initializes templates upon creation
-     * @param excelFile
      * @param studentList
      */
-    HTMLWriter(String excelFile, Student[] studentList, SinglyLinkedList<Session> sessionList){
-        this.excelFile = excelFile;
+    HTMLWriter(Student[] studentList, SinglyLinkedList<Session> sessionList){
         this.studentList = studentList;
         this.sessionList = sessionList;
         studentSession = new Stack[studentList.length];

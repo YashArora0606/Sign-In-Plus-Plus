@@ -1,15 +1,20 @@
 package datamanagement;
 
-import exceptions.AlreadyLoggedInException;
+import exceptions.AlreadySignedInException;
 import exceptions.ImproperFormatException;
 import exceptions.InvalidIdException;
-import exceptions.NotLoggedInException;
+import exceptions.NotSignedInException;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
 import iomanagement.StudentListReader;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
+<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -19,6 +24,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+=======
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Timestamp;
+>>>>>>> 987baf845779e486f709ebd0dd2a2ea78ef9ab66
 
 public class SignInManager {
 
@@ -88,6 +101,7 @@ public class SignInManager {
 		SinglyLinkedList<Student> newStudents = StudentListReader.getStudents();
 		SinglyLinkedList<Student> currStudents = database.getStudents();
 
+<<<<<<< HEAD
 		for (Student newStudent : newStudents) {
 			if (currStudents.indexOf(newStudent) == -1) {
 				database.addStudent(newStudent);
@@ -95,6 +109,10 @@ public class SignInManager {
 				database.updateStudent(newStudent);
 			}
 		}
+=======
+    public boolean signIn(int id, String reason, String sert, String course)
+            throws InvalidIdException, AlreadySignedInException {
+>>>>>>> 987baf845779e486f709ebd0dd2a2ea78ef9ab66
 
 		for (Student currStudent : currStudents) {
 			if (newStudents.indexOf(currStudent) == -1) {
@@ -113,15 +131,30 @@ public class SignInManager {
 			return false;
 		}
 
+<<<<<<< HEAD
 		if (existingStudent == null) {
 			throw new StudentDoesNotExistException();
 		}
+=======
+        try {
+            if (database.isStudentSignedIn(id)) {
+                throw new AlreadySignedInException();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+>>>>>>> 987baf845779e486f709ebd0dd2a2ea78ef9ab66
 
 		return database.removeStudentById(id);
 	}
 
+<<<<<<< HEAD
 	public boolean signIn(int id, String reason, String sert, String course)
 			throws InvalidIdException, AlreadyLoggedInException {
+=======
+    public boolean signOut(int id) throws InvalidIdException, NotSignedInException {
+>>>>>>> 987baf845779e486f709ebd0dd2a2ea78ef9ab66
 
 		// check if student exists
 		Student student;
@@ -136,6 +169,7 @@ public class SignInManager {
 			throw new InvalidIdException(id);
 		}
 
+<<<<<<< HEAD
 		try {
 			if (database.isStudentSignedIn(id)) {
 				throw new AlreadyLoggedInException();
@@ -198,5 +232,99 @@ public class SignInManager {
 	public static ArrayList<String> getSertList() {
 		return sertList;
 	}
+=======
+        try {
+            if (!database.isStudentSignedIn(id)) {
+                throw new NotSignedInException();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return database.resolveOpenSessions(id, Utils.getNow());
+    }
+
+    public void generateHTML(int id, Timestamp earliestDate, Timestamp latestDate, int minTime,
+                             int maxTime, SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts,
+                             SinglyLinkedList<String> courses) throws IOException {
+
+        Query query = new Query(id, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
+
+        SinglyLinkedList<Student> students = database.getStudents();
+        SinglyLinkedList<Session> sessions = database.findSessions(query);
+
+    }
+
+    public void generateExcel(int id, Timestamp earliestDate, Timestamp latestDate, int minTime,
+                              int maxTime, SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts,
+                              SinglyLinkedList<String> courses) throws IOException {
+
+        Query query = new Query(id, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
+
+        SinglyLinkedList<Session> sessions = database.findSessions(query);
+
+        XSSFWorkbook workbook = new XSSFWorkbook();
+
+        XSSFCellStyle dateStyle = workbook.createCellStyle();
+        dateStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("m/d/yy h:mm"));
+
+        XSSFSheet sheet = workbook.createSheet("Log");
+
+        String[] header = {"Student id", "First Name", "Last Name", "Grade", "Sign-in Time", "Sign-out Time", "Reason", "SERT", "Course"};
+        XSSFRow headerRow = sheet.createRow(0);
+        for (int colIndex = 0; colIndex < header.length; colIndex++) {
+            headerRow.createCell(0).setCellValue(header[colIndex]);
+            sheet.autoSizeColumn(colIndex);
+        }
+
+        int rowIndex = 1;
+        for (Session session : sessions) {
+
+            XSSFRow row = sheet.createRow(rowIndex);
+
+            row.createCell(0).setCellValue(Utils.idToString(session.student.id));
+            row.createCell(1).setCellValue(session.student.firstName);
+            row.createCell(2).setCellValue(session.student.lastName);
+            row.createCell(3).setCellValue(session.student.grade);
+            row.createCell(4).setCellStyle(dateStyle);
+            row.getCell(4).setCellValue(session.startTime);
+            row.createCell(5).setCellStyle(dateStyle);
+            row.getCell(5).setCellValue(session.endTime);
+            row.createCell(6).setCellValue(session.reason);
+            row.createCell(7).setCellValue(session.sert);
+            row.createCell(8).setCellValue(session.course);
+
+        }
+
+        try {
+            File file = new File("database/Log.xlsx");
+
+            int counter = 1;
+            while (file.exists()) {
+                counter++;
+                file = new File("database/Log(" + counter + ").xlsx");
+            }
+
+            FileOutputStream out = new FileOutputStream(file);
+            workbook.write(out);
+            out.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(new File("database/"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        database.close();
+    }
+>>>>>>> 987baf845779e486f709ebd0dd2a2ea78ef9ab66
 
 }
