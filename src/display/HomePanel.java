@@ -9,6 +9,9 @@
 package display;
 
 import javax.swing.JPanel;
+
+import datamanagement.SignInManager;
+
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,6 +24,8 @@ class HomePanel extends JPanel {
     private final int maxY;
     private CustomButton student;
     private CustomButton teacher;
+    
+
 
     /**
      * Constructor
@@ -32,6 +37,8 @@ class HomePanel extends JPanel {
         this.maxX = display.maxX; //window dimensions
         this.maxY = display.maxY;
         this.addMouseListener(new MyMouseListener());
+        
+
     }
 
     /**
@@ -73,6 +80,7 @@ class HomePanel extends JPanel {
             } else if (teacher.isMouseOnButton(panel)) {
                 display.changeState(4);
             }
+
         }
         public void mousePressed(MouseEvent e){
 

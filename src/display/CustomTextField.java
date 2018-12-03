@@ -28,6 +28,7 @@ public class CustomTextField extends JPanel {
 	String title;
 	CustomButton titleButton;
 	private JTextField textField;
+	private boolean hasTitle;
 	
 	CustomTextField(String title) {
 		this.title = title;
@@ -37,15 +38,14 @@ public class CustomTextField extends JPanel {
         
 		textField = new JTextField(7);
 		textField.setBorder(BorderFactory.createDashedBorder(Utils.colours[0]));
-		textField.setBackground(null);
+		textField.setOpaque(false);
 		textField.setFont(Utils.getFont("assets/Kollektif.ttf", Utils.scale(30)));
 		textField.setText("");
 		//textField.setBounds(0, 30, 250, 60);
-		
+		this.hasTitle = true;
 		add(textField, BorderLayout.SOUTH);
-		
-        setVisible(true);
 
+        setVisible(true);
 	}
 	
 	public String getText() {
@@ -59,14 +59,21 @@ public class CustomTextField extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		titleButton = new CustomButton(title, getPreferredSize().width/2 - Utils.scale(230)/2, 0, Utils.scale(230), Utils.scale(30), Utils.colours[3]);
-
-		titleButton.setSelectable(false);
-		titleButton.draw(g, this);
 		
+		if (this.hasTitle) {
+			titleButton = new CustomButton(title, getPreferredSize().width/2 - Utils.scale(230)/2, 0, Utils.scale(230), Utils.scale(30), Utils.colours[3]);
+			titleButton.setSelectable(false);
+			titleButton.draw(g, this);
+		} else {
+			
+		}
 
 		
 		repaint();
+	}
+
+	public void setHasTitle(boolean hasTitle) {
+		this.hasTitle = hasTitle;
 	}
 
 }
