@@ -57,6 +57,11 @@ class SignOutPanel extends JPanel {
 		setVisible(true);
 	}
 
+	/**
+	 * paintComponent
+	 * draws all buttons and text on screen
+	 * @param g Graphics
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -82,6 +87,11 @@ class SignOutPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * submit
+	 * sets all variables and re initializes placeholders in the button fields
+	 * @return true = successfully submitted false = error thrown/user input incorrect
+	 */
 	private boolean submit() {
 		String id = idField.getText();
 		try {
@@ -99,6 +109,11 @@ class SignOutPanel extends JPanel {
 		public void mouseEntered(MouseEvent e) {
 		}
 
+		/**
+		 * mouseClicked
+		 * changes panel state, submits info, or does nothing. Based on where the user clicked
+		 * @param e MouseEvent
+		 */
 		public void mouseClicked(MouseEvent e) {
 			if (back.isMouseOnButton(panel)) {
 				display.changeState(1);

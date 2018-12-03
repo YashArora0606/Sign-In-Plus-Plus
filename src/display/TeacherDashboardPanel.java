@@ -33,6 +33,11 @@ public class TeacherDashboardPanel extends JPanel {
 		setBackground(Utils.colours[4]);
 	}
 
+	/**
+	 * paintComponent
+	 * draws all buttons and text on screen
+	 * @param g Graphics
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -64,6 +69,11 @@ public class TeacherDashboardPanel extends JPanel {
 
 		}
 
+		/**
+		 * mouseClicked
+		 * changes jpanel based on button clicked
+		 * @param e MouseEvent
+		 */
 		public void mouseClicked(MouseEvent e) {
 			if (addStudent.isMouseOnButton(panel)) {
 				display.changeState(7);

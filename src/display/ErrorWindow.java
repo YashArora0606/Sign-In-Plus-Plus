@@ -11,11 +11,13 @@ import javax.swing.JOptionPane;
  */
 public class ErrorWindow {
 
+    /**
+     * Constructor
+     * @param message the error message to be displayed
+     */
     public ErrorWindow(String message) {
         JLabel label = new JLabel(message);
         JOptionPane.showMessageDialog(null, label, "Error", JOptionPane.ERROR_MESSAGE);
     }
-
-
 
 }

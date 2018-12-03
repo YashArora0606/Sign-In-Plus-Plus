@@ -69,6 +69,7 @@ public class Window extends JFrame {
     }
 
     /**
+     * changeState
      * Displays a panel based on state (0 = home, 1 = menu, 2 = sign in, 3 = sign out, 4 = password, other = error)
      * @param state
      */
@@ -121,6 +122,7 @@ public class Window extends JFrame {
     }
 
     /**
+     * closeWindow
      * Closes the window, we should really have a listener to detect this too
      * Make sure to do the necessary modifications to resolve the signInManager
      */
