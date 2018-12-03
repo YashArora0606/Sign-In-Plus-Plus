@@ -40,7 +40,7 @@ public class ChangeSertsPanel extends JPanel{
     private CustomButton submit;
     AddAndRemoveMenu a;
     
-    String message = "SERTS will be saved automatically when you leave the page.";
+    String message = "SERTS will be updated automatically when you close the program.";
     String menuMessage = "";
     
     JLayeredPane pane;
