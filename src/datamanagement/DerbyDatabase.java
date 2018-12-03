@@ -1,7 +1,5 @@
 package datamanagement;
 
-import exceptions.ImproperFormatException;
-import iomanagement.StudentListReader;
 import utilities.SinglyLinkedList;
 
 import java.io.IOException;
@@ -13,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Properties;
 
 
@@ -66,7 +63,7 @@ public class DerbyDatabase implements Database {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.exit(1); //kill the program if the con fails
+            System.exit(1);
         }
     }
 
@@ -246,15 +243,15 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    public SinglyLinkedList<Session> findSessions(HashMap<String, Object> criteria) throws IOException, InputMismatchException {
+    public SinglyLinkedList<Session> findSessions(Query query) throws IOException {
 
-        String query = buildQuery(criteria);
+        String sqlQuery = buildQuery(query);
 
         SinglyLinkedList<Session> sessionList = new SinglyLinkedList<>();
         HashMap<Integer, Student> usedStudents = new HashMap<>();
 
         try {
-            ResultSet res = statement.executeQuery(query);
+            ResultSet res = statement.executeQuery(sqlQuery);
 
             while (res.next()) {
                 int id = res.getInt("id");
@@ -289,10 +286,72 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    private String buildQuery(HashMap<String, Object> criteria) throws InputMismatchException {
-        StringBuilder query = new StringBuilder("select * from sessions");
+    private String buildQuery(Query query) {
 
-        return query.toString();
+        StringBuilder sqlQuery = new StringBuilder("SELECT * FROM SESSIONS WHERE (SIGNOUTTIME IS NOT NULL)");
+
+        SinglyLinkedList<String> conditions = new SinglyLinkedList<>();
+
+        if (query.id == -1) {
+            conditions.add("(ID=" + query.id + ")");
+        }
+
+        if (query.earliestDate != null) {
+            conditions.add("(SIGNINTIME>" + query.earliestDate + ")");
+        }
+
+        if (query.latestDate != null) {
+            conditions.add("(SIGNOUTTIME<" + query.latestDate + ")");
+        }
+
+        if (query.minTime > 0) {
+            conditions.add("({fn TIMESTAMPDIFF(SQL_TSI_MINUTE, SIGNINTIME, SIGNOUTTIME)}>" + query.minTime + ")");
+        }
+
+        if (query.maxTime > 0) {
+            conditions.add("({fn TIMESTAMPDIFF(SQL_TSI_MINUTE, SIGNINTIME, SIGNOUTTIME)}<" + query.maxTime + ")");
+        }
+
+        if (query.reasons.size() > 0) {
+            conditions.add("(REASON IN " + toSqlList(query.reasons) + ")");
+        }
+
+        if (query.serts.size() > 0) {
+            conditions.add("(SERT IN " + toSqlList(query.serts) + ")");
+        }
+
+        if (query.courses.size() > 0) {
+            conditions.add("(COURSE IN " + toSqlList(query.courses) + ")");
+        }
+
+        if (conditions.size() == 0) {
+            return sqlQuery.toString();
+        }
+
+        for (String condition : conditions) {
+            sqlQuery.append(" AND ");
+            sqlQuery.append(condition);
+        }
+
+        System.out.println(sqlQuery.toString());
+
+        return sqlQuery.toString();
+    }
+
+    private String toSqlList(SinglyLinkedList<String> list) {
+        if (list.size() == 0) {
+            return null;
+        }
+
+        StringBuilder sqlList = new StringBuilder("(");
+
+        for (String item : list) {
+            sqlList.append("'" + item + "', ");
+        }
+
+        sqlList.setCharAt(sqlList.length() - 2, ')');
+
+        return sqlList.toString();
     }
 
     public boolean resolveOpenSessions(int id, Timestamp time) {

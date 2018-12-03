@@ -11,17 +11,19 @@ import utilities.SinglyLinkedList;
 import utilities.Utils;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.HashMap;
 
 public class SignInManager {
 
     public final static String[] reasons = new String[]{"Test", "Chill Zone", "Quiet Work", "Academic Help",
             "Group Work"};
 
-    public final static String[] courses = new String[]{"Art", "Math", "Music", "Science", "History", "Geography",
-            "Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare"};
-
     public final static String[] serts = new String[]{"Baulk", "Borshiov", "Hamilton", "Ingber", "Irving", "Lachner",
             "Wengle"};
+
+    public final static String[] courses = new String[]{"Art", "Math", "Music", "Science", "History", "Geography",
+            "Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare"};
 
 
     private Database database;
@@ -143,10 +145,25 @@ public class SignInManager {
         return database.resolveOpenSessions(id, Utils.getNow());
     }
 
-    public void generateHTML() {
+    public void generateHTML(int id, Timestamp earliestDate, Timestamp latestDate, int minTime,
+                             int maxTime, SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts,
+                             SinglyLinkedList<String> courses) throws IOException{
+
+
     }
 
-    public void generateExcel() {
+    public void generateExcel(int id, Timestamp earliestDate, Timestamp latestDate, int minTime,
+                              int maxTime, SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts,
+                              SinglyLinkedList<String> courses) throws IOException{
+
+        Query query = new Query(id, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
+
+        SinglyLinkedList<Session> sessions = database.findSessions(query);
+
+
+
+
+
     }
 
     public void close() {

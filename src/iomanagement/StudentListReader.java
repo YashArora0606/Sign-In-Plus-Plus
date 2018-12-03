@@ -6,9 +6,10 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import utilities.ExcelUtils;
 import utilities.SinglyLinkedList;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 
@@ -20,15 +21,16 @@ import java.io.IOException;
  */
 public class StudentListReader {
 
-    private static final String STUDENTS_DIR = "database/";
-    private static final String STUDENTS_FILE = "Students.xlsx";
-
+    private static final String STUDENTS_FILE = "database/Students.xlsx";
 
     public static SinglyLinkedList<Student> getStudents() throws IOException, ImproperFormatException {
 
         DataFormatter formatter = new DataFormatter();
 
-        XSSFWorkbook workbook = ExcelUtils.loadFile(STUDENTS_DIR + STUDENTS_FILE);
+        BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(STUDENTS_FILE));
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        inputStream.close();
+
         XSSFSheet sheet = workbook.getSheetAt(0);
 
         SinglyLinkedList<Student> students = new SinglyLinkedList<>();

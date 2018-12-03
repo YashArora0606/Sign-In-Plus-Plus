@@ -4,8 +4,10 @@ import datamanagement.SignInManager;
 import display.Window;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
+import utilities.SinglyLinkedList;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Basic launcher for the program - mainly for aesthetics
@@ -19,11 +21,5 @@ public class Launcher {
         Database database = new DerbyDatabase();
         SignInManager signInManager = new SignInManager(database);
         Window frame = new Window(signInManager);
-
-        try {
-            signInManager.configureStudents();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
