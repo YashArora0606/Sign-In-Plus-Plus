@@ -51,7 +51,10 @@ public class CustomTextField extends JPanel {
 	public String getText() {
 		return textField.getText();
 	}
-	
+
+	public void setText(String string){
+		textField.setText(string);
+	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

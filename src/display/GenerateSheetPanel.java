@@ -1,3 +1,9 @@
+/**
+ * [GenerateSheetPanel.java]
+ * The panel from the dashboard which allows user to filter certain aspects to generate the excel file
+ * December 2 2018
+ */
+
 package display;
 
 import javax.swing.JLayeredPane;
@@ -40,6 +46,11 @@ public class GenerateSheetPanel extends JPanel {
 	private String errorMessage = "";
 	private static final int PADDING_CONSTANT = Utils.scale(20);
 
+	/**
+	 * Constructor
+	 * Initializes and positions all text fields and drop down menus
+	 * @param display Window object to which this panel belongs
+	 */
 	GenerateSheetPanel(Window display) {
 		this.display = display;
 		this.panel = this;
@@ -47,15 +58,16 @@ public class GenerateSheetPanel extends JPanel {
 		this.maxY = display.maxY;
 
 		this.setBackground(Utils.colours[4]);
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout()); //Border layout used to organize the several different components on the screen
 
-		JLayeredPane pane = new JLayeredPane();
+		JLayeredPane pane = new JLayeredPane(); //layered pane allows items to be placed on different level as the graphics
 		pane.setPreferredSize(new Dimension(maxX, maxY));
 
 		reasonSelect = new SelectMultipleMenu(SignInManager.reasons, "Reason");
 		sertSelect = new SelectMultipleMenu(SignInManager.serts, "SERT");
 		courseMissingSelect = new SelectMultipleMenu(SignInManager.courses, "Course Missing");
 
+		//setting bounds for the dropdown menus
 		reasonSelect.setBounds(
 				maxX / 2 - reasonSelect.getPreferredSize().width - sertSelect.getPreferredSize().width / 2
 						- PADDING_CONSTANT,
@@ -74,40 +86,41 @@ public class GenerateSheetPanel extends JPanel {
 		pane.add(sertSelect);
 		pane.add(courseMissingSelect);
 
-		idField = new CustomTextField("Student Id");
+		//all the fields
+		idField = new CustomTextField("Student Id"); //takes in student id (if teacher wants only that student's info
 		idField.setBounds(maxX / 2 - idField.getPreferredSize().width / 2, PADDING_CONSTANT,
 				idField.getPreferredSize().width, idField.getPreferredSize().height);
 
-		firstNameField = new CustomTextField("First Name");
+		firstNameField = new CustomTextField("First Name"); //takes in the student's name (if teacher wants only students of that first name)
 		firstNameField.setBounds(maxX / 2 - firstNameField.getPreferredSize().width / 2,
 				idField.getBounds().y + idField.getPreferredSize().height + PADDING_CONSTANT,
 				firstNameField.getPreferredSize().width, firstNameField.getPreferredSize().height);
 
-		lastNameField = new CustomTextField("Last Name");
+		lastNameField = new CustomTextField("Last Name"); //takes in the student's last name (if teacher wants data of only students with that last name)
 		lastNameField.setBounds(maxX / 2 - lastNameField.getPreferredSize().width / 2,
 				firstNameField.getBounds().y + firstNameField.getPreferredSize().height + PADDING_CONSTANT,
 				lastNameField.getPreferredSize().width, lastNameField.getPreferredSize().height);
 
-		earliestDateField = new CustomTextField("Earliest Date (DD/MM/YYYY)");
+		earliestDateField = new CustomTextField("Earliest Date (DD/MM/YYYY)"); //takes in the earliest date to filter out older entries
 		earliestDateField.setBounds(
 				(int) (maxX / 2 - firstNameField.getPreferredSize().width / 2
 						- earliestDateField.getPreferredSize().getWidth() - PADDING_CONSTANT),
 				idField.getBounds().y + idField.getPreferredSize().height + PADDING_CONSTANT,
 				firstNameField.getPreferredSize().width, firstNameField.getPreferredSize().height);
 
-		latestDateField = new CustomTextField("Latest Date (DD/MM/YYYY)");
+		latestDateField = new CustomTextField("Latest Date (DD/MM/YYYY)"); // takes in the latest date to filter out newer entries
 		latestDateField.setBounds(
 				(int) (maxX / 2 - firstNameField.getPreferredSize().width / 2
 						- latestDateField.getPreferredSize().getWidth() - PADDING_CONSTANT),
 				firstNameField.getBounds().y + firstNameField.getPreferredSize().height + PADDING_CONSTANT,
 				lastNameField.getPreferredSize().width, lastNameField.getPreferredSize().height);
 
-		minTimeField = new CustomTextField("Min Time (Minutes)");
+		minTimeField = new CustomTextField("Min Time (Minutes)"); // filters sessions of a minimum certain duration
 		minTimeField.setBounds((int) (maxX / 2 + firstNameField.getPreferredSize().width / 2 + PADDING_CONSTANT),
 				idField.getBounds().y + idField.getPreferredSize().height + PADDING_CONSTANT,
 				firstNameField.getPreferredSize().width, firstNameField.getPreferredSize().height);
 
-		maxTimeField = new CustomTextField("Max Time (Minutes)");
+		maxTimeField = new CustomTextField("Max Time (Minutes)"); // filters session of a maximum certain duration
 		maxTimeField.setBounds((int) (maxX / 2 + firstNameField.getPreferredSize().width / 2 + PADDING_CONSTANT),
 				firstNameField.getBounds().y + firstNameField.getPreferredSize().height + PADDING_CONSTANT,
 				lastNameField.getPreferredSize().width, lastNameField.getPreferredSize().height);
@@ -129,16 +142,23 @@ public class GenerateSheetPanel extends JPanel {
 		this.setVisible(true);
 	}
 
+	/**
+	 * Method to paint components on the panel
+	 * @param g Graphics object to display visuals
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		//back button leads to teacher dashboard
 		back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
 		back.draw(g, panel);
 
+		//generate button generates excel file
 		generate = new CustomButton("Filter", maxX / 2 - Utils.scale(200) / 2, (int) (maxY * 0.83) - Utils.scale(80) / 2,
 				Utils.scale(200), Utils.scale(80), Utils.colours[2]);
 		generate.draw(g, panel);
 
+		//display error message using custom button as a label (unclickable)
 		CustomButton errorButton = new CustomButton(errorMessage, maxX / 2, (int) (maxY * 0.88), 0, Utils.scale(30));
 		errorButton.setSelectable(false);
 		errorButton.draw(g, panel);
@@ -146,13 +166,16 @@ public class GenerateSheetPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Filters the reasons and calls on the calls on the database to create excel file
+	 */
 	private void filterAndSubmit() {
 
-		ArrayList<String> reasons = reasonSelect.getSelectedTexts();
+		ArrayList<String> reasons = reasonSelect.getSelectedTexts(); //creating arraylists of the selected factors
 		ArrayList<String> serts = sertSelect.getSelectedTexts();
 		ArrayList<String> coursesMissing = courseMissingSelect.getSelectedTexts();
 
-		String id = idField.getText();
+		String id = idField.getText(); //retrieving text from the text fields
 		String earliestDate = earliestDateField.getText();
 		String latestDate = latestDateField.getText();
 		String firstName = firstNameField.getText();
@@ -160,7 +183,7 @@ public class GenerateSheetPanel extends JPanel {
 		String maxTime = maxTimeField.getText();
 		String minTime = minTimeField.getText();
 
-		Timestamp earliestDateAsTimestamp;
+		Timestamp earliestDateAsTimestamp; //creating time stamp objects to pass into database method
 		Timestamp latestDateAsTimestamp;
 		int idAsInt;
 		int minTimeAsInt;
@@ -185,15 +208,29 @@ public class GenerateSheetPanel extends JPanel {
 
 	}
 
+	/**
+	 * The method to reinitialize validation variables when someone leaves the screen
+	 * Reinitializes textfields as well
+	 * @param state indicates which state to switch to
+	 */
+	private void leaveScreen(int state){
+		errorMessage = "";
+		display.changeState(state);
+	}
+
 	public class MyMouseListener implements MouseListener {
 		public void mouseEntered(MouseEvent e) {
 
 		}
 
+		/**
+		 * Checks which button was clicked and acts accordingly
+		 * @param e mouse event which occurred
+		 */
 		public void mouseClicked(MouseEvent e) {
-			if (back.isMouseOnButton(panel)) {
-				display.changeState(5);
-			} else if (generate.isMouseOnButton(panel)) {
+			if (back.isMouseOnButton(panel)) { //back button returns to teacher dashboard
+				leaveScreen(5);
+			} else if (generate.isMouseOnButton(panel)) { //generate button creates excel
 				filterAndSubmit();
 			}
 		}

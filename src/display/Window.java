@@ -70,7 +70,8 @@ public class Window extends JFrame {
 
     /**
      * changeState
-     * Displays a panel based on state (0 = home, 1 = menu, 2 = sign in, 3 = sign out, 4 = password, other = error)
+     * Displays a panel based on state (0 = home, 1 = menu, 2 = sign in, 3 = sign out, 4 = password,
+     * 5 = teacher dashboard, 6 = change password, 7 = add student, 8 = remove student, 9 = generate, other = error)
      * @param state
      */
     public void changeState(int state) {
