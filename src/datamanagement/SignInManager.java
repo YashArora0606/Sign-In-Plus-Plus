@@ -18,8 +18,10 @@ import utilities.Utils;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class SignInManager {
 
@@ -170,6 +172,7 @@ public class SignInManager {
         XSSFWorkbook workbook = new XSSFWorkbook();
 
         XSSFCellStyle dateStyle = workbook.createCellStyle();
+        dateStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("m/d/yy h:mm"));
 
         XSSFSheet sheet = workbook.createSheet("Log");
 
@@ -182,9 +185,38 @@ public class SignInManager {
         int rowIndex = 1;
         for (Session session : sessions) {
 
+            XSSFRow row = sheet.createRow(rowIndex);
+
+            row.createCell(0).setCellValue(Utils.idToString(session.student.id));
+            row.createCell(1).setCellValue(session.student.firstName);
+            row.createCell(2).setCellValue(session.student.lastName);
+            row.createCell(3).setCellValue(session.student.grade);
+            row.createCell(4).setCellStyle(dateStyle);
+            row.getCell(4).setCellValue(session.startTime);
+            row.createCell(5).setCellStyle(dateStyle);
+            row.getCell(5).setCellValue(session.endTime);
+            row.createCell(6).setCellValue(session.reason);
+            row.createCell(7).setCellValue(session.sert);
+            row.createCell(8).setCellValue(session.course);
+
         }
 
+        try {
+            File file = new File("database/Log.xlsx");
 
+            int counter = 1;
+            while (file.exists()) {
+                counter++;
+                file = new File("database/Log(" + counter + ").xlsx");
+            }
+
+            FileOutputStream out = new FileOutputStream(file);
+            workbook.write(out);
+            out.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try {
             Desktop desktop = Desktop.getDesktop();
