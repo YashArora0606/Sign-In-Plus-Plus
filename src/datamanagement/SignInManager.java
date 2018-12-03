@@ -6,9 +6,7 @@ import exceptions.InvalidIdException;
 import exceptions.NotLoggedInException;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
-import iomanagement.HTMLWriter;
 import iomanagement.StudentListReader;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -22,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 public class SignInManager {
 
@@ -157,18 +154,18 @@ public class SignInManager {
 
     public void generateHTML(int id, Timestamp earliestDate, Timestamp latestDate, int minTime,
                              int maxTime, SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts,
-                             SinglyLinkedList<String> courses) throws IOException{
+                             SinglyLinkedList<String> courses) throws IOException {
 
         Query query = new Query(id, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
 
         SinglyLinkedList<Student> students = database.getStudents();
         SinglyLinkedList<Session> sessions = database.findSessions(query);
-        
+
     }
 
     public void generateExcel(int id, Timestamp earliestDate, Timestamp latestDate, int minTime,
                               int maxTime, SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts,
-                              SinglyLinkedList<String> courses) throws IOException{
+                              SinglyLinkedList<String> courses) throws IOException {
 
         Query query = new Query(id, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
 
@@ -185,6 +182,7 @@ public class SignInManager {
         XSSFRow headerRow = sheet.createRow(0);
         for (int colIndex = 0; colIndex < header.length; colIndex++) {
             headerRow.createCell(0).setCellValue(header[colIndex]);
+            sheet.autoSizeColumn(colIndex);
         }
 
         int rowIndex = 1;
