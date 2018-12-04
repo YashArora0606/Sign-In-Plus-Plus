@@ -55,7 +55,13 @@ public class SignInManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		try {
+			configureStudents();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ImproperFormatException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void updateSerts(ArrayList<String> newList) {

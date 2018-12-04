@@ -191,7 +191,7 @@ public class AddAndRemoveMenu extends JPanel {
 			if (isMouseOnButton(submitButton)) {
 				
 				if (addItem.getText().isEmpty()) {
-					message = "Please enter a teacher to be added.";
+					message = "Please enter a field to be added.";
 				} else if (items.contains(addItem.getText())) {
 					message = "\"" + addItem.getText() + "\" has already been added.";
 				} else {

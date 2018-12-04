@@ -1,5 +1,5 @@
 /**
- * [PasswordPanel.java]
+ * [ChangeSertsPanel.java] 
  * the panel which prompts the user for the password to enter the teacher dashboard
  * checks the password with the password text file and then rewrites the password to the text file
  * December 2 2018
