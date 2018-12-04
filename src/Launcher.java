@@ -1,6 +1,7 @@
 import datamanagement.Database; 
 import datamanagement.DerbyDatabase;
 import datamanagement.SignInManager;
+import datamanagement.Student;
 import display.Window;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;

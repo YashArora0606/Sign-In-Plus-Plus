@@ -5,7 +5,7 @@ import javax.swing.JTextField;
 
 import datamanagement.SignInManager;
 import exceptions.InvalidIdException;
-import exceptions.NotLoggedInException;
+import exceptions.NotSignedInException;
 import utilities.Utils;
 
 import java.awt.*;
@@ -99,7 +99,7 @@ class SignOutPanel extends JPanel {
 			errorMessage = "";
 			idField.setText("");
 			return true;
-		} catch (InvalidIdException | NotLoggedInException e) {
+		} catch (InvalidIdException | NotSignedInException e) {
 			errorMessage = "Error: " + e.getMessage();
 			return false;
 		}

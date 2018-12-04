@@ -105,4 +105,8 @@ public class CustomButton{
 		}
 	}
 
+	public void setSelected(boolean selected) {
+		appearSelected = selected;
+	}
+
 }

@@ -22,7 +22,6 @@ public class HTMLWriter {
 
     /**
      * Constructor - initializes templates upon creation
-     * @param excelFile
      * @param studentList
      */
     HTMLWriter(Student[] studentList, SinglyLinkedList<Session> sessionList){

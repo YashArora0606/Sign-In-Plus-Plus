@@ -15,10 +15,10 @@ import java.util.Properties;
 
 
 /**
- * Apache Derby Database (SignInSystemDatabase)
- * 11/26/2018
+ * Implementation of {@link Database} with Apache Derby
  *
  * @author Alston
+ * last updated on 12/3/2018
  */
 public class DerbyDatabase implements Database {
 
@@ -303,31 +303,31 @@ public class DerbyDatabase implements Database {
             conditions.add("(id=" + query.id + ")");
         }
 
-        if (query.earliestDate != null) {
-            conditions.add("(signintime>" + query.earliestDate + ")");
+        if (query.earliestTime != null) {
+            conditions.add("(signintime>" + query.earliestTime + ")");
         }
 
-        if (query.latestDate != null) {
-            conditions.add("(signouttime<" + query.latestDate + ")");
+        if (query.latestTime != null) {
+            conditions.add("(signouttime<" + query.latestTime + ")");
         }
 
         if (query.minTime > 0) {
-            conditions.add("({fn timestampdiff(sql_tsi_minute, signintime, signouttime)}>" + query.minTime + ")");
+            conditions.add("({fn timestampdiff(sql_tsi_minute, signintime, signouttime)}>=" + query.minTime + ")");
         }
 
         if (query.maxTime > 0) {
-            conditions.add("({fn timestampdiff(sql_tsi_minute, signintime, signouttime)}<" + query.maxTime + ")");
+            conditions.add("({fn timestampdiff(sql_tsi_minute, signintime, signouttime)}<=" + query.maxTime + ")");
         }
 
-        if (query.reasons.size() > 0) {
+        if (query.reasons != null && query.reasons.size() > 0) {
             conditions.add("(reason in " + toSqlList(query.reasons) + ")");
         }
 
-        if (query.serts.size() > 0) {
+        if (query.serts != null && query.serts.size() > 0) {
             conditions.add("(sert in " + toSqlList(query.serts) + ")");
         }
 
-        if (query.courses.size() > 0) {
+        if (query.courses != null && query.courses.size() > 0) {
             conditions.add("(course in " + toSqlList(query.courses) + ")");
         }
 

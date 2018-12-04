@@ -28,6 +28,8 @@ public class Window extends JFrame {
     private JPanel addStudentPanel;
     private JPanel removeStudentPanel;
     private JPanel generateSheetPanel;
+    private JPanel changeSertsPanel;
+
 
     public Window(SignInManager signInManager) {
 
@@ -53,6 +55,8 @@ public class Window extends JFrame {
         this.addStudentPanel = new AddStudentPanel(this, signInManager);
         this.removeStudentPanel = new RemoveStudentPanel(this,signInManager);
         this.generateSheetPanel = new GenerateSheetPanel(this);
+        this.changeSertsPanel = new ChangeSertsPanel(this);
+
 
 
         //set displayed panel to menu
@@ -71,7 +75,7 @@ public class Window extends JFrame {
     /**
      * changeState
      * Displays a panel based on state (0 = home, 1 = menu, 2 = sign in, 3 = sign out, 4 = password,
-     * 5 = teacher dashboard, 6 = change password, 7 = add student, 8 = remove student, 9 = generate, other = error)
+     * 5 = teacher dashboard, 6 = change password, 7 = add student, 8 = remove student, 9 = generate, 10 = change serts other = error)
      * @param state
      */
     public void changeState(int state) {
@@ -116,9 +120,12 @@ public class Window extends JFrame {
             case 9:
                 switchPanel(generateSheetPanel);
                 return;
+                
+            case 10:
+            	switchPanel(changeSertsPanel);
 
-            default:
-                throw new IndexOutOfBoundsException();
+//            default:
+//                throw new IndexOutOfBoundsException();
         }
     }
 
