@@ -103,12 +103,12 @@ class SignInPanel extends JPanel {
 	 */
 	private boolean submit() {
 		String id = idField.getText();
-		String subject = sertDropDown.getSelectedText();
+		String sert = sertDropDown.getSelectedText();
 		String reason = reasonDropDown.getSelectedText();
 		String courseMissed = courseMissingDropDown.getSelectedText();
 
 		try {
-			signInManager.signIn(Integer.parseInt(id), subject, reason, courseMissed);
+			signInManager.signIn(Integer.parseInt(id), reason, sert, courseMissed);
 			idField.setText("");
 			errorMessage = "";
 
