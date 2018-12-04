@@ -47,8 +47,13 @@ public class DerbyDatabase implements Database {
                     {"update student", "update students set firstname=?, lastname=?, grade=? where id=?"},
                     {"check student", "select * from sessions where id=? and signouttime is null"},
                     {"remove student", "delete from students where id=?"},
-                    {"insert sessions", "insert into sessions (id, signintime, signouttime, reason, sert, course) values (?, ?, ?, ?, ?, ?)"},
+
+                    {"insert session", "insert into sessions (id, signintime, signouttime, reason, sert, course) values (?, ?, ?, ?, ?, ?)"},
                     {"resolve sessions", "update sessions set signouttime=? where id=? and signouttime is null"},
+
+                    {"add sert", "insert into serts(sert) values (?)"},
+                    {"get all serts", "select * from serts"},
+                    {"remove all serts", "delete from serts"}
             };
 
             for (String[] pair : statements) {
@@ -98,6 +103,19 @@ public class DerbyDatabase implements Database {
         } catch (SQLException e) { //thrown if the table does not exist
             if (e.getSQLState().equals("X0Y32")) {
                 System.out.println("Session table already exists");
+            } else {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            statement.executeUpdate("create table serts(" +
+                    "sert varchar(100) not null)");
+            con.commit();
+
+        } catch (SQLException e) { //thrown if the table does not exist
+            if (e.getSQLState().equals("X0Y32")) {
+                System.out.println("Serts table already exists");
             } else {
                 e.printStackTrace();
             }
@@ -363,7 +381,7 @@ public class DerbyDatabase implements Database {
 
     public boolean resolveOpenSessions(int id, Timestamp time) {
         try {
-            PreparedStatement resolveSessions = prepStatements.get("resolve session");
+            PreparedStatement resolveSessions = prepStatements.get("resolve sessions");
             resolveSessions.setTimestamp(1, time);
             resolveSessions.setInt(2, id);
             resolveSessions.executeUpdate();
@@ -371,6 +389,29 @@ public class DerbyDatabase implements Database {
             con.commit();
 
             printSessions(); //debugging code
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public SinglyLinkedList<String> getSerts() {
+        return null;
+    }
+
+    public boolean updateSerts(SinglyLinkedList<String> newSerts) {
+        try {
+            PreparedStatement removeAllSerts = prepStatements.get("remove all serts");
+            removeAllSerts.executeUpdate();
+
+            for (String sert : newSerts) {
+                PreparedStatement addSert = prepStatements.get("add sert");
+                addSert.setString(1, sert);
+                addSert.executeUpdate();
+            }
 
             return true;
 
