@@ -69,13 +69,13 @@ class SignInPanel extends JPanel {
 		JPanel northPanel = new JPanel();
 
 		northPanel.setBackground(null);
-		northPanel.setPreferredSize(new Dimension(Utils.scale(900), Utils.scale(100)));
+		northPanel.setPreferredSize(new Dimension(Utils.scale(900), Utils.scale(400)));
 		northPanel.setOpaque(false);
 		northPanel.add(idField);
 
 
 		JPanel centerPanel = new JPanel();
-		centerPanel.setPreferredSize(new Dimension(display.maxX, Utils.scale(900)));
+		centerPanel.setPreferredSize(new Dimension(display.maxX, Utils.scale(800)));
 		centerPanel.setBackground(null);
 		//centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(reasonDropDown);
