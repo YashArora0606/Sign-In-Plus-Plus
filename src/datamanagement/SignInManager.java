@@ -14,21 +14,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.awt.Desktop;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class SignInManager {
 
@@ -242,7 +236,7 @@ public class SignInManager {
 			File file = new File("database/Log.xlsx");
 
 			int counter = 1;
-			while (file.exists()) {
+			while (!file.createNewFile()) {
 				counter++;
 				file = new File("database/Log(" + counter + ").xlsx");
 			}
