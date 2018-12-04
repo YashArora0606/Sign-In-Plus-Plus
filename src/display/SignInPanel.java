@@ -76,6 +76,7 @@ class SignInPanel extends JPanel {
 
 		JPanel centerPanel = new JPanel();
 		centerPanel.setPreferredSize(new Dimension(display.maxX, Utils.scale(800)));
+		
 		centerPanel.setBackground(null);
 		//centerPanel.setLayout(new BorderLayout());
 		centerPanel.add(reasonDropDown);
