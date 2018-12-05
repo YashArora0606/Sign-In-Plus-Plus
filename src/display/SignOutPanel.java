@@ -95,9 +95,11 @@ class SignOutPanel extends JPanel {
 	private boolean submit() {
 		String id = idField.getText();
 		try {
-			signInManager.signOut(Integer.parseInt(id));
-			errorMessage = "";
-			idField.setText("");
+			if (id.length() != 0) {
+				signInManager.signOut(Integer.parseInt(id));
+				errorMessage = "";
+				idField.setText("");
+			}
 			return true;
 		} catch (InvalidIdException | NotSignedInException e) {
 			errorMessage = "Error: " + e.getMessage();
