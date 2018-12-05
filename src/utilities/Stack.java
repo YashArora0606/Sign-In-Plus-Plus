@@ -1,71 +1,52 @@
 package utilities;
 
+import java.util.EmptyStackException;
+
+/**
+ * Stack implementation
+ * @param <E>
+ */
 public class Stack<E> {
-    private StackNode<E> head;
+
+    private SinglyLinkedList<E> stack = new SinglyLinkedList<>();
+
+    public E push(E item) {
+        stack.add(0, item);
+        return item;
+    }
 
     public E pop() {
-        E value = head.getItem();
-        StackNode<E> temp = head.getNext();
-        head = null;
-        head = temp;
-        return value;
-    }
-
-    public void push(E item) {
-        StackNode<E> temp = new StackNode<>(item);
-        temp.setNext(head);
-        head = temp;
-    }
-
-    public int size() {
-        int size = 1;
-        if (head.getNext() == null) {
-            return size;
-        } else {
-            StackNode<E> buffer = head;
-            while (buffer.getNext() != null) {
-                size++;
-                buffer = buffer.getNext();
-
-            }
-            return size;
+        if (empty()) {
+            throw new EmptyStackException();
         }
+        return stack.remove(0);
+    }
+
+    public E peek() {
+        if (empty()) {
+            throw new EmptyStackException();
+        }
+        return stack.get(0);
+    }
+
+    public boolean empty() {
+        return (stack.size() == 0);
     }
 
     public E get(int index) {
-        StackNode<E> buffer = head;
-        for (int i = 0; i < index; i++) {
-            buffer = buffer.getNext();
-        }
-        return buffer.getItem();
+        return stack.get(index);
     }
 
-
-    private class StackNode<E> {
-        private E item;
-        private StackNode<E> next;
-
-        public StackNode(E item) {
-            this.item = item;
-            this.next = null;
+    public int search(Object o) {
+        int index = stack.indexOf(o);
+        if (index == -1) {
+            return -1;
+        } else{
+            return index + 1;
         }
+    }
 
-        public StackNode(E item, StackNode<E> next) {
-            this.item = item;
-            this.next = next;
-        }
-
-        public StackNode<E> getNext() {
-            return this.next;
-        }
-
-        public void setNext(StackNode<E> next) {
-            this.next = next;
-        }
-
-        public E getItem() {
-            return this.item;
-        }
+    public int size() {
+        return stack.size();
     }
 }
-
