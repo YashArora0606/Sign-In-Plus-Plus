@@ -76,10 +76,16 @@ public class StudentListReader {
 */
 
     /**
-     * Reads a .csv file and creates a list of students from it
+     * Returns a list of the students detailed by RHHSStudentList.csv
+     * RHHSStudentList.csv must adhere to a specific format in order to be read without throwing an exception:
+     * 1) the file must be found under the path "database/RHHSStudentList.csv"
+     * 2) each row in the sheet, starting from the 2nd row, represents a student
+     * 3) no empty or unfilled rows can exist in the sheet
+     * 4) each row must contain (Student ID, First Name, Last Name, SchoolCode, Grade, HomeRoom) in this order
+     *
      * @return a list of students
-     * @throws IOException thrown if the file cannot be found or opened
-     * @throws ImproperFormatException thrown if the data has been formatted improperly
+     * @throws IOException             thrown if the .csv file cannot be found or opened
+     * @throws ImproperFormatException thrown if the .csv file is improperly formatted
      */
     public static SinglyLinkedList<Student> getStudentList() throws IOException, ImproperFormatException{
         SinglyLinkedList<Student> students = new SinglyLinkedList<>();
