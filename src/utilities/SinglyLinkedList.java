@@ -58,11 +58,11 @@ public class SinglyLinkedList<E> implements Iterable<E> {
     /**
      * Appends the specified element to the end of the list
      *
-     * @param e element to be appended to the list
+     * @param element element to be appended to the list
      * @return true
      */
-    public boolean add(E e) {
-        add(size, e);
+    public boolean add(E element) {
+        add(size, element);
         return true;
     }
 
@@ -80,15 +80,15 @@ public class SinglyLinkedList<E> implements Iterable<E> {
     /**
      * Returns the index of the first occurrence of the specified element in this list,
      * or -1, if this list does not contain the element. More formally, returns the highest
-     * index i such that (o == get(i) || o.equals(get(i))), or -1 if no such index exists
+     * index i such that (obj == get(i) || obj.equals(get(i))), or -1 if no such index exists
      *
-     * @param o element to search for
+     * @param obj element to search for
      * @return the index of the first occurrence of the specified element in this list, or -1 otherwise
      */
-    public int indexOf(Object o) {
+    public int indexOf(Object obj) {
         Node<E> node = head;
         for (int i = 0; i < size; i++) { //iterate through the list, checking each item
-            if (o == node.item || o.equals(node.item)) {
+            if (obj == node.item || obj.equals(node.item)) {
                 return i;
             }
             node = node.next;
@@ -136,13 +136,13 @@ public class SinglyLinkedList<E> implements Iterable<E> {
      * Removes the first occurrence of the specified element from this list, if it is present.
      * If this list does not contain the element, it is unchanged. Returns true if this list
      * contained the specified element. More formally, removes the element with the lowest
-     * index i such that (o == get(i) || o.equals(get(i))) if such an element exists.
+     * index i such that (obj == get(i) || obj.equals(get(i))) if such an element exists.
      *
-     * @param o element to be removed from this list, if present
+     * @param obj element to be removed from this list, if present
      * @return true if this list contained the specified element
      */
-    public boolean remove(Object o) {
-        int index = indexOf(o); //get the index of the element
+    public boolean remove(Object obj) {
+        int index = indexOf(obj); //get the index of the element
         if (index == -1) {
             return false;
         } else {

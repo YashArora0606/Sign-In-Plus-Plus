@@ -17,63 +17,11 @@ import java.util.stream.Stream;
  * that are included in the excel file.
  *
  * @author Alston
- * last updated 12/3/2018
+ * last updated 12/5/2018
  */
 public class StudentListReader {
 
-    private static final String STUDENTS_FILE = "database/Students.xlsx"; //path of the student file
-
-    /**
-     * Returns a list of the students detailed by Students.xlsx
-     * Students.xlsx must adhere to a specific format in order to be read without throwing an exception:
-     * 1) the file must be found under the path "database/Students.xlsx"
-     * 2) each row in the sheet, starting from the 2nd row, represents a student
-     * 3) no empty or unfilled rows can exist in the sheet
-     * 4) each row must contain (student id, first name, last name, grade) in this order
-     *
-     * @return a list of students
-     * @throws IOException             thrown if the excel file cannot be found or opened
-     * @throws ImproperFormatException thrown if the excel file is improperly formatted
-     */
-    /*
-    public static SinglyLinkedList<Student> getStudents() throws IOException, ImproperFormatException {
-
-        SinglyLinkedList<Student> students = new SinglyLinkedList<>();
-
-        //open the .xlsx file into memory as a XSSFWorkbook
-        BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(STUDENTS_FILE));
-        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-        inputStream.close();
-
-        XSSFSheet sheet = workbook.getSheetAt(0); //get first sheet in the file
-
-        DataFormatter formatter = new DataFormatter();
-
-        for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) { //iterate through 2nd..last rows
-
-            XSSFRow row = sheet.getRow(rowIndex); //make sure the row exists (is not null)
-            if (sheet.getRow(rowIndex) == null) {
-                throw new ImproperFormatException();
-            }
-
-            for (int colIndex = 0; colIndex < 4; colIndex++) { //make sure each cell in the row exists (is not null)
-                if (row.getCell(colIndex) == null) {
-                    throw new ImproperFormatException();
-                }
-            }
-
-            //read and format the 4 cells (id, first name, last name, grade) in the row
-            int id = formatId(formatter.formatCellValue(row.getCell(0)));
-            String firstName = formatName(formatter.formatCellValue(row.getCell(1)));
-            String lastName = formatName(formatter.formatCellValue(row.getCell(2)));
-            int grade = formatGrade(formatter.formatCellValue(row.getCell(3)));
-
-            students.add(new Student(id, firstName, lastName, grade)); //add the student to the list
-        }
-
-        return students;
-    }
-*/
+    private static final String STUDENTS_FILE = "database/RHHSStudentList.csv"; //path of the student file
 
     /**
      * Returns a list of the students detailed by RHHSStudentList.csv
@@ -81,28 +29,34 @@ public class StudentListReader {
      * 1) the file must be found under the path "database/RHHSStudentList.csv"
      * 2) each row in the sheet, starting from the 2nd row, represents a student
      * 3) no empty or unfilled rows can exist in the sheet
-     * 4) each row must contain (Student ID, First Name, Last Name, SchoolCode, Grade, HomeRoom) in this order
+     * 4) each row must contain (Student ID, First Name, Last Name, School Code, Grade, Home Room) in this order
      *
      * @return a list of students
      * @throws IOException             thrown if the .csv file cannot be found or opened
      * @throws ImproperFormatException thrown if the .csv file is improperly formatted
      */
     public static SinglyLinkedList<Student> getStudentList() throws IOException, ImproperFormatException{
+
         SinglyLinkedList<Student> students = new SinglyLinkedList<>();
 
-        BufferedReader input = new BufferedReader(new FileReader(new File("database/RHHSStudentList.csv")));
-        String line;
-        String[] data;
+        BufferedReader reader = new BufferedReader(new FileReader(new File(STUDENTS_FILE)));
 
-        input.readLine(); //reading the header line
-        line = input.readLine();
+        reader.readLine(); //reading the header line
 
+        String line = reader.readLine();
         while (line != null) {
-            data = line.split(",");
-            students.add(new Student(formatId(data[0]), formatName(data[1]), formatName(data[2]), formatGrade(data[4])));
-            line = input.readLine();
+
+            String[] entry = line.split(",");
+            if (entry.length != 6) {
+                throw new ImproperFormatException();
+            }
+
+            students.add(new Student(formatId(entry[0]), formatName(entry[1]), formatName(entry[2]), formatGrade(entry[4])));
+
+            line = reader.readLine();
         }
 
+        reader.close();
 
         return students;
     }
@@ -169,6 +123,5 @@ public class StudentListReader {
 
         return gradeNum;
     }
-
 
 }
