@@ -218,7 +218,7 @@ public class SignInManager {
 				"SERT", "Course" };
 		XSSFRow headerRow = sheet.createRow(0);
 		for (int colIndex = 0; colIndex < header.length; colIndex++) {
-			headerRow.createCell(0).setCellValue(header[colIndex]);
+			headerRow.createCell(colIndex).setCellValue(header[colIndex]);
 			sheet.autoSizeColumn(colIndex);
 		}
 
