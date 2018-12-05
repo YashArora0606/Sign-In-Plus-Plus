@@ -91,13 +91,12 @@ public class DerbyDatabase implements Database {
 
         try {
             statement.executeUpdate("create table sessions(" +
-                    "id int not null , " +
+                    "id int not null references students(id) on delete cascade, " +
                     "signintime timestamp not null," +
                     "signouttime timestamp, " +
                     "reason varchar(100) not null, " +
                     "sert varchar(100) not null, " +
-                    "course varchar(100) not null," +
-                    "foreign key(id) references students(id) on delete cascade)");
+                    "course varchar(100) not null)");
             con.commit();
 
         } catch (SQLException e) { //thrown if the table does not exist
@@ -470,7 +469,7 @@ public class DerbyDatabase implements Database {
             ResultSet res = statement.executeQuery("select * from sessions");
             int count = 0;
             while (res.next()) {
-                for (int i = 1; i <= 9; i++) {
+                for (int i = 1; i <= 6; i++) {
                     System.out.print(res.getString(i) + ", ");
                 }
                 count++;

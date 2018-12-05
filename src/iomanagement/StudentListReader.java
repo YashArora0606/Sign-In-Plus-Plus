@@ -130,7 +130,7 @@ public class StudentListReader {
             throw new ImproperFormatException();
         }
 
-        if (gradeNum < 9 || gradeNum > 13) { //check if the grade is between 9 and 13 inclusive 
+        if (gradeNum < 9 || gradeNum > 13) { //check if the grade is between 9 and 13 inclusive
             throw new ImproperFormatException();
         }
 

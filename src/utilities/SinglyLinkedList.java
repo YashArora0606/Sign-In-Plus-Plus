@@ -22,7 +22,6 @@ public class SinglyLinkedList<E> implements Iterable<E> {
     private Node<E> tail;
     private int size = 0;
 
-
     /**
      * Inserts the specified element at the specified position in the list.
      * Shifts the element currently at that position (if any) and any subsequent

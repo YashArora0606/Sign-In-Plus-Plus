@@ -4,9 +4,11 @@ import utilities.SinglyLinkedList;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
- * Abstract representation of a database
+ * Abstract representation of a database.
+ * Databases store a list of students, sessions, and serts
  *
  * @author Alston
  * last updated on 12/3/2018
@@ -90,6 +92,21 @@ public interface Database {
      * @return true, if any amount (0+) of sessions were successfully found and resolved; false otherwise
      */
     boolean resolveOpenSessions(int id, Timestamp time);
+
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
+    SinglyLinkedList<String> getSerts();
+
+    /**
+     * Updates all the serts logged in the database by replacing them with a new list of serts
+     *
+     * @param newSerts the new list of serts that replaces the old one
+     * @return true, if the table was successfully updated; false otherwise
+     */
+    boolean updateSerts(SinglyLinkedList<String> newSerts);
 
     /**
      * Closes the database by closing any opened resources
