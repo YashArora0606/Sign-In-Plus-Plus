@@ -61,7 +61,6 @@ public class HTMLWriter {
             while(input.hasNext()){
                 String line = input.nextLine();
                 list.add(line);
-                System.out.println(line);
             }
 
             input.close();
@@ -96,12 +95,12 @@ public class HTMLWriter {
                         case 1:
                             for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
                                 outputStudent(out, stuNum);
-                                writeStudentGraph(out, stuNum);
+                                //writeStudentGraph(out, stuNum);
                             }
                             modNum++; //if we want the overall graph
-                        case 2:
+                       /* case 2:
                             writeOverallGraph(out);
-
+*/
                     }
                 }
             }
