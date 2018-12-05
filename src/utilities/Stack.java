@@ -18,11 +18,12 @@ public class Stack<E> {
     }
 
     public int size() {
-        int size = 1;
-        if (head.getNext() == null) {
+        int size = 0;
+        if (head == null) {
             return size;
         } else {
             StackNode<E> buffer = head;
+            size++;
             while (buffer.getNext() != null) {
                 size++;
                 buffer = buffer.getNext();
