@@ -96,7 +96,7 @@ public class SignInManager {
 
 	public void configureStudents() throws IOException, ImproperFormatException {
 
-		SinglyLinkedList<Student> newStudents = StudentListReader.getStudents();
+		SinglyLinkedList<Student> newStudents = StudentListReader.getStudentList();
 		SinglyLinkedList<Student> currStudents = database.getStudents();
 
 		for (Student newStudent : newStudents) {
