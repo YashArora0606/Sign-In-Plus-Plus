@@ -16,13 +16,17 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import datamanagement.SignInManager;
+import iomanagement.HTMLWriter;
+import utilities.SinglyLinkedList;
 import utilities.Utils;
 
 public class GenerateSheetPanel extends JPanel {
 	private Window display;
+	private SignInManager signInManager;
 	private JPanel panel;
 
 	private int maxX;
@@ -52,8 +56,9 @@ public class GenerateSheetPanel extends JPanel {
 	 * Initializes and positions all text fields and drop down menus
 	 * @param display Window object to which this panel belongs
 	 */
-	GenerateSheetPanel(Window display) {
+	GenerateSheetPanel(Window display, SignInManager signInManager) {
 		this.display = display;
+		this.signInManager = signInManager;
 		this.panel = this;
 		this.maxX = display.maxX;
 		this.maxY = display.maxY;
@@ -175,11 +180,11 @@ public class GenerateSheetPanel extends JPanel {
 	 * Filters the reasons and calls on the calls on the database to create excel file
 	 * @param type whether the output file is a HTML or Excel (0=Excel, 1=HTML)
 	 */
-	private void filterAndSubmit(int type) {
+	private void filterAndSubmit(int type){
 
-		ArrayList<String> reasons = reasonSelect.getSelectedTexts(); //creating arraylists of the selected factors
-		ArrayList<String> serts = sertSelect.getSelectedTexts();
-		ArrayList<String> coursesMissing = courseMissingSelect.getSelectedTexts();
+		SinglyLinkedList<String> reasons = reasonSelect.getSelectedTexts(); //creating arraylists of the selected factors
+		SinglyLinkedList<String> serts = sertSelect.getSelectedTexts();
+		SinglyLinkedList<String> coursesMissing = courseMissingSelect.getSelectedTexts();
 
 		String id = idField.getText(); //retrieving text from the text fields
 		String earliestDate = earliestDateField.getText();
@@ -208,9 +213,20 @@ public class GenerateSheetPanel extends JPanel {
 			idAsInt = Utils.getInt(id);
 			minTimeAsInt = Utils.getInt(minTime);
 			maxTimeAsInt = Utils.getInt(maxTime);
-			
-			// PASS THIS DATA INTO ALSTON'S METHOD
-			//BASED ON THE TYPE OF FILE WANTED
+
+			if (type == 0){
+				try {
+					signInManager.generateExcel(idAsInt, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt, maxTimeAsInt, reasons, serts, coursesMissing);
+				} catch (IOException e){
+					e.printStackTrace();
+				}
+			} else if (type == 1) {
+				try {
+					signInManager.generateHTML(idAsInt, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt, maxTimeAsInt, reasons, serts, coursesMissing);
+				} catch (IOException e){
+					e.printStackTrace();
+				}
+			}
 		}
 
 	}

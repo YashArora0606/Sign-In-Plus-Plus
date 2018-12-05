@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import display.GenerateSheetPanel.MyMouseListener;
+import utilities.SinglyLinkedList;
 import utilities.Utils;
 
 public class SelectMultipleMenu extends DropDownMenu{
 	
-	ArrayList<String> selectedTexts = new ArrayList<String>();
-	ArrayList<CustomButton> buttons = new ArrayList<CustomButton>();
+	SinglyLinkedList<String> selectedTexts = new SinglyLinkedList<>();
+	SinglyLinkedList<CustomButton> buttons = new SinglyLinkedList<>();
 
 	SelectMultipleMenu(String[] items, String title) {
 		super(items, title);
@@ -52,7 +53,7 @@ public class SelectMultipleMenu extends DropDownMenu{
 	 * returns button values selected
 	 * @return ArrayList of Strings that holds every selected values
 	 */
-	public ArrayList<String> getSelectedTexts() {
+	public SinglyLinkedList<String> getSelectedTexts() {
 		return selectedTexts;
 	}
 	
@@ -67,7 +68,7 @@ public class SelectMultipleMenu extends DropDownMenu{
 				if (isMouseOnButton(buttons.get(i))) {
 					buttons.get(i).changeSelectedAppearance();
 					
-					if (selectedTexts.contains(buttons.get(i).text)) {
+					if (selectedTexts.indexOf(buttons.get(i).text) != -1) {
 						selectedTexts.remove(buttons.get(i).text);
 					} else {
 						selectedTexts.add(buttons.get(i).text);

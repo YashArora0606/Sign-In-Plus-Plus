@@ -8,9 +8,8 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.stream.Stream;
 
 
 /**
@@ -36,6 +35,7 @@ public class StudentListReader {
      * @throws IOException             thrown if the excel file cannot be found or opened
      * @throws ImproperFormatException thrown if the excel file is improperly formatted
      */
+    /*
     public static SinglyLinkedList<Student> getStudents() throws IOException, ImproperFormatException {
 
         SinglyLinkedList<Student> students = new SinglyLinkedList<>();
@@ -70,6 +70,33 @@ public class StudentListReader {
 
             students.add(new Student(id, firstName, lastName, grade)); //add the student to the list
         }
+
+        return students;
+    }
+*/
+
+    /**
+     * Reads a .csv file and creates a list of students from it
+     * @return a list of students
+     * @throws IOException thrown if the file cannot be found or opened
+     * @throws ImproperFormatException thrown if the data has been formatted improperly
+     */
+    public static SinglyLinkedList<Student> getStudentList() throws IOException, ImproperFormatException{
+        SinglyLinkedList<Student> students = new SinglyLinkedList<>();
+
+        BufferedReader input = new BufferedReader(new FileReader(new File("database/RHHSStudentList.csv")));
+        String line;
+        String[] data;
+
+        input.readLine(); //reading the header line
+        line = input.readLine();
+
+        while (line != null) {
+            data = line.split(",");
+            students.add(new Student(formatId(data[0]), formatName(data[1]), formatName(data[2]), formatGrade(data[4])));
+            line = input.readLine();
+        }
+
 
         return students;
     }

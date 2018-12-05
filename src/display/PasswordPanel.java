@@ -108,30 +108,12 @@ public class PasswordPanel extends JPanel{
             Scanner input = new Scanner(myFile);
             String password = input.nextLine();
             input.close(); //closing the file scanner
-
-            rewritePassword(password); //writing the password back to the file
             return password;
         } catch (IOException e){
             e.printStackTrace();
         }
         return "";
     }
-
-    /**
-     * Rewrites the read password to the file
-     * @param string the encrypted password string
-     */
-    private void rewritePassword(String string){
-        try{
-            File myFile = new File("assets/password.txt"); //loading the file
-            PrintWriter out = new PrintWriter(myFile);
-            out.println(string); //writes the string argument to the text file
-            out.close();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Checks if it is the correct password
      * @return true if it is, false if it isn't

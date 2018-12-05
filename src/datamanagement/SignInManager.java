@@ -6,6 +6,7 @@ import exceptions.InvalidIdException;
 import exceptions.NotSignedInException;
 import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
+import iomanagement.HTMLWriter;
 import iomanagement.StudentListReader;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -194,6 +195,8 @@ public class SignInManager {
 		SinglyLinkedList<Student> students = database.getStudents();
 		SinglyLinkedList<Session> sessions = database.findSessions(query);
 
+		HTMLWriter writer = new HTMLWriter(students, sessions);
+		writer.go();
 	}
 
 	public void generateExcel(int id, Timestamp earliestDate, Timestamp latestDate, int minTime, int maxTime,

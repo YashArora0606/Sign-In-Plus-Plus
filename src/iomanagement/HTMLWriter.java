@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class HTMLWriter {
     private Stack<Session>[] studentSession;
-    private Student[] studentList;
+    private SinglyLinkedList<Student> studentList;
     private SinglyLinkedList<Session> sessionList;
     private SinglyLinkedList<String> template;
     private SinglyLinkedList<String> reportTemplate;
@@ -24,12 +24,12 @@ public class HTMLWriter {
      * Constructor - initializes templates upon creation
      * @param studentList
      */
-    HTMLWriter(Student[] studentList, SinglyLinkedList<Session> sessionList){
+    public HTMLWriter(SinglyLinkedList<Student> studentList, SinglyLinkedList<Session> sessionList){
         this.studentList = studentList;
         this.sessionList = sessionList;
-        studentSession = new Stack[studentList.length];
+        studentSession = new Stack[studentList.size()];
         // initializing
-        for (int i = 0; i < studentList.length; i++) {
+        for (int i = 0; i < studentList.size(); i++) {
             studentSession[i] = new Stack<>();
         }
 
@@ -87,8 +87,8 @@ public class HTMLWriter {
                 } else {
                     switch (modNum) {
                         case 0:
-                            for (int stuNum = 0; stuNum < studentList.length; stuNum++){
-                                out.println("<a href=\"#"+studentList[stuNum].firstName+" "+studentList[stuNum].lastName+"\">Student 1</a><br/>");
+                            for (int stuNum = 0; stuNum < studentList.size(); stuNum++){
+                                out.println("<a href=\"#"+studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"\">Student 1</a><br/>");
                             }
                             out.println("<a href = \"#OverallGraph\" > Overall Graph </a>");
                             modNum++;
@@ -311,11 +311,11 @@ public class HTMLWriter {
             } else {
                 switch (modNum) {
                     case 0:
-                        out.println("<a name=" + studentList[index].firstName + " " + studentList[index].lastName + "></a>");
+                        out.println("<a name=" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "></a>");
                         modNum++;
 
                     case 1:
-                        out.println("<h2>" + studentList[index].firstName + " " + studentList[index].lastName + "</h2>");
+                        out.println("<h2>" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "</h2>");
                         modNum++;
 
                     case 2:
@@ -372,7 +372,7 @@ public class HTMLWriter {
      *  @return Student that is the student object based on the student number
      */
     private int findStudent(int id) {
-        return findStudent(id, 0, studentList.length - 1);
+        return findStudent(id, 0, studentList.size() - 1);
     }
 
     /**
@@ -388,9 +388,9 @@ public class HTMLWriter {
         if (high >= low) {
             int mid = (low + high)/2;
 
-            if (id == studentList[mid].id) {
+            if (id == studentList.get(mid).id) {
                 return mid;
-            } else if (id < studentList[mid].id) {
+            } else if (id < studentList.get(mid).id) {
                 return findStudent(id, low, mid-1);
             } else {
                 return findStudent(id, mid+1, high);
