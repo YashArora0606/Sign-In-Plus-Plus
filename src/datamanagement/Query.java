@@ -97,6 +97,9 @@ public class Query {
      * @return a String representation of the time argument in MM/dd/yyy HH:mm:ss format
      */
     private String toString(Timestamp time) {
+        if (time == null){
+            return null;
+        }
         return dateFormatter.format(time);
     }
 }
