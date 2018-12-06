@@ -3,6 +3,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import datamanagement.SignInManager;
+import display.panels.AddStudentPanel;
+import display.panels.ChangePasswordPanel;
+import display.panels.ChangeSertsPanel;
+import display.panels.GenerateSheetPanel;
+import display.panels.HomePanel;
+import display.panels.MenuPanel;
+import display.panels.PasswordPanel;
+import display.panels.RemoveStudentPanel;
+import display.panels.SignInPanel;
+import display.panels.SignOutPanel;
+import display.panels.TeacherDashboardPanel;
 import utilities.Utils;
 
 import java.awt.*;

@@ -1,9 +1,11 @@
-package display;
+package display.panels;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import datamanagement.SignInManager;
+import display.Window;
+import display.customcomponents.CustomButton;
 import exceptions.InvalidIdException;
 import exceptions.NotSignedInException;
 import utilities.Utils;
@@ -12,7 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-class SignOutPanel extends JPanel {
+public class SignOutPanel extends JPanel {
 	private JPanel panel;
 	private Window display;
 	private SignInManager signInManager;
@@ -30,7 +32,7 @@ class SignOutPanel extends JPanel {
 	private int x;
 	private int y;
 
-	SignOutPanel(Window display, SignInManager signInManager) throws IllegalComponentStateException {
+	public SignOutPanel(Window display, SignInManager signInManager) throws IllegalComponentStateException {
 		this.panel = this;
 		this.display = display;
 		this.signInManager = signInManager;

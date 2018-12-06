@@ -1,9 +1,12 @@
-package display;
+package display.panels;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import datamanagement.SignInManager;
+import display.Window;
+import display.customcomponents.CustomButton;
+import display.customcomponents.DropDownMenu;
 import exceptions.AlreadySignedInException;
 import exceptions.InvalidIdException;
 import utilities.Utils;
@@ -15,7 +18,7 @@ import java.awt.IllegalComponentStateException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-class SignInPanel extends JPanel {
+public class SignInPanel extends JPanel {
 
 	private Window display;
 	private SignInManager signInManager;
@@ -40,7 +43,7 @@ class SignInPanel extends JPanel {
 	
 	private String errorMessage = "";
 
-	SignInPanel(Window display, SignInManager signInManager) throws IllegalComponentStateException{
+	public SignInPanel(Window display, SignInManager signInManager) throws IllegalComponentStateException{
 
 		this.panel = this;
 		this.display = display;
@@ -114,6 +117,12 @@ class SignInPanel extends JPanel {
 				signInManager.signIn(Integer.parseInt(id), reason, sert, courseMissed);
 				idField.setText("");
 				errorMessage = "";
+				
+				sertDropDown.reset();
+				reasonDropDown.reset();
+				courseMissingDropDown.reset();
+
+				
 			} catch (NumberFormatException e) {
 				throw new InvalidIdException(id);
 			}
@@ -137,6 +146,9 @@ class SignInPanel extends JPanel {
 			}
 			
 			if(back.isMouseOnButton(panel)) {
+				sertDropDown.reset();
+				reasonDropDown.reset();
+				courseMissingDropDown.reset();
                 display.changeState(1);
 			}
 			

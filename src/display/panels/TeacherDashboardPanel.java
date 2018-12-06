@@ -1,6 +1,10 @@
-package display;
+package display.panels;
 
 import javax.swing.JPanel;
+
+import display.Window;
+import display.customcomponents.CustomButton;
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
@@ -24,7 +28,7 @@ public class TeacherDashboardPanel extends JPanel {
 	private CustomButton back;
 	private CustomButton changeSerts;
 
-	TeacherDashboardPanel(Window display) {
+	public TeacherDashboardPanel(Window display) {
 		this.panel = this;
 		this.maxX = display.maxX;
 		this.maxY = display.maxY;

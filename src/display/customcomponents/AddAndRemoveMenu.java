@@ -1,4 +1,4 @@
-package display;
+package display.customcomponents;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -43,7 +43,7 @@ public class AddAndRemoveMenu extends JPanel {
 	
 	String message = "";
 
-	AddAndRemoveMenu(ArrayList<String> items, String title, int maxY) {
+	public AddAndRemoveMenu(ArrayList<String> items, String title, int maxY) {
 		addItem = new CustomTextField("Add " + title);
 		this.items = items;
 		this.title = title;

@@ -4,16 +4,20 @@
  * December 2 2018
  */
 
-package display;
+package display.panels;
 
 import utilities.Utils;
 
 import javax.swing.JPanel;
+
+import display.Window;
+import display.customcomponents.CustomButton;
+
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-class MenuPanel extends JPanel {
+public class MenuPanel extends JPanel {
 	private JPanel panel;
 	private Window display;
 	public final int maxX;
@@ -26,7 +30,7 @@ class MenuPanel extends JPanel {
 	 * Constructor
 	 * @param display the Window object to which this panel belongs
 	 */
-	MenuPanel(Window display) {
+	public MenuPanel(Window display) {
 		this.panel = this;
 		this.display = display;
 		this.maxX = display.maxX;

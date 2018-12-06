@@ -1,4 +1,4 @@
-package display;
+package display.customcomponents;
 import java.awt.BorderLayout;  
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-
 import utilities.Utils;
 
 
@@ -30,7 +29,7 @@ public class CustomTextField extends JPanel {
 	private JTextField textField;
 	private boolean hasTitle;
 	
-	CustomTextField(String title) {
+	public CustomTextField(String title) {
 		this.title = title;
 		this.setPreferredSize(new Dimension(Utils.scale(270), Utils.scale(70)));
 		setBackground(null);
