@@ -75,7 +75,7 @@ public class HTMLWriter {
      * writes to the html document
      * @param pathName the name of the document we are writing to
      */
-    public void writeFile(String pathName){
+    private void writeFile(String pathName){
         try {
             File myFile = new File(pathName);
             PrintWriter out = new PrintWriter(myFile);
@@ -87,7 +87,8 @@ public class HTMLWriter {
                     switch (modNum) {
                         case 0:
                             for (int stuNum = 0; stuNum < studentList.size(); stuNum++){
-                                out.println("<a href=\"#"+studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"\">Student 1</a><br/>");
+                                out.println("<a href=\"#"+studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"\">"+
+                                        studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"</a><br/>");
                             }
                             out.println("<a href = \"#OverallGraph\" > Overall Graph </a>");
                             modNum++;
@@ -236,18 +237,24 @@ public class HTMLWriter {
         int total = 0;
         for (int i =0; i < studentSession.length; i++) {
             for (int j = 0; j < studentSession[i].size(); j++) {
-                if (studentSession[i].get(j).reason.equals("Test")) {
-                    testNum++;
-                } else if (studentSession[i].get(j).reason.equals("Chill Zone")) {
-                    czNum++;
-                } else if (studentSession[i].get(j).reason.equals("Academic Support")) {
-                    asNum++;
-                } else if (studentSession[i].get(j).reason.equals("Quiet Work")) {
-                    qwNum++;
-                } else if (studentSession[i].get(j).reason.equals("Group Work")) {
-                    gwNum++;
-                }
+                String reason = studentSession[i].get(j).reason;
                 total++;
+                switch(reason) {
+                    case ("Test"):
+                        testNum++;
+
+                    case ("Chill Zone"):
+                        czNum++;
+
+                    case ("Academic Support"):
+                        asNum++;
+
+                    case ("Quiet Work"):
+                        qwNum++;
+
+                    case ("Group Work"):
+                        gwNum++;
+                }
             }
         }
         percentageArray[0] = testNum;

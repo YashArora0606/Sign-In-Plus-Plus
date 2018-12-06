@@ -75,7 +75,7 @@ public class Stack<E> {
      * Returns the 1-based index of an object in the stack, where the index
      * is the distance from the top of the stack. The topmost item is considered to be index 1.
      * The reason why search(Object) is 1-based while get(int) is 0-based, is that search is designed
-     * to mirror {@link java.util.Stack#search(Object)} in the Java Stack class 
+     * to mirror {@link java.util.Stack#search(Object)} in the Java Stack class
      *
      * @param obj object to search for
      * @return the 1-based from the top of the stack where the object is located; -1 if the object is not in the stack
