@@ -316,7 +316,7 @@ public class DerbyDatabase implements Database {
 
         SinglyLinkedList<String> conditions = new SinglyLinkedList<>();
 
-        if (query.id == -1) {
+        if (query.id > 0) {
             conditions.add("(id=" + query.id + ")");
         }
 
