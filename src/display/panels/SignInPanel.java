@@ -122,7 +122,6 @@ public class SignInPanel extends JPanel {
 				reasonDropDown.reset();
 				courseMissingDropDown.reset();
 
-				
 			} catch (NumberFormatException e) {
 				throw new InvalidIdException(id);
 			}

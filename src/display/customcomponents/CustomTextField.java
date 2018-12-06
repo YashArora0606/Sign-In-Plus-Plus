@@ -75,5 +75,9 @@ public class CustomTextField extends JPanel {
 		this.hasTitle = hasTitle;
 	}
 
+	public void reset() {
+		this.setText("");
+	}
+
 }
 
