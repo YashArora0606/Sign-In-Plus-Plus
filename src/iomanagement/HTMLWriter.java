@@ -87,7 +87,8 @@ public class HTMLWriter {
                     switch (modNum) {
                         case 0:
                             for (int stuNum = 0; stuNum < studentList.size(); stuNum++){
-                                out.println("<a href=\"#"+studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"\">Student 1</a><br/>");
+                                out.println("<a href=\"#"+studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"\">"+
+                                        studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"</a><br/>");
                             }
                             out.println("<a href = \"#OverallGraph\" > Overall Graph </a>");
                             modNum++;
