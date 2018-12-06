@@ -4,7 +4,7 @@
  * December 2 2018
  */
 
-package display;
+package display.panels;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -20,6 +20,10 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import datamanagement.SignInManager;
+import display.Window;
+import display.customcomponents.CustomButton;
+import display.customcomponents.CustomTextField;
+import display.customcomponents.SelectMultipleMenu;
 import iomanagement.HTMLWriter;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
@@ -56,7 +60,7 @@ public class GenerateSheetPanel extends JPanel {
 	 * Initializes and positions all text fields and drop down menus
 	 * @param display Window object to which this panel belongs
 	 */
-	GenerateSheetPanel(Window display, SignInManager signInManager) {
+	public GenerateSheetPanel(Window display, SignInManager signInManager) {
 		this.display = display;
 		this.signInManager = signInManager;
 		this.panel = this;

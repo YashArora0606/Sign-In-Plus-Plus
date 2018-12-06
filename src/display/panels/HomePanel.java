@@ -6,18 +6,20 @@
  * December 2 2018
  */
 
-package display;
+package display.panels;
 
 import javax.swing.JPanel;
 
 import datamanagement.SignInManager;
+import display.Window;
+import display.customcomponents.CustomButton;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import utilities.Utils;
 
-class HomePanel extends JPanel {
+public class HomePanel extends JPanel {
     private Window display;
     private JPanel panel;
     private final int maxX;
@@ -31,7 +33,7 @@ class HomePanel extends JPanel {
      * Constructor
      * @param display the Window it belongs to (to change states)
      */
-    HomePanel(Window display) {
+    public HomePanel(Window display) {
         this.panel = this; //to reference this panel for relative mouse tracking
         this.display = display;
         this.maxX = display.maxX; //window dimensions

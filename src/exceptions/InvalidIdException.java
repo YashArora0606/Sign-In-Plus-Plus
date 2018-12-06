@@ -18,4 +18,8 @@ public class InvalidIdException extends Exception {
     public InvalidIdException(int id) {
         super(Utils.idToString(id) + " is an invalid student ID");
     }
+
+	public InvalidIdException(String id) {
+		super(id + " is an invalid student ID");
+	}
 }

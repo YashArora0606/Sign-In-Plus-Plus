@@ -1,7 +1,10 @@
-package display;
+package display.panels;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import display.Window;
+import display.customcomponents.CustomButton;
 import utilities.Utils;
 
 import java.awt.Graphics;
@@ -27,7 +30,7 @@ public class ChangePasswordPanel extends JPanel {
     private CustomButton back;
     private CustomButton submit;
 
-    ChangePasswordPanel(Window display){
+    public ChangePasswordPanel(Window display){
         this.panel = this;
         this.maxX = display.maxX;
         this.maxY = display.maxY;

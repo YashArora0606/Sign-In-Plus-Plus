@@ -1,4 +1,4 @@
-package display;
+package display.customcomponents;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,21 +15,16 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-
 import utilities.Utils;
 
 
 public class DropDownMenu extends JPanel {
-	
-    Timer tm1,tm2,tm3;
-    // the panels default height = 60
-    Integer pl1 = 30,pl2 = 30,pl3 = 30;
 	String selectedText = "Select";
 	String title;
 
     String[] items;
 	
-	DropDownMenu(String[] items, String title) {
+	public DropDownMenu(String[] items, String title) {
 		this.items = items;
 		this.title = title;
 		this.setPreferredSize(new Dimension(Utils.scale(180), Utils.scale(30)*2));
@@ -80,6 +75,10 @@ public class DropDownMenu extends JPanel {
 
 	public void drop() {
 		setSize(this.preferredSize());
+	}
+	
+	public void reset() {
+		selectedText = "Select";
 	}
 
 }

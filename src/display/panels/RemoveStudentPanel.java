@@ -4,12 +4,14 @@
  * December 2 2018
  */
 
-package display;
+package display.panels;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import datamanagement.SignInManager;
+import display.Window;
+import display.customcomponents.CustomButton;
 import exceptions.StudentDoesNotExistException;
 import utilities.Utils;
 
@@ -21,7 +23,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-class RemoveStudentPanel extends JPanel {
+public class RemoveStudentPanel extends JPanel {
     private JPanel panel;
     private Window display;
     private SignInManager signInManager;
@@ -42,7 +44,7 @@ class RemoveStudentPanel extends JPanel {
      * @param display the Window object to which this panel belongs
      * @param signInManager the manager to handle removing the student from the database
      */
-    RemoveStudentPanel(Window display, SignInManager signInManager) {
+    public RemoveStudentPanel(Window display, SignInManager signInManager) {
         this.panel = this;
         this.display = display;
         this.signInManager = signInManager;

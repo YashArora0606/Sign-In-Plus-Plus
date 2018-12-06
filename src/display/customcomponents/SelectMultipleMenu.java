@@ -1,4 +1,4 @@
-package display;
+package display.customcomponents;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import display.GenerateSheetPanel.MyMouseListener;
+import display.panels.GenerateSheetPanel.MyMouseListener;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
@@ -20,7 +20,7 @@ public class SelectMultipleMenu extends DropDownMenu{
 	SinglyLinkedList<String> selectedTexts = new SinglyLinkedList<>();
 	SinglyLinkedList<CustomButton> buttons = new SinglyLinkedList<>();
 
-	SelectMultipleMenu(String[] items, String title) {
+	public SelectMultipleMenu(String[] items, String title) {
 		super(items, title);
 		this.setPreferredSize(new Dimension(180, 30 * (items.length + 1)));
 		this.addMouseListener(new MyMouseListener());

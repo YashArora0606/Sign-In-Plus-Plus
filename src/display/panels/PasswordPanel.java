@@ -5,9 +5,13 @@
  * December 2 2018
  */
 
-package display;
+package display.panels;
 
 import javax.swing.JTextField;
+
+import display.Window;
+import display.customcomponents.CustomButton;
+
 import javax.swing.JPanel;
 
 import java.awt.Graphics;
@@ -40,7 +44,7 @@ public class PasswordPanel extends JPanel{
      * Constructor
      * @param display the Window object to which this panel belongs
      */
-    PasswordPanel(Window display) {
+    public PasswordPanel(Window display) {
         this.display = display;
         this.panel = this;
         this.maxX = display.maxX;

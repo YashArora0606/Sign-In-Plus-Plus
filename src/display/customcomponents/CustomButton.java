@@ -1,4 +1,4 @@
-package display;
+package display.customcomponents;
 
 import utilities.Utils;
 

@@ -1,15 +1,18 @@
 /**
- * [ChangeSertsPanel.java] 
+ * [ChangeSertsPanel.java]  
  * the panel which prompts the user for the password to enter the teacher dashboard
  * checks the password with the password text file and then rewrites the password to the text file
  * December 2 2018
  */
 
-package display;
+package display.panels;
 
-import javax.swing.JTextField;
+import javax.swing.JTextField; 
 
 import datamanagement.SignInManager;
+import display.Window;
+import display.customcomponents.AddAndRemoveMenu;
+import display.customcomponents.CustomButton;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -50,7 +53,7 @@ public class ChangeSertsPanel extends JPanel {
 	 * 
 	 * @param display the Window object to which this panel belongs
 	 */
-	ChangeSertsPanel(Window display) {
+	public ChangeSertsPanel(Window display) {
 		this.display = display;
 		this.panel = this;
 		this.maxX = display.maxX;
