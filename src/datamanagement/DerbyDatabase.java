@@ -278,17 +278,16 @@ public class DerbyDatabase implements Database {
             ResultSet res = statement.executeQuery(sqlQuery);
 
             while (res.next()) {
+                System.out.println("session added");
+
                 int id = res.getInt("id");
                 Student student;
 
                 if (usedStudents.containsKey(id)) {
                     student = usedStudents.get(id);
+
                 } else {
-                    student = new Student(
-                            id,
-                            res.getString("firstname"),
-                            res.getString("lastname"),
-                            res.getInt("grade"));
+                    student = findStudentById(id);
                     usedStudents.put(id, student);
                 }
 
@@ -301,6 +300,9 @@ public class DerbyDatabase implements Database {
                         res.getString("course"));
                 sessionList.add(session);
             }
+
+            System.out.println(sqlQuery + "," + sessionList.size());
+            printSessions();
 
             return sessionList;
 
@@ -316,7 +318,7 @@ public class DerbyDatabase implements Database {
 
         SinglyLinkedList<String> conditions = new SinglyLinkedList<>();
 
-        if (query.id == -1) {
+        if (query.id >= 0) {
             conditions.add("(id=" + query.id + ")");
         }
 
@@ -356,8 +358,6 @@ public class DerbyDatabase implements Database {
             sqlQuery.append(" and ");
             sqlQuery.append(condition);
         }
-
-        System.out.println(sqlQuery.toString());
 
         return sqlQuery.toString();
     }
