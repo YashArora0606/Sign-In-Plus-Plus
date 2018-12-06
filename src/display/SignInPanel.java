@@ -109,9 +109,16 @@ class SignInPanel extends JPanel {
 		String courseMissed = courseMissingDropDown.getSelectedText();
 
 		try {
-			signInManager.signIn(Integer.parseInt(id), reason, sert, courseMissed);
-			idField.setText("");
-			errorMessage = "";
+			
+			try {
+				signInManager.signIn(Integer.parseInt(id), reason, sert, courseMissed);
+				idField.setText("");
+				errorMessage = "";
+			} catch (NumberFormatException e) {
+				throw new InvalidIdException(id);
+			}
+			
+
 
 			return true;
 		} catch (InvalidIdException | AlreadySignedInException e) {
