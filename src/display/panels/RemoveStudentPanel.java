@@ -1,17 +1,29 @@
-package display;
+/**
+ * [RemoveStudentPanel.java]
+ * The panel to be able to remove a student by the teacher from the dashboard
+ * December 2 2018
+ */
+
+package display.panels;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import datamanagement.SignInManager;
+import display.Window;
+import display.customcomponents.CustomButton;
 import exceptions.StudentDoesNotExistException;
 import utilities.Utils;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-class RemoveStudentPanel extends JPanel {
+public class RemoveStudentPanel extends JPanel {
     private JPanel panel;
     private Window display;
     private SignInManager signInManager;
@@ -20,42 +32,49 @@ class RemoveStudentPanel extends JPanel {
     private CustomButton submit;
     private CustomButton back;
     
-    private CustomButton studentId;
-    
     private int attemptValidation = 0;
 
     private Dimension idSize;
 
-
     private int maxX;
     private int maxY;
 
-    RemoveStudentPanel(Window display, SignInManager signInManager) {
+    /**
+     * Constructor
+     * @param display the Window object to which this panel belongs
+     * @param signInManager the manager to handle removing the student from the database
+     */
+    public RemoveStudentPanel(Window display, SignInManager signInManager) {
         this.panel = this;
         this.display = display;
         this.signInManager = signInManager;
-        this.addMouseListener(new MyMouseListener());
-        this.setLayout(null);
-        this.setBackground(Utils.colours[2]);
-
         this.maxX = display.maxX;
         this.maxY = display.maxY;
 
-        idField = new JTextField(7);
-        idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
+        this.addMouseListener(new MyMouseListener());
+        this.setLayout(null); //null layout to allow for absolute positioning
+        this.setBackground(Utils.colours[2]);
+
+        idField = new JTextField(7); //creating a text field and initializing length
+        idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f)); //retrieving the font
         idSize = idField.getPreferredSize();
         this.add(idField);
-        this.addMouseListener(new MyMouseListener());
-
+        //absolute positioning to center the id field
         idField.setBounds(display.maxX / 2 - idSize.width / 2, display.maxY / 2 - idSize.height - Utils.scale(100), idSize.width,
                 idSize.height);
-
+        //creating the dashed border look for the text field
         idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
         idField.setBackground(null);
+
+        this.addMouseListener(new MyMouseListener());
 
         setVisible(true);
     }
 
+    /**
+     * The method to paint all components on the screen
+     * @param g The Graphics object with which
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -74,7 +93,7 @@ class RemoveStudentPanel extends JPanel {
         g.setFont(mainFont);
         g.setColor(Utils.colours[0]);
         //g.drawString("Student Number", maxX/2-mainFontMetrics.stringWidth("Student Number")/2, maxY/3);
-        
+        CustomButton studentId;
 		studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220)/2,
 				display.maxY / 2 - idSize.height - Utils.scale(165), Utils.scale(220), Utils.scale(50), Utils.colours[4]);
 		studentId.setSelectable(false);

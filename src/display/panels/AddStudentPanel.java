@@ -1,4 +1,4 @@
-package display;
+package display.panels;
 
 import javax.swing.JTextField;
 import javax.swing.JPanel;
@@ -12,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import datamanagement.SignInManager;
+import display.Window;
+import display.customcomponents.CustomButton;
 import utilities.Utils;
 
 public class AddStudentPanel extends JPanel {
@@ -28,7 +30,7 @@ public class AddStudentPanel extends JPanel {
     private CustomButton submit;
     private int attemptValidation = 0;
 
-    AddStudentPanel(Window display, SignInManager signInManager) {
+    public AddStudentPanel(Window display, SignInManager signInManager) {
         this.display = display;
         this.signInManager = signInManager;
         this.panel = this;

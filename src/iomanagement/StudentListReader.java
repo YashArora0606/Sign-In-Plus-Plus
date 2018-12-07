@@ -1,136 +1,127 @@
 package iomanagement;
 
 import datamanagement.Student;
-import display.ErrorWindow;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import exceptions.ImproperFormatException;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import utilities.ExcelUtils;
+import utilities.SinglyLinkedList;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.stream.Stream;
 
 
 /**
- * Reads from an .xlsx file of students
- * 11/25/2018
+ * Helper class that reads from a .xlsx file and generates a list of students
+ * that are included in the excel file.
+ *
  * @author Alston
+ * last updated 12/5/2018
  */
 public class StudentListReader {
 
-    private final String STUDENTS_DIR = "database/";
-    private final String STUDENTS_FILE = "Students.xlsx";
-
-    private final String[] header = {"Student ID", "First Name", "Last Name", "Grade"};
-
-    private ArrayList<Student> students = new ArrayList<>();
+    private static final String STUDENTS_FILE = "database/RHHSStudentList.csv"; //path of the student file
 
     /**
-     * Constructs the reader and reads from the file
+     * Returns a list of the students detailed by RHHSStudentList.csv
+     * RHHSStudentList.csv must adhere to a specific format in order to be read without throwing an exception:
+     * 1) the file must be found under the path "database/RHHSStudentList.csv"
+     * 2) each row in the sheet, starting from the 2nd row, represents a student
+     * 3) no empty or unfilled rows can exist in the sheet
+     * 4) each row must contain (Student ID, First Name, Last Name, School Code, Grade, Home Room) in this order
+     *
+     * @return a list of students
+     * @throws IOException             thrown if the .csv file cannot be found or opened
+     * @throws ImproperFormatException thrown if the .csv file is improperly formatted
      */
-    public StudentListReader() {
+    public static SinglyLinkedList<Student> getStudentList() throws IOException, ImproperFormatException{
 
-        XSSFWorkbook workbook = null;
+        SinglyLinkedList<Student> students = new SinglyLinkedList<>();
 
-        try {
-            workbook = ExcelUtils.loadFile(STUDENTS_DIR + STUDENTS_FILE);
+        BufferedReader reader = new BufferedReader(new FileReader(new File(STUDENTS_FILE)));
 
-        } catch (FileNotFoundException e) {
-            new ErrorWindow("Students.xlsx could not be found and was auto-generated");
-            createNewStudentFile();
-            openDirectory();
-            System.exit(1);
+        reader.readLine(); //reading the header line
 
-        } catch (IOException e) {
-            new ErrorWindow("Unknown error in Students.xlsx");
-            System.exit(1);
-        }
+        String line = reader.readLine();
+        while (line != null) {
 
-        //open first sheet (by default, an excel file must contain at least 1 sheet
-        XSSFSheet sheet = workbook.getSheetAt(0);
-
-        //create cell styles
-        XSSFCellStyle redCell = workbook.createCellStyle();
-        redCell.setFillForegroundColor(IndexedColors.RED.getIndex());
-        redCell.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
-        XSSFCellStyle defaultCell = workbook.createCellStyle();
-        defaultCell.setFillPattern(FillPatternType.NO_FILL);
-
-        //read file
-        boolean fileProperlyFormatted = true;
-
-        for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
-
-            XSSFRow row = sheet.getRow(rowIndex);
-            if (row == null) {
-                row = sheet.createRow(rowIndex);
+            String[] entry = line.split(",");
+            if (entry.length != 6) {
+                throw new ImproperFormatException();
             }
 
+            students.add(new Student(formatId(entry[0]), formatName(entry[1]), formatName(entry[2]), formatGrade(entry[4])));
 
+            line = reader.readLine();
         }
 
-        try {
-            ExcelUtils.saveFile(workbook, STUDENTS_DIR + STUDENTS_FILE);
-        } catch (IOException e) {
-            new ErrorWindow("Unknown error in Students.xlsx");
-            System.exit(1);
-        }
+        reader.close();
 
-        if (!fileProperlyFormatted) {
-            new ErrorWindow("Students.xlsx improperly formatted");
-            openDirectory();
-            System.exit(1);
-        }
-    }
-
-    public Student[] getStudents() {
-        return students.toArray(new Student[0]);
+        return students;
     }
 
     /**
-     * Creates a new Students.xlsx file
+     * Coverts a string id into an integer id.
+     * An id must be a numerical string with 9 or less characters
+     *
+     * @param id a string representation of a student id
+     * @return an integer representation of the id argument
+     * @throws ImproperFormatException thrown if the id argument cannot be formatted to an integer id
      */
-    private void createNewStudentFile() {
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("Student List");;
+    private static int formatId(String id) throws ImproperFormatException {
 
-        XSSFRow row = sheet.createRow(0);
-        for (int i = 0; i < header.length; i++) {
-            row.createCell(i).setCellValue(header[i]);
-            sheet.autoSizeColumn(i);
-        }
+        int idNum;
 
         try {
-            ExcelUtils.saveFile(workbook, STUDENTS_DIR + STUDENTS_FILE);
-        } catch (IOException e) {
-            e.printStackTrace();
+            idNum = Integer.parseInt(id); //try to convert the string into an integer
+        } catch (NullPointerException | NumberFormatException e) {
+            throw new ImproperFormatException();
         }
+
+        if (idNum < 0 || idNum > 999999999) { //check if id has 9 or less digits
+            throw new ImproperFormatException();
+        }
+
+        return idNum;
     }
 
     /**
-     * Opens the directory to the Students.xlsx file on the desktop
+     * Formats a specified name by trimming it
+     *
+     * @param name a specified name
+     * @return the formatted name
      */
-    private void openDirectory() {
+    private static String formatName(String name) {
+
+        name = name.trim();
+
+        return name;
+    }
+
+    /**
+     * Formats a string grade into an integer grade.
+     * A grade must be a numerical string representing a value from 9 to 13 inclusive
+     *
+     * @param grade a string representation of a grade
+     * @return an integer representation of the grade argument
+     * @throws ImproperFormatException thrown if the grade argument cannot be formatted to an integer grade
+     */
+    private static int formatGrade(String grade) throws ImproperFormatException {
+
+        int gradeNum;
+
         try {
-            Desktop desktop = Desktop.getDesktop();
-            desktop.open(new File(STUDENTS_DIR));
-        } catch (IOException e) {
-            e.printStackTrace();
+            gradeNum = Integer.parseInt(grade); //try to convert the string into an integer
+        } catch (NullPointerException | NumberFormatException e) {
+            throw new ImproperFormatException();
         }
+
+        if (gradeNum < 9 || gradeNum > 13) { //check if the grade is between 9 and 13 inclusive
+            throw new ImproperFormatException();
+        }
+
+        return gradeNum;
     }
 
-    private boolean isValidId(int id) {
-        return (id >= 0 && id <= 999999999);
-    }
-
-    private boolean isValidGrade(int grade) {
-        return (grade >= 9 && grade <= 13);
-    }
 }

@@ -14,25 +14,22 @@ import java.util.Scanner;
 
 
 public class HTMLWriter {
-    String excelFile;
-    Stack<Session>[] studentSession;
-    Student[] studentList;
-    SinglyLinkedList<Session> sessionList;
-    SinglyLinkedList<String> template;
-    SinglyLinkedList<String> reportTemplate;
+    private Stack<Session>[] studentSession;
+    private SinglyLinkedList<Student> studentList;
+    private SinglyLinkedList<Session> sessionList;
+    private SinglyLinkedList<String> template;
+    private SinglyLinkedList<String> reportTemplate;
 
     /**
      * Constructor - initializes templates upon creation
-     * @param excelFile
      * @param studentList
      */
-    HTMLWriter(String excelFile, Student[] studentList, SinglyLinkedList<Session> sessionList){
-        this.excelFile = excelFile;
+    public HTMLWriter(SinglyLinkedList<Student> studentList, SinglyLinkedList<Session> sessionList){
         this.studentList = studentList;
         this.sessionList = sessionList;
-        studentSession = new Stack[studentList.length];
+        studentSession = new Stack[studentList.size()];
         // initializing
-        for (int i = 0; i < studentList.length; i++) {
+        for (int i = 0; i < studentList.size(); i++) {
             studentSession[i] = new Stack<>();
         }
 
@@ -47,9 +44,9 @@ public class HTMLWriter {
     }
 
     private void generateStack(SinglyLinkedList<Session> sessionList){
-        for (int i = 0; i < sessionList.size(); i++){
-            int index = findStudent(sessionList.get(i).student.id);
-            studentSession[index].push(sessionList.get(i));
+        for (Session session : sessionList){
+            int index = studentList.indexOf(session.student);
+            studentSession[index].push(session);
         }
     }
 
@@ -64,7 +61,6 @@ public class HTMLWriter {
             while(input.hasNext()){
                 String line = input.nextLine();
                 list.add(line);
-                System.out.println(line);
             }
 
             input.close();
@@ -79,7 +75,7 @@ public class HTMLWriter {
      * writes to the html document
      * @param pathName the name of the document we are writing to
      */
-    public void writeFile(String pathName){
+    private void writeFile(String pathName){
         try {
             File myFile = new File(pathName);
             PrintWriter out = new PrintWriter(myFile);
@@ -90,8 +86,9 @@ public class HTMLWriter {
                 } else {
                     switch (modNum) {
                         case 0:
-                            for (int stuNum = 0; stuNum < studentList.length; stuNum++){
-                                out.println("<a href=\"#"+studentList[stuNum].firstName+" "+studentList[stuNum].lastName+"\">Student 1</a><br/>");
+                            for (int stuNum = 0; stuNum < studentList.size(); stuNum++){
+                                out.println("<a href=\"#"+studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"\">"+
+                                        studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"</a><br/>");
                             }
                             out.println("<a href = \"#OverallGraph\" > Overall Graph </a>");
                             modNum++;
@@ -161,8 +158,8 @@ public class HTMLWriter {
         out.println("<div id=\"graph\">");
         out.print("<table id = ");
         out.print( "\"s-graph\" </table>");
-        out.println("<caption> " + studentSession[index].get(0).student.firstName + " " +
-                studentSession[index].get(0).student.lastName + " Graph </caption>");
+        out.println("<caption> " + studentList.get(index).firstName + " " +
+                studentList.get(index).lastName + " Graph </caption>");
         out.println("<thead>");
         out.println("<tr>");
         out.println("<th></th>");
@@ -177,41 +174,41 @@ public class HTMLWriter {
             out.println("</tr>");
         }
 
-//        // Test reason bar
-//        out.println("<tr class=\"reason\" id=\"Test\">");
-//        out.println("<th scope=\"row\"> Test </th>");
-//        out.println("<td class=\"Test bar\" style=\"height: " + percentageList[0] * 10+ "px\"><p> " + percentageList[0] + " </p></td>");
-//        out.println("</tr>");
+        // Test reason bar
+        out.println("<tr class=\"reason\" id=\"Test\">");
+        out.println("<th scope=\"row\"> Test </th>");
+        out.println("<td class=\"Test bar\" style=\"height: " + percentageList[0] * 10+ "px\"><p> " + percentageList[0] + " </p></td>");
+        out.println("</tr>");
 
-//        //chill zone reason bar
-//        out.println("<tr class=\"reason\" id=\"ChillZone\">");
-//        out.println("<th scope=\"row\"> Chill Zone </th>");
-//        out.println("<td class=\"ChillZone bar\" style=\"height: " + percentageList[1] * 10+ "px\"><p> " + percentageList[1] + " </p></td>");
-//        out.println("</tr>");
-//
-//        //quiet work reason bar
-//        out.println("<tr class=\"reason\" id=\"QuietWork\">");
-//        out.println("<th scope=\"row\"> Quiet Work </th>");
-//        out.println("<td class=\"QuietWork bar\" style=\"height: " + percentageList[2] * 10 + "px\"><p> " + percentageList[2] + " </p></td>");
-//        out.println("</tr>");
-//
-//        //group work reason bar
-//        out.println("<tr class=\"reason\" id=\"GroupWork\">");
-//        out.println("<th scope=\"row\"> Group Work </th>");
-//        out.println("<td class=\"GroupWork bar\" style=\"height: " + percentageList[3] * 10+ "px\"><p> " + percentageList[3] + " </p></td>");
-//        out.println("</tr>");
-//
-//        //Academic Support bar
-//        out.println("<tr class=\"reason\" id=\"AcademicSupport\">");
-//        out.println("<th scope=\"row\"> Academic Support</th>");
-//        out.println("<td class=\"AcademicSupport bar\" style=\"height: " + percentageList[4] * 10+ "px\"><p> " + percentageList[4] + " </p></td>");
-//        out.println("</tr>");
-//
-//        //Total bar
-//        out.println("<tr class=\"reason\" id=\"Total\">");
-//        out.println("<th scope=\"row\"> Total </th>");
-//        out.println("<td class=\"Total bar\" style=\"height: " + percentageList[5] * 10+ "px\"><p> " + percentageList[5] + " </p></td>");
-//        out.println("</tr>");
+        //chill zone reason bar
+        out.println("<tr class=\"reason\" id=\"ChillZone\">");
+        out.println("<th scope=\"row\"> Chill Zone </th>");
+        out.println("<td class=\"ChillZone bar\" style=\"height: " + percentageList[1] * 10+ "px\"><p> " + percentageList[1] + " </p></td>");
+        out.println("</tr>");
+
+        //quiet work reason bar
+        out.println("<tr class=\"reason\" id=\"QuietWork\">");
+        out.println("<th scope=\"row\"> Quiet Work </th>");
+        out.println("<td class=\"QuietWork bar\" style=\"height: " + percentageList[2] * 10 + "px\"><p> " + percentageList[2] + " </p></td>");
+        out.println("</tr>");
+
+        //group work reason bar
+        out.println("<tr class=\"reason\" id=\"GroupWork\">");
+        out.println("<th scope=\"row\"> Group Work </th>");
+        out.println("<td class=\"GroupWork bar\" style=\"height: " + percentageList[3] * 10+ "px\"><p> " + percentageList[3] + " </p></td>");
+        out.println("</tr>");
+
+        //Academic Support bar
+        out.println("<tr class=\"reason\" id=\"AcademicSupport\">");
+        out.println("<th scope=\"row\"> Academic Support</th>");
+        out.println("<td class=\"AcademicSupport bar\" style=\"height: " + percentageList[4] * 10+ "px\"><p> " + percentageList[4] + " </p></td>");
+        out.println("</tr>");
+
+        //Total bar
+        out.println("<tr class=\"reason\" id=\"Total\">");
+        out.println("<th scope=\"row\"> Total </th>");
+        out.println("<td class=\"Total bar\" style=\"height: " + percentageList[5] * 10+ "px\"><p> " + percentageList[5] + " </p></td>");
+        out.println("</tr>");
         out.println("</tbody");
         out.println("</table>");
         out.println("<div id=\"ticks\">");
@@ -240,18 +237,24 @@ public class HTMLWriter {
         int total = 0;
         for (int i =0; i < studentSession.length; i++) {
             for (int j = 0; j < studentSession[i].size(); j++) {
-                if (studentSession[i].get(j).reason.equals("Test")) {
-                    testNum++;
-                } else if (studentSession[i].get(j).reason.equals("Chill Zone")) {
-                    czNum++;
-                } else if (studentSession[i].get(j).reason.equals("Academic Support")) {
-                    asNum++;
-                } else if (studentSession[i].get(j).reason.equals("Quiet Work")) {
-                    qwNum++;
-                } else if (studentSession[i].get(j).reason.equals("Group Work")) {
-                    gwNum++;
-                }
+                String reason = studentSession[i].get(j).reason;
                 total++;
+                switch(reason) {
+                    case ("Test"):
+                        testNum++;
+
+                    case ("Chill Zone"):
+                        czNum++;
+
+                    case ("Academic Support"):
+                        asNum++;
+
+                    case ("Quiet Work"):
+                        qwNum++;
+
+                    case ("Group Work"):
+                        gwNum++;
+                }
             }
         }
         percentageArray[0] = testNum;
@@ -278,7 +281,7 @@ public class HTMLWriter {
         int asNum = 0;
         int total = 0;
         for (int i = 0; i < studentSession[index].size(); i++) {
-            if (studentSession[i].get(i).reason.equals("Test")) {
+            if (studentSession[index].get(i).reason.equals("Test")) {
                 testNum++;
             } else if (studentSession[index].get(i).reason.equals("Chill Zone")) {
                 czNum++;
@@ -314,11 +317,11 @@ public class HTMLWriter {
             } else {
                 switch (modNum) {
                     case 0:
-                        out.println("<a name=" + studentList[index].firstName + " " + studentList[index].lastName + "></a>");
+                        out.println("<a name=" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "></a>");
                         modNum++;
 
                     case 1:
-                        out.println("<h2>" + studentList[index].firstName + " " + studentList[index].lastName + "</h2>");
+                        out.println("<h2>" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "</h2>");
                         modNum++;
 
                     case 2:
@@ -375,7 +378,7 @@ public class HTMLWriter {
      *  @return Student that is the student object based on the student number
      */
     private int findStudent(int id) {
-        return findStudent(id, 0, studentList.length - 1);
+        return findStudent(id, 0, studentList.size() - 1);
     }
 
     /**
@@ -391,9 +394,9 @@ public class HTMLWriter {
         if (high >= low) {
             int mid = (low + high)/2;
 
-            if (id == studentList[mid].id) {
+            if (id == studentList.get(mid).id) {
                 return mid;
-            } else if (id < studentList[mid].id) {
+            } else if (id < studentList.get(mid).id) {
                 return findStudent(id, low, mid-1);
             } else {
                 return findStudent(id, mid+1, high);

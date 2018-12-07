@@ -1,6 +1,10 @@
-package display;
+package display.panels;
 
 import javax.swing.JPanel;
+
+import display.Window;
+import display.customcomponents.CustomButton;
+
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
@@ -22,8 +26,9 @@ public class TeacherDashboardPanel extends JPanel {
 	private CustomButton changePassword;
 	private CustomButton generateSheet;
 	private CustomButton back;
+	private CustomButton changeSerts;
 
-	TeacherDashboardPanel(Window display) {
+	public TeacherDashboardPanel(Window display) {
 		this.panel = this;
 		this.maxX = display.maxX;
 		this.maxY = display.maxY;
@@ -45,14 +50,17 @@ public class TeacherDashboardPanel extends JPanel {
 
 		int padding = Utils.scale(30);
 
-		addStudent = new CustomButton("Add Student", maxX / 2 - Utils.scale(300) - padding, Utils.scale(400),
-				Utils.scale(300), Utils.scale(80), Utils.colours[1]);
-		removeStudent = new CustomButton("Remove Student", maxX / 2 + padding, Utils.scale(400), Utils.scale(350),
+		addStudent = new CustomButton("Add Student", maxX / 2 - Utils.scale(400) - padding, Utils.scale(400),
+				Utils.scale(400), Utils.scale(80), Utils.colours[1]);
+		removeStudent = new CustomButton("Remove Student", maxX / 2 + padding, Utils.scale(400), Utils.scale(400),
 				Utils.scale(80), Utils.colours[1]);
-		changePassword = new CustomButton("Change Password", maxX / 2 - Utils.scale(375) - padding, Utils.scale(520),
-				Utils.scale(375), Utils.scale(80), Utils.colours[2]);
-		generateSheet = new CustomButton("Generate Sheet", maxX / 2 + padding, Utils.scale(520), Utils.scale(400),
+		changePassword = new CustomButton("Change Password", maxX / 2 - Utils.scale(400) - padding, Utils.scale(520),
+				Utils.scale(400), Utils.scale(80), Utils.colours[2]);
+		generateSheet = new CustomButton("Generate Files", maxX / 2 + padding, Utils.scale(520), Utils.scale(400),
 				Utils.scale(80), Utils.colours[2]);
+		
+		changeSerts = new CustomButton("Edit Serts", maxX / 2 - Utils.scale(400)/2, Utils.scale(640), Utils.scale(400),
+				Utils.scale(80), Utils.colours[3]);
 		// generateExcel.setSelectable(false);
 
 		addStudent.draw(g, panel);
@@ -60,6 +68,7 @@ public class TeacherDashboardPanel extends JPanel {
 		changePassword.draw(g, panel);
 		generateSheet.draw(g, panel);
 		back.draw(g, panel);
+		changeSerts.draw(g, panel);
 
 		repaint();
 	}
@@ -85,6 +94,8 @@ public class TeacherDashboardPanel extends JPanel {
 				 display.changeState(9);
 			} else if (back.isMouseOnButton(panel)) {
 				display.changeState(0);
+			} else if (changeSerts.isMouseOnButton(panel)) {
+				display.changeState(10);
 			}
 		}
 

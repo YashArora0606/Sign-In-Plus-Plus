@@ -1,4 +1,4 @@
-package display;
+package display.customcomponents;
 
 import utilities.Utils;
 
@@ -103,6 +103,10 @@ public class CustomButton{
 		} else {
 			appearSelected = true;
 		}
+	}
+
+	public void setSelected(boolean selected) {
+		appearSelected = selected;
 	}
 
 }

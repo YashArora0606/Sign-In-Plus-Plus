@@ -10,37 +10,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Properties;
 
 
 /**
- * Apache Derby Database (SignInSystemDatabase)
- * 11/26/2018
+ * Implementation of {@link Database} with Apache Derby
  *
  * @author Alston
+ * last updated on 12/3/2018
  */
 public class DerbyDatabase implements Database {
 
     private Connection con = null;
-    private ArrayList<Statement> statements = new ArrayList<>();
+
     private Statement statement;
-
-    //prepared statements
-    private PreparedStatement insertNewStudent;
-    private PreparedStatement findStudent;
-    private PreparedStatement checkStudentStatus;
-    private PreparedStatement removeStudent;
-
-    private PreparedStatement insertNewSession;
-    private PreparedStatement resolveSessions;
+    private HashMap<String, PreparedStatement> prepStatements = new HashMap<>();
 
 
-    /**
-     * Constructs and connects to a database
-     */
     public DerbyDatabase() {
         try {
             //connect to database
@@ -48,43 +35,31 @@ public class DerbyDatabase implements Database {
             con = DriverManager.getConnection("jdbc:derby:SignInSystemDatabase;create=true", props);
 
             statement = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            statements.add(statement);
 
             //create tables if they don't exist
             createTablesIfNotExist();
 
             //create prepared statements
+            String[][] statements = {
+                    {"insert student", "insert into students (id, firstname, lastname, grade) values (?, ?, ?, ?)"},
+                    {"find student", "select * from students where id=?"},
+                    {"get all students", "select * from students"},
+                    {"update student", "update students set firstname=?, lastname=?, grade=? where id=?"},
+                    {"check student", "select * from sessions where id=? and signouttime is null"},
+                    {"remove student", "delete from students where id=?"},
 
-            //inserts a new row into the STUDENTS table
-            String addStudentSql = "insert into students values (?, ?, ?, ?)";
-            insertNewStudent = con.prepareStatement(addStudentSql);
-            statements.add(insertNewStudent);
+                    {"insert session", "insert into sessions (id, signintime, signouttime, reason, sert, course) values (?, ?, ?, ?, ?, ?)"},
+                    {"resolve sessions", "update sessions set signouttime=? where id=? and signouttime is null"},
 
-            //finds a row in the STUDENTS table based on student id
-            String findStudentSql = "select * from students where id=?";
-            findStudent = con.prepareStatement(findStudentSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            statements.add(findStudent);
+                    {"add sert", "insert into serts(sert) values (?)"},
+                    {"get all serts", "select * from serts"},
+                    {"remove all serts", "delete from serts"}
+            };
 
-            //finds all unresolved rows in the SESSIONS table by student id
-            String checkStatusSql = "select * from sessions where id=? and signouttime is null";
-            checkStudentStatus = con.prepareStatement(checkStatusSql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            statements.add(checkStudentStatus);
-
-            //removes a row in the STUDENTS table based on student id
-            String removeStudentSql = "delete from students where id=?";
-            removeStudent = con.prepareStatement(removeStudentSql);
-            statements.add(removeStudent);
-
-            //inserts a new row in the SESSIONS table
-            String insertSql = "insert into sessions values (?, ?, ?, ?, ?, ?)";
-            insertNewSession = con.prepareStatement(insertSql);
-            statements.add(insertNewSession);
-
-            //fills in unresolved signouttime rows in the SESSIONS table by student id
-            String signOutSql = "update sessions set signouttime=? where id=? and signouttime is null";
-            resolveSessions = con.prepareStatement(signOutSql);
-            statements.add(resolveSessions);
-
+            for (String[] pair : statements) {
+                PreparedStatement prepStmt = con.prepareStatement(pair[1], ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                prepStatements.put(pair[0], prepStmt);
+            }
 
             con.commit();
 
@@ -93,23 +68,67 @@ public class DerbyDatabase implements Database {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.exit(1); //kill the program if the con fails
+            System.exit(1);
         }
     }
 
-    /**
-     * Adds a student to the database
-     *
-     * @param student student to be added
-     * @return true, if the student was successfully added
-     */
-    public boolean addStudent(Student student) {
+    private void createTablesIfNotExist() {
         try {
-            insertNewStudent.setInt(1, student.id);
-            insertNewStudent.setString(2, student.firstName);
-            insertNewStudent.setString(3, student.lastName);
-            insertNewStudent.setInt(4, student.grade);
-            insertNewStudent.executeUpdate();
+            statement.executeUpdate("create table students(" +
+                    "id int not null primary key, " +
+                    "firstname varchar(100) not null, " +
+                    "lastname varchar(100) not null, " +
+                    "grade int check (grade >= 9 and grade <= 13))");
+            con.commit();
+
+        } catch (SQLException e) {
+            if (e.getSQLState().equals("X0Y32")) {
+                System.out.println("Session table already exists");
+            } else {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            statement.executeUpdate("create table sessions(" +
+                    "id int not null references students(id) on delete cascade, " +
+                    "signintime timestamp not null," +
+                    "signouttime timestamp, " +
+                    "reason varchar(100) not null, " +
+                    "sert varchar(100) not null, " +
+                    "course varchar(100) not null)");
+            con.commit();
+
+        } catch (SQLException e) { //thrown if the table does not exist
+            if (e.getSQLState().equals("X0Y32")) {
+                System.out.println("Session table already exists");
+            } else {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            statement.executeUpdate("create table serts(" +
+                    "sert varchar(100) not null)");
+            con.commit();
+
+        } catch (SQLException e) { //thrown if the table does not exist
+            if (e.getSQLState().equals("X0Y32")) {
+                System.out.println("Serts table already exists");
+            } else {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean addStudent(Student newStudent) {
+        try {
+            PreparedStatement insertStudent = prepStatements.get("insert student");
+            insertStudent.setInt(1, newStudent.id);
+            insertStudent.setString(2, newStudent.firstName);
+            insertStudent.setString(3, newStudent.lastName);
+            insertStudent.setInt(4, newStudent.grade);
+            insertStudent.executeUpdate();
 
             con.commit();
 
@@ -123,15 +142,9 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    /**
-     * Queries a student from the database that matches a specified id
-     *
-     * @param id a specified id
-     * @return the student, or null if none was found
-     * @throws IOException thrown if any errors occur (e.g. SQLException)
-     */
     public Student findStudentById(int id) throws IOException {
         try {
+            PreparedStatement findStudent = prepStatements.get("find student");
             findStudent.setInt(1, id);
 
             ResultSet res = findStudent.executeQuery();
@@ -155,18 +168,36 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    /**
-     * Verifies if a student with a specified id has previous unresolved sign-in sessions
-     *
-     * @param id a specified id
-     * @return true, if 1+ unresolved sign-in sessions were found
-     * @throws IOException thrown if any errors occur (e.g. SQLException)
-     */
+    public SinglyLinkedList<Student> getStudents() {
+
+        SinglyLinkedList<Student> allStudents = new SinglyLinkedList<>();
+        PreparedStatement getAllStudents = prepStatements.get("get all students");
+
+        try {
+            ResultSet res = getAllStudents.executeQuery();
+            while (res.next()) {
+                Student student = new Student(
+                        res.getInt("id"),
+                        res.getString("firstname"),
+                        res.getString("lastname"),
+                        res.getInt("grade"));
+                allStudents.add(student);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return allStudents;
+    }
+
     public boolean isStudentSignedIn(int id) throws IOException {
         try {
-            checkStudentStatus.setInt(1, id);
+            PreparedStatement checkStudent = prepStatements.get("check student");
+            checkStudent.setInt(1, id);
 
-            ResultSet res = checkStudentStatus.executeQuery();
+            ResultSet res = checkStudent.executeQuery();
             return res.isBeforeFirst();
 
         } catch (SQLException e) {
@@ -174,16 +205,14 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    /**
-     * Removes a student with a specified id from the database
-     *
-     * @param id a specified database
-     * @return true, if the student was successfully removed
-     */
-    public boolean removeStudentById(int id) {
+    public boolean updateStudent(Student updatedStudent) {
         try {
-            removeStudent.setInt(1, id);
-            removeStudent.executeUpdate();
+            PreparedStatement updateStudent = prepStatements.get("update student");
+            updateStudent.setString(1, updatedStudent.firstName);
+            updateStudent.setString(2, updatedStudent.lastName);
+            updateStudent.setInt(3, updatedStudent.grade);
+            updateStudent.setInt(4, updatedStudent.id);
+            updateStudent.executeUpdate();
 
             con.commit();
 
@@ -197,22 +226,34 @@ public class DerbyDatabase implements Database {
         }
     }
 
-
-    /**
-     * Adds a session to the database
-     *
-     * @param session Session to add
-     * @return true, if the session was successfully added
-     */
-    public boolean addSession(Session session) {
+    public boolean removeStudentById(int id) {
         try {
-            insertNewSession.setInt(1, session.student.id);
-            insertNewSession.setTimestamp(2, session.startTime);
-            insertNewSession.setTimestamp(3, session.endTime);
-            insertNewSession.setString(4, session.reason);
-            insertNewSession.setString(5, session.sert);
-            insertNewSession.setString(6, session.course);
-            insertNewSession.executeUpdate();
+            PreparedStatement removeStudent = prepStatements.get("remove student");
+            removeStudent.setInt(1, id);
+            removeStudent.executeUpdate();
+
+            con.commit();
+
+            printStudents();
+
+            return true;
+
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+
+    public boolean addSession(Session newSession) {
+        try {
+            PreparedStatement insertSession = prepStatements.get("insert session");
+            insertSession.setInt(1, newSession.student.id);
+            insertSession.setTimestamp(2, newSession.startTime);
+            insertSession.setTimestamp(3, newSession.endTime);
+            insertSession.setString(4, newSession.reason);
+            insertSession.setString(5, newSession.sert);
+            insertSession.setString(6, newSession.course);
+            insertSession.executeUpdate();
 
             con.commit();
 
@@ -226,36 +267,27 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    /**
-     * Queries all the sessions that matches some specified criteria in the following format
-     *
-     * @param criteria a HashMap with Map.Entry<field, specification>
-     * @return a List of the matching Session objects
-     * @throws IOException            thrown if any error occurs
-     * @throws InputMismatchException thrown if criteria format is incorrect
-     */
-    public SinglyLinkedList<Session> findSessions(HashMap<String, Object> criteria) throws IOException, InputMismatchException {
+    public SinglyLinkedList<Session> findSessions(Query query) throws IOException {
 
-        String query = buildQuery(criteria);
+        String sqlQuery = buildQuery(query);
 
         SinglyLinkedList<Session> sessionList = new SinglyLinkedList<>();
         HashMap<Integer, Student> usedStudents = new HashMap<>();
 
         try {
-            ResultSet res = statement.executeQuery(query);
+            ResultSet res = statement.executeQuery(sqlQuery);
 
             while (res.next()) {
+                System.out.println("session added");
+
                 int id = res.getInt("id");
                 Student student;
 
                 if (usedStudents.containsKey(id)) {
                     student = usedStudents.get(id);
+
                 } else {
-                    student = new Student(
-                            id,
-                            res.getString("firstname"),
-                            res.getString("lastname"),
-                            res.getInt("grade"));
+                    student = findStudentById(id);
                     usedStudents.put(id, student);
                 }
 
@@ -269,6 +301,9 @@ public class DerbyDatabase implements Database {
                 sessionList.add(session);
             }
 
+            System.out.println(sqlQuery + "," + sessionList.size());
+            printSessions();
+
             return sessionList;
 
         } catch (SQLException e) {
@@ -277,15 +312,75 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    /**
-     * Resolves all sessions matching an id by filling the signouttime with the specified time
-     *
-     * @param id   the id
-     * @param time a specified Timestamp time
-     * @return true if the open sessions were successfully resolved
-     */
+    private String buildQuery(Query query) {
+
+        StringBuilder sqlQuery = new StringBuilder("select * from sessions where (signouttime is not null)");
+
+        SinglyLinkedList<String> conditions = new SinglyLinkedList<>();
+
+        if (query.id >= 0) {
+            conditions.add("(id=" + query.id + ")");
+        }
+
+        if (query.earliestTime != null) {
+            conditions.add("(signintime>" + query.earliestTime + ")");
+        }
+
+        if (query.latestTime != null) {
+            conditions.add("(signouttime<" + query.latestTime + ")");
+        }
+
+        if (query.minTime > 0) {
+            conditions.add("({fn timestampdiff(sql_tsi_minute, signintime, signouttime)}>=" + query.minTime + ")");
+        }
+
+        if (query.maxTime > 0) {
+            conditions.add("({fn timestampdiff(sql_tsi_minute, signintime, signouttime)}<=" + query.maxTime + ")");
+        }
+
+        if (query.reasons != null && query.reasons.size() > 0) {
+            conditions.add("(reason in " + toSqlList(query.reasons) + ")");
+        }
+
+        if (query.serts != null && query.serts.size() > 0) {
+            conditions.add("(sert in " + toSqlList(query.serts) + ")");
+        }
+
+        if (query.courses != null && query.courses.size() > 0) {
+            conditions.add("(course in " + toSqlList(query.courses) + ")");
+        }
+
+        if (conditions.size() == 0) {
+            return sqlQuery.toString();
+        }
+
+        for (String condition : conditions) {
+            sqlQuery.append(" and ");
+            sqlQuery.append(condition);
+        }
+
+        return sqlQuery.toString();
+    }
+
+    private String toSqlList(SinglyLinkedList<String> list) {
+        if (list.size() == 0) {
+            return null;
+        }
+
+        StringBuilder sqlList = new StringBuilder("(");
+
+        for (String item : list) {
+            sqlList.append("'" + item + "', ");
+        }
+
+        sqlList.setCharAt(sqlList.length() - 2, ')');
+
+        return sqlList.toString();
+    }
+
     public boolean resolveOpenSessions(int id, Timestamp time) {
         try {
+            PreparedStatement resolveSessions = prepStatements.get("resolve sessions");
             resolveSessions.setTimestamp(1, time);
             resolveSessions.setInt(2, id);
             resolveSessions.executeUpdate();
@@ -302,72 +397,49 @@ public class DerbyDatabase implements Database {
         }
     }
 
+    public SinglyLinkedList<String> getSerts() {
+        return null;
+    }
 
-    /**
-     * Closes the database and all opened resources
-     */
-    public void close() {
-        for (Statement stmt : statements) { //close all statements
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+    public boolean updateSerts(SinglyLinkedList<String> newSerts) {
+        try {
+            PreparedStatement removeAllSerts = prepStatements.get("remove all serts");
+            removeAllSerts.executeUpdate();
+
+            for (String sert : newSerts) {
+                PreparedStatement addSert = prepStatements.get("add sert");
+                addSert.setString(1, sert);
+                addSert.executeUpdate();
             }
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void close() {
+
+        closeStatement(statement);
+        for (Statement stmt : prepStatements.values()) { //close all statements
+            closeStatement(stmt);
         }
 
         try {
-            con.close(); //close connections
+            con.close(); //close connection
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
-    /**
-     * Creates the tables if they do not exist
-     */
-    private void createTablesIfNotExist() {
+    private void closeStatement(Statement stmt) {
         try {
-            statement.executeUpdate("create table students(" +
-                    "id int not null primary key, " +
-                    "firstname varchar(50) not null, " +
-                    "lastname varchar(50) not null, " +
-                    "grade int not null check (grade >= 9 and grade <= 13))");
-            con.commit();
-
-        } catch (SQLException e) { //thrown if the table does not exist
-            System.out.println("Students table already exists");
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        try {
-            statement.executeUpdate("create table sessions(" +
-                    "id int not null , " +
-                    "signintime timestamp not null," +
-                    "signouttime timestamp, " +
-                    "reason varchar(50) not null, " +
-                    "sert varchar(50) not null, " +
-                    "course varchar(50) not null," +
-                    "foreign key(id) references students(id))");
-
-            con.commit();
-
-        } catch (SQLException e) { //thrown if the table does not exist
-            System.out.println("Session table already exists");
-        }
-    }
-
-
-    /**
-     * Builds a String SQL from a HashMap of specified criteria
-     *
-     * @param criteria a HashMap with Map.Entry<field, specification>
-     * @return the String SQL query
-     * @throws InputMismatchException if the
-     */
-    private String buildQuery(HashMap<String, Object> criteria) throws InputMismatchException {
-        StringBuilder query = new StringBuilder("select * from sessions");
-
-        return query.toString();
     }
 
 
@@ -397,7 +469,7 @@ public class DerbyDatabase implements Database {
             ResultSet res = statement.executeQuery("select * from sessions");
             int count = 0;
             while (res.next()) {
-                for (int i = 1; i <= 9; i++) {
+                for (int i = 1; i <= 6; i++) {
                     System.out.print(res.getString(i) + ", ");
                 }
                 count++;
