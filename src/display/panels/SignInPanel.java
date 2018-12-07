@@ -58,7 +58,7 @@ public class SignInPanel extends JPanel {
 		setLayout(new BorderLayout());
 
 		reasonDropDown = new DropDownMenu(SignInManager.reasons, "Reason");
-		sertDropDown = new DropDownMenu(SignInManager.serts, "SERT");
+		sertDropDown = new DropDownMenu(signInManager.getSerts(), "SERT");
 		courseMissingDropDown = new DropDownMenu(SignInManager.courses, "Course Missed");
 
 		idField = new JTextField(7);

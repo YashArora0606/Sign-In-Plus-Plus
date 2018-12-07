@@ -66,7 +66,7 @@ public class Window extends JFrame {
         this.addStudentPanel = new AddStudentPanel(this, signInManager);
         this.removeStudentPanel = new RemoveStudentPanel(this,signInManager);
         this.generateSheetPanel = new GenerateSheetPanel(this, signInManager);
-        this.changeSertsPanel = new ChangeSertsPanel(this);
+        this.changeSertsPanel = new ChangeSertsPanel(this, signInManager);
 
 
 

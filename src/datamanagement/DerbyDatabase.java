@@ -278,8 +278,6 @@ public class DerbyDatabase implements Database {
             ResultSet res = statement.executeQuery(sqlQuery);
 
             while (res.next()) {
-                System.out.println("session added");
-
                 int id = res.getInt("id");
                 Student student;
 
@@ -301,8 +299,7 @@ public class DerbyDatabase implements Database {
                 sessionList.add(session);
             }
 
-            System.out.println(sqlQuery + "," + sessionList.size());
-            printSessions();
+            System.out.println(sqlQuery + ", " + sessionList.size());
 
             return sessionList;
 
@@ -398,7 +395,22 @@ public class DerbyDatabase implements Database {
     }
 
     public SinglyLinkedList<String> getSerts() {
-        return null;
+        try {
+            PreparedStatement getAllSerts = prepStatements.get("get all serts");
+            ResultSet res = getAllSerts.executeQuery();
+
+            SinglyLinkedList<String> serts = new SinglyLinkedList<>();
+
+            while (res.next()) {
+                serts.add(res.getString("sert"));
+            }
+
+            return serts;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new SinglyLinkedList<>();
+        }
     }
 
     public boolean updateSerts(SinglyLinkedList<String> newSerts) {

@@ -77,7 +77,7 @@ public class GenerateSheetPanel extends JPanel {
 		pane.setPreferredSize(new Dimension(maxX, maxY));
 
 		reasonSelect = new SelectMultipleMenu(SignInManager.reasons, "Reason");
-		sertSelect = new SelectMultipleMenu(SignInManager.serts, "SERT");
+		sertSelect = new SelectMultipleMenu(signInManager.getSerts(), "SERT");
 		courseMissingSelect = new SelectMultipleMenu(SignInManager.courses, "Course Missing");
 		gradeSelect = new SelectMultipleMenu(new String[] { "9", "10", "11", "12" }, "Grade");
 

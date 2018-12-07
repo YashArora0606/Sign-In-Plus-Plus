@@ -30,48 +30,20 @@ public class SignInManager {
 	public final static String[] reasons = new String[] { "Test", "Chill Zone", "Quiet Work", "Academic Help",
 			"Group Work" };
 
-	public static String[] serts;
-
 	public final static String[] courses = new String[] { "Art", "Math", "Music", "Science", "History", "Geography",
 			"Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare" };
 
-	public static ArrayList<String> sertList = new ArrayList<String>();
 
 	private Database database;
 
-	public SignInManager(Database database) {
+    public SignInManager(Database database) {
 		this.database = database;
-		BufferedReader in;
-		try {
-			in = new BufferedReader(new FileReader("SERTList.txt"));
 
-			String line;
-
-			while ((line = in.readLine()) != null) {
-				sertList.add(line);
-			}
-
-			updateSerts(sertList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
+		try { // make a button for this later
 			configureStudents();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ImproperFormatException e) {
+		} catch (IOException | ImproperFormatException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void updateSerts(ArrayList<String> newList) {
-		sertList = newList;
-		serts = new String[sertList.size()];
-		for (int i = 0; i < sertList.size(); i++) {
-			serts[i] = sertList.get(i);
-		}
-
 	}
 
 	public boolean addStudent(int id, String firstName, String lastName, int grade)
@@ -186,7 +158,33 @@ public class SignInManager {
 		return database.resolveOpenSessions(id, Utils.getNow());
 	}
 
-	public void generateHTML(int id, Timestamp earliestDate, Timestamp latestDate, int minTime, int maxTime,
+
+    public String[] getSerts() {
+        SinglyLinkedList<String> sertList = database.getSerts();
+
+        String[] sertArray = new String[sertList.size()];
+        for (int i = 0; i < sertList.size(); i++) {
+            sertArray[i] = sertList.get(i);
+        }
+
+        return sertArray;
+    }
+
+    public ArrayList<String> getSertList() {
+        ArrayList<String> sertList = new ArrayList<>();
+
+        for (String sert : database.getSerts()) {
+            sertList.add(sert);
+        }
+
+        return sertList;
+    }
+
+    public void setSerts(SinglyLinkedList<String> newSerts) {
+        database.updateSerts(newSerts);
+    }
+
+    public void generateHTML(int id, Timestamp earliestDate, Timestamp latestDate, int minTime, int maxTime,
 			SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts, SinglyLinkedList<String> courses)
 			throws IOException {
 
@@ -239,6 +237,8 @@ public class SignInManager {
 			row.createCell(7).setCellValue(session.sert);
 			row.createCell(8).setCellValue(session.course);
 
+			rowIndex++;
+
 		}
 
 		try {
@@ -268,9 +268,5 @@ public class SignInManager {
 
 	public void close() {
 		database.close();
-	}
-
-	public static ArrayList<String> getSertList() {
-		return sertList;
 	}
 }

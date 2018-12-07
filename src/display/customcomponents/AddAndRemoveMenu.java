@@ -1,30 +1,23 @@
 package display.customcomponents;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.IllegalComponentStateException;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
-import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import datamanagement.SignInManager;
+import utilities.SinglyLinkedList;
 import utilities.Utils;
 
 public class AddAndRemoveMenu extends JPanel {
@@ -32,6 +25,7 @@ public class AddAndRemoveMenu extends JPanel {
 	String title;
 
 	ArrayList<String> items;
+	SignInManager manager;
 
 	ArrayList<CustomButton> itemButtons = new ArrayList<CustomButton>();
 	ArrayList<CustomButton> xButtons = new ArrayList<CustomButton>();
@@ -43,8 +37,10 @@ public class AddAndRemoveMenu extends JPanel {
 	
 	String message = "";
 
-	public AddAndRemoveMenu(ArrayList<String> items, String title, int maxY) {
+	public AddAndRemoveMenu(SignInManager manager, ArrayList<String> items, String title, int maxY) {
 		addItem = new CustomTextField("Add " + title);
+
+		this.manager = manager;
 		this.items = items;
 		this.title = title;
 		this.setPreferredSize(new Dimension(Utils.scale(300) + Utils.scale(400), maxY));
@@ -157,17 +153,12 @@ public class AddAndRemoveMenu extends JPanel {
 	}
 	
 	public void updateTxt() {
-		try {
-	        BufferedWriter out = new BufferedWriter(new FileWriter("SERTList.txt"));
-	            for (int i = 0; i < items.size(); i++) {
-	                out.write(items.get(i));
-	                out.newLine();
-	            }
-	            out.close();
-	        } catch (IOException e) {
-	        	e.printStackTrace();
-	        }
-		SignInManager.updateSerts(items);
+		SinglyLinkedList<String> sertList = new SinglyLinkedList<>();
+		for (String sert : items) {
+			sertList.add(sert);
+		}
+
+		manager.setSerts(sertList);
 	}
 
 	private class MyMouseListener implements MouseListener {

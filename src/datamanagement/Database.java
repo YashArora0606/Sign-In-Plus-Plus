@@ -94,14 +94,15 @@ public interface Database {
     boolean resolveOpenSessions(int id, Timestamp time);
 
     /**
+     * Returns a list of names of the SERTs stored within the database
      *
-     * @return
-     * @throws IOException
+     * @return a list of SERT names
+     * @throws IOException thrown if the database fails to be accessed
      */
     SinglyLinkedList<String> getSerts();
 
     /**
-     * Updates all the serts logged in the database by replacing them with a new list of serts
+     * Updates all the SERTs logged in the database by replacing them with a new list of SERTs
      *
      * @param newSerts the new list of serts that replaces the old one
      * @return true, if the table was successfully updated; false otherwise

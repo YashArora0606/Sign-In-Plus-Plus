@@ -36,6 +36,7 @@ import utilities.Utils;
 
 public class ChangeSertsPanel extends JPanel {
 	private Window display;
+	private SignInManager manager;
 	private JPanel panel;
 	private int maxX;
 	private int maxY;
@@ -53,8 +54,9 @@ public class ChangeSertsPanel extends JPanel {
 	 * 
 	 * @param display the Window object to which this panel belongs
 	 */
-	public ChangeSertsPanel(Window display) {
+	public ChangeSertsPanel(Window display, SignInManager manager) {
 		this.display = display;
+		this.manager = manager;
 		this.panel = this;
 		this.maxX = display.maxX;
 		this.maxY = display.maxY;
@@ -65,7 +67,7 @@ public class ChangeSertsPanel extends JPanel {
 
 		pane = new JLayeredPane();
 
-		a = new AddAndRemoveMenu(SignInManager.getSertList(), "SERT", maxY);
+		a = new AddAndRemoveMenu(manager, manager.getSertList(), "SERT", maxY);
 //        a.setBounds(a.getBounds().x, Utils.scale(100), a.getBounds().width, a.getBounds().height);
 
 		JPanel emptyTop = new JPanel();
