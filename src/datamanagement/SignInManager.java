@@ -239,7 +239,6 @@ public class SignInManager {
 			row.createCell(8).setCellValue(session.course);
 
 			rowIndex++;
-
 		}
 
 		try {
@@ -255,13 +254,9 @@ public class SignInManager {
 			workbook.write(out);
 			out.close();
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		try {
 			Desktop desktop = Desktop.getDesktop();
-			desktop.open(new File("database/"));
+            desktop.open(new File("database/"));
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
