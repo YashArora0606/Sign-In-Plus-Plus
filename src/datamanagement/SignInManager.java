@@ -16,23 +16,14 @@ import utilities.SinglyLinkedList;
 import utilities.Utils;
 
 import java.awt.Desktop;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class SignInManager {
-
-	public final static String[] reasons = new String[] { "Test", "Chill Zone", "Quiet Work", "Academic Help",
-			"Group Work" };
-
-	public final static String[] courses = new String[] { "Art", "Math", "Music", "Science", "History", "Geography",
-			"Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare" };
-
 
 	private Database database;
 
@@ -159,6 +150,15 @@ public class SignInManager {
 	}
 
 
+	public String[] getReasons() {
+        return new String[] {"Test", "Chill Zone", "Quiet Work", "Academic Help", "Group Work"};
+    }
+
+    public String[] getCourses() {
+        return new String[] { "Art", "Math", "Music", "Science", "History", "Geography",
+                "Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare" };
+    }
+
     public String[] getSerts() {
         SinglyLinkedList<String> sertList = database.getSerts();
 
@@ -214,6 +214,7 @@ public class SignInManager {
 
 		String[] header = { "Student id", "First Name", "Last Name", "Grade", "Sign-in Time", "Sign-out Time", "Reason",
 				"SERT", "Course" };
+
 		XSSFRow headerRow = sheet.createRow(0);
 		for (int colIndex = 0; colIndex < header.length; colIndex++) {
 			headerRow.createCell(colIndex).setCellValue(header[colIndex]);

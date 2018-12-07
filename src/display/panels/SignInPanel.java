@@ -57,9 +57,9 @@ public class SignInPanel extends JPanel {
 		setBackground(Utils.colours[2]);
 		setLayout(new BorderLayout());
 
-		reasonDropDown = new DropDownMenu(SignInManager.reasons, "Reason");
+		reasonDropDown = new DropDownMenu(signInManager.getReasons(), "Reason");
 		sertDropDown = new DropDownMenu(signInManager.getSerts(), "SERT");
-		courseMissingDropDown = new DropDownMenu(SignInManager.courses, "Course Missed");
+		courseMissingDropDown = new DropDownMenu(signInManager.getCourses(), "Course Missed");
 
 		idField = new JTextField(7);
 		idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));

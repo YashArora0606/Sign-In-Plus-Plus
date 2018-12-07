@@ -76,9 +76,9 @@ public class GenerateSheetPanel extends JPanel {
 												// graphics
 		pane.setPreferredSize(new Dimension(maxX, maxY));
 
-		reasonSelect = new SelectMultipleMenu(SignInManager.reasons, "Reason");
+		reasonSelect = new SelectMultipleMenu(signInManager.getReasons(), "Reason");
 		sertSelect = new SelectMultipleMenu(signInManager.getSerts(), "SERT");
-		courseMissingSelect = new SelectMultipleMenu(SignInManager.courses, "Course Missing");
+		courseMissingSelect = new SelectMultipleMenu(signInManager.getCourses(), "Course Missing");
 		gradeSelect = new SelectMultipleMenu(new String[] { "9", "10", "11", "12" }, "Grade");
 
 		// setting bounds for the dropdown menus
