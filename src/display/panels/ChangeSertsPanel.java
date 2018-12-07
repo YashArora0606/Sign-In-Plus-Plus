@@ -7,8 +7,6 @@
 
 package display.panels;
 
-import javax.swing.JTextField; 
-
 import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.AddAndRemoveMenu;
@@ -18,19 +16,11 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import java.awt.Graphics;
-import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import java.util.Scanner;
 
 import utilities.Utils;
 
@@ -67,7 +57,7 @@ public class ChangeSertsPanel extends JPanel {
 
 		pane = new JLayeredPane();
 
-		a = new AddAndRemoveMenu(manager, manager.getSertList(), "SERT", maxY);
+		a = new AddAndRemoveMenu(manager, manager.getSertArrayList(), "SERT", maxY);
 //        a.setBounds(a.getBounds().x, Utils.scale(100), a.getBounds().width, a.getBounds().height);
 
 		JPanel emptyTop = new JPanel();

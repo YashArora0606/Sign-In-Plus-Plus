@@ -170,7 +170,7 @@ public class SignInManager {
         return sertArray;
     }
 
-    public ArrayList<String> getSertList() {
+    public ArrayList<String> getSertArrayList() {
         ArrayList<String> sertList = new ArrayList<>();
 
         for (String sert : database.getSerts()) {
