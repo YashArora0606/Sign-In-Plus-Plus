@@ -10,4 +10,3 @@ insert
   </tr>
 insert
 </table>
-<p><a href="#Top">Back to top</a></p>

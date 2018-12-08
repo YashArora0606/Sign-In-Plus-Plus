@@ -91,7 +91,9 @@ public class HTMLWriter {
                                         studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"</a><br/>");
                             }
                             out.println("<a href = \"#OverallGraph\" > Overall Graph </a>");
+                            out.println();
                             modNum++;
+                            break;
 
                         case 1:
                             for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
@@ -99,10 +101,15 @@ public class HTMLWriter {
                                 outputStudent(out, stuNum);
                                 writeStudentGraph(out, stuNum);
                                 out.println("</div>");
+                                out.println();
                             }
+                            out.println("<p><a href=\"#Top\">Back to top</a></p>");
                             modNum++; //if we want the overall graph
+                            break;
+
                         case 2:
-                            writeOverallGraph(out);
+                           writeOverallGraph(out);
+                           break;
 
                     }
                 }
@@ -172,22 +179,16 @@ public class HTMLWriter {
         for (int i = 0; i < id.length; i++) {
             out.println("<tr class=\"reason\" id=\"" + id[i] + "\">");
             out.println("<th scope=\"row\">" + displayText[i] + " </th>");
-            out.println("<td class=\"" + displayText[i] + "\" style=\"height: " + percentageList[i] * 10 + "px\"><p> " + percentageList[i] + " </p></td>");
+            out.println("<td class=\"" + id[i]+ " bar" + "\" style=\"height: " + percentageList[i] * 10 + "px\"><p> " + percentageList[i] + " </p></td>");
             out.println("</tr>");
         }
 
-        //Total bar
-        out.println("<tr class=\"reason\" id=\"Total\">");
-        out.println("<th scope=\"row\"> Total </th>");
-        out.println("<td class=\"Total bar\" style=\"height: " + percentageList[5] * 10+ "px\"><p> " + percentageList[5] + " </p></td>");
-        out.println("</tr>");
         out.println("</tbody");
         out.println("</table>");
         out.println("<div id=\"ticks\">");
-        out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
-        out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
-        out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
-        out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+        for (int i = 0; i < 5; i++) {
+            out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+        }
         out.println("</div>");
         out.println("</div>");
 
@@ -214,18 +215,23 @@ public class HTMLWriter {
                 switch(reason) {
                     case ("Test"):
                         testNum++;
+                        break;
 
                     case ("Chill Zone"):
                         czNum++;
+                        break;
 
                     case ("Academic Support"):
                         asNum++;
+                        break;
 
                     case ("Quiet Work"):
                         qwNum++;
+                        break;
 
                     case ("Group Work"):
                         gwNum++;
+                        break;
                 }
             }
         }
@@ -282,20 +288,22 @@ public class HTMLWriter {
      * @param index position of student in array
      */
     private void outputStudent(PrintWriter out, int index) {
-        int modNum = 0;
+        int switchNum = 0;
         out.println("<div id=\"studentTable\">");
         for (int j = 0; j < template.size(); j++) {
             if (!template.get(j).equals("insert")){
                 out.println(template.get(j));
             } else {
-                switch (modNum) {
+                switch (switchNum) {
                     case 0:
                         out.println("<a name=" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "></a>");
-                        modNum++;
+                        switchNum++;
+                        break;
 
                     case 1:
                         out.println("<h2>" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "</h2>");
-                        modNum++;
+                        switchNum++;
+                        break;
 
                     case 2:
                         for (int i = 0; i < studentSession[index].size(); i++) {
@@ -307,6 +315,7 @@ public class HTMLWriter {
                             out.println("    <th>" + studentSession[index].get(i).course);
                             out.println("  <tr>");
                         }
+                        break;
                 }
             }
         }
