@@ -183,7 +183,7 @@ public class HTMLWriter {
             out.println("</tr>");
         }
 
-        out.println("</tbody");
+        out.println("</tbody>");
         out.println("</table>");
         out.println("<div id=\"ticks\">");
         for (int i = 0; i < 5; i++) {
