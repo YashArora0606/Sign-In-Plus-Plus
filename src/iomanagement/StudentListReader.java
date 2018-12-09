@@ -35,7 +35,7 @@ public class StudentListReader {
      * @throws IOException             thrown if the .csv file cannot be found or opened
      * @throws ImproperFormatException thrown if the .csv file is improperly formatted
      */
-    public static SinglyLinkedList<Student> getStudentList() throws IOException, ImproperFormatException{
+    public static SinglyLinkedList<Student> getStudentList() throws IOException, ImproperFormatException {
 
         SinglyLinkedList<Student> students = new SinglyLinkedList<>();
 

@@ -4,14 +4,13 @@ import utilities.SinglyLinkedList;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
 /**
  * Abstract representation of a database.
  * Databases store a list of students, sessions, and serts
  *
  * @author Alston
- * last updated on 12/3/2018
+ * last updated on 12/72018
  */
 public interface Database {
 
@@ -96,8 +95,7 @@ public interface Database {
     /**
      * Returns a list of names of the SERTs stored within the database
      *
-     * @return a list of SERT names
-     * @throws IOException thrown if the database fails to be accessed
+     * @return a list of SERT names, or an empty list if an error occurs
      */
     SinglyLinkedList<String> getSerts();
 
