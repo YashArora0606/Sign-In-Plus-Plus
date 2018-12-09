@@ -233,7 +233,7 @@ public class GenerateSheetPanel extends JPanel {
 			// PASS IN grades
 			if (type == 0) {
 				try {
-					signInManager.generateExcel(idAsInt, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+					signInManager.generateExcel(idAsInt, null, null, -1, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
 							maxTimeAsInt, reasons, serts, coursesMissing);
 					resetFields();
 				} catch (IOException e) {
@@ -241,7 +241,7 @@ public class GenerateSheetPanel extends JPanel {
 				}
 			} else if (type == 1) {
 				try {
-					signInManager.generateHTML(idAsInt, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+					signInManager.generateHTML(idAsInt, null, null, -1, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
 							maxTimeAsInt, reasons, serts, coursesMissing);
 					resetFields();
 				} catch (IOException e) {

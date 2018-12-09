@@ -100,12 +100,12 @@ public interface Database {
     SinglyLinkedList<String> getSerts();
 
     /**
-     * Updates all the SERTs logged in the database by replacing them with a new list of SERTs
+     * Replaces SERTs logged in the database with a new list of SERTs
      *
      * @param newSerts the new list of serts that replaces the old one
      * @return true, if the table was successfully updated; false otherwise
      */
-    boolean updateSerts(SinglyLinkedList<String> newSerts);
+    boolean replaceSerts(SinglyLinkedList<String> newSerts);
 
     /**
      * Closes the database by closing any opened resources

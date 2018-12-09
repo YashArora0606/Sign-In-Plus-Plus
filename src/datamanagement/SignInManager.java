@@ -181,14 +181,14 @@ public class SignInManager {
     }
 
     public void setSerts(SinglyLinkedList<String> newSerts) {
-        database.updateSerts(newSerts);
+        database.replaceSerts(newSerts);
     }
 
-    public void generateHTML(int id, Timestamp earliestDate, Timestamp latestDate, int minTime, int maxTime,
-			SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts, SinglyLinkedList<String> courses)
-			throws IOException {
+    public void generateHTML(int id, String firstName, String lastName, int grade, Timestamp earliestDate,
+                             Timestamp latestDate, int minTime, int maxTime, SinglyLinkedList<String> reasons,
+                             SinglyLinkedList<String> serts, SinglyLinkedList<String> courses) throws IOException {
 
-		Query query = new Query(id, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
+		Query query = new Query(id, firstName, lastName, grade, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
 
 		SinglyLinkedList<Student> students = database.getStudents();
 		SinglyLinkedList<Session> sessions = database.findSessions(query);
@@ -197,11 +197,11 @@ public class SignInManager {
 		writer.go();
 	}
 
-	public void generateExcel(int id, Timestamp earliestDate, Timestamp latestDate, int minTime, int maxTime,
-			SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts, SinglyLinkedList<String> courses)
-			throws IOException {
+	public void generateExcel(int id, String firstName, String lastName, int grade, Timestamp earliestDate,
+                              Timestamp latestDate, int minTime, int maxTime, SinglyLinkedList<String> reasons,
+                              SinglyLinkedList<String> serts, SinglyLinkedList<String> courses) throws IOException {
 
-		Query query = new Query(id, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
+		Query query = new Query(id, firstName, lastName, grade, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
 
 		SinglyLinkedList<Session> sessions = database.findSessions(query);
 

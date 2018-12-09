@@ -413,7 +413,7 @@ public class DerbyDatabase implements Database {
         }
     }
 
-    public boolean updateSerts(SinglyLinkedList<String> newSerts) {
+    public boolean replaceSerts(SinglyLinkedList<String> newSerts) {
         try {
             PreparedStatement removeAllSerts = prepStatements.get("remove all serts");
             removeAllSerts.executeUpdate();

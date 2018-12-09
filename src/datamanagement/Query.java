@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
  * all the matching sessions
  *
  * @author Alston
- * last updated 12/3/2018
+ * last updated 12/9/2018
  */
 public class Query {
 
@@ -19,6 +19,21 @@ public class Query {
      * The id of the student referenced by the queried sessions
      */
     final int id;
+
+    /**
+     * The first name of the student(s) referenced by the queried sessions
+     */
+    final String firstName;
+
+    /**
+     * The last name of the student(s) referenced by the queried sessions
+     */
+    final String lastName;
+
+    /**
+     * The grade of the student(s) referenced by the queried sessions
+     */
+    final int grade;
 
     /**
      * The earliest time (in MM/dd/yyy HH:mm:ss format) the queried sessions must start;
@@ -69,6 +84,9 @@ public class Query {
      * If a criterion is to be ignored in the query, then it is passed in as null or -1, if it is an integer
      *
      * @param id           the id of the student the queried sessions reference
+     * @param firstName    the first name of the student(s) the queried sessions reference
+     * @param lastName     the last name of the student(s) the queried sessions reference
+     * @param grade        the grade of the student(s) the queried sessions reference
      * @param earliestTime the earliest time queried sessions must start
      * @param latestTime   the latest time queried sessions must end
      * @param minTime      the minimum span of queried sessions
@@ -77,10 +95,13 @@ public class Query {
      * @param serts        a list of possible serts the queried sessions must contain one of
      * @param courses      a list of possible courses the queried sessions must contain one of
      */
-    Query(int id, Timestamp earliestTime, Timestamp latestTime, int minTime, int maxTime,
+    Query(int id, String firstName, String lastName, int grade, Timestamp earliestTime, Timestamp latestTime, int minTime, int maxTime,
           SinglyLinkedList<String> reasons, SinglyLinkedList<String> serts, SinglyLinkedList<String> courses) {
 
         this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.grade = grade;
         this.earliestTime = toString(earliestTime);
         this.latestTime = toString(latestTime);
         this.minTime = minTime;
@@ -97,7 +118,7 @@ public class Query {
      * @return a String representation of the time argument in MM/dd/yyy HH:mm:ss format
      */
     private String toString(Timestamp time) {
-        if (time == null){
+        if (time == null) {
             return null;
         }
         return dateFormatter.format(time);
