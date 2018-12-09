@@ -73,50 +73,34 @@ public class DerbyDatabase implements Database {
     }
 
     private void createTablesIfNotExist() {
-        try {
-            statement.executeUpdate("create table students(" +
-                    "id int not null primary key, " +
-                    "firstname varchar(100) not null, " +
-                    "lastname varchar(100) not null, " +
-                    "grade int check (grade >= 9 and grade <= 13))");
-            con.commit();
 
-        } catch (SQLException e) {
-            if (e.getSQLState().equals("X0Y32")) {
-                System.out.println("Session table already exists");
-            } else {
-                e.printStackTrace();
-            }
-        }
+        String[] createTableSqls = {
+                "create table students(" +
+                        "id int not null primary key, " +
+                        "firstname varchar(100) not null, " +
+                        "lastname varchar(100) not null, " +
+                        "grade int check (grade >= 9 and grade <= 13))",
 
-        try {
-            statement.executeUpdate("create table sessions(" +
-                    "id int not null references students(id) on delete cascade, " +
-                    "signintime timestamp not null," +
-                    "signouttime timestamp, " +
-                    "reason varchar(100) not null, " +
-                    "sert varchar(100) not null, " +
-                    "course varchar(100) not null)");
-            con.commit();
+                "create table sessions(" +
+                        "id int not null references students(id) on delete cascade, " +
+                        "signintime timestamp not null," +
+                        "signouttime timestamp, " +
+                        "reason varchar(100) not null, " +
+                        "sert varchar(100) not null, " +
+                        "course varchar(100) not null)",
 
-        } catch (SQLException e) { //thrown if the table does not exist
-            if (e.getSQLState().equals("X0Y32")) {
-                System.out.println("Session table already exists");
-            } else {
-                e.printStackTrace();
-            }
-        }
+                "create table serts(" +
+                        "sert varchar(100) not null unique)"
+        };
 
-        try {
-            statement.executeUpdate("create table serts(" +
-                    "sert varchar(100) not null)");
-            con.commit();
-
-        } catch (SQLException e) { //thrown if the table does not exist
-            if (e.getSQLState().equals("X0Y32")) {
-                System.out.println("Serts table already exists");
-            } else {
-                e.printStackTrace();
+        for (String sqlCommand : createTableSqls) {
+            try {
+                statement.executeUpdate(sqlCommand);
+                con.commit();
+            } catch (SQLException e) {
+                if (!e.getSQLState().equals("X0Y32")) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -299,7 +283,7 @@ public class DerbyDatabase implements Database {
                 sessionList.add(session);
             }
 
-            System.out.println(sqlQuery + ", " + sessionList.size());
+            System.out.println(sqlQuery + ", " + sessionList.size() + " sessions");
 
             return sessionList;
 
@@ -317,6 +301,18 @@ public class DerbyDatabase implements Database {
 
         if (query.id >= 0) {
             conditions.add("(id=" + query.id + ")");
+        }
+
+        if (query.firstName != null) {
+            conditions.add("(id in (select id from students where firstname='" + query.firstName + "'))");
+        }
+
+        if (query.lastName != null) {
+            conditions.add("(id in (select id from students where lastname='" + query.lastName + "'))");
+        }
+
+        if (query.grade >= 9 && query.grade <= 13) {
+            conditions.add("(id in (select id from students where grade=" + query.grade + "))");
         }
 
         if (query.earliestTime != null) {

@@ -41,17 +41,22 @@ public class StudentListReader {
 
         BufferedReader reader = new BufferedReader(new FileReader(new File(STUDENTS_FILE)));
 
-        reader.readLine(); //reading the header line
+        reader.readLine(); //skip the header line
 
         String line = reader.readLine();
         while (line != null) {
 
             String[] entry = line.split(",");
-            if (entry.length != 6) {
+
+            if (entry.length != 6) { //ensure an appropriate amount of columns are in each entry
                 throw new ImproperFormatException();
             }
 
-            students.add(new Student(formatId(entry[0]), formatName(entry[1]), formatName(entry[2]), formatGrade(entry[4])));
+            int id = formatId(entry[0]);
+            String firstName = formatName(entry[1]);
+            String lastName = formatName(entry[2]);
+            int grade = formatGrade(entry[4]);
+            students.add(new Student(id, firstName, lastName, grade)); //read student from entry
 
             line = reader.readLine();
         }
