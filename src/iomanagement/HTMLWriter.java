@@ -149,6 +149,15 @@ public class HTMLWriter {
             out.println("</tr>");
         }
 
+        out.println("</tbody>");
+        out.println("</table>");
+        out.println("<div id=\"ticks\">");
+        for (int i = 0; i < 5; i++) {
+            out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+        }
+        out.println("</div>");
+        out.println("</div>");
+
 
     }
 
@@ -183,7 +192,7 @@ public class HTMLWriter {
             out.println("</tr>");
         }
 
-        out.println("</tbody");
+        out.println("</tbody>");
         out.println("</table>");
         out.println("<div id=\"ticks\">");
         for (int i = 0; i < 5; i++) {
