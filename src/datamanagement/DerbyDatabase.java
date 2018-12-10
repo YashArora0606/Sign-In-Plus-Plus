@@ -18,7 +18,7 @@ import java.util.Properties;
  * Implementation of {@link Database} with Apache Derby
  *
  * @author Alston
- * last updated on 12/3/2018
+ * last updated on 12/9/2018
  */
 public class DerbyDatabase implements Database {
 

@@ -2,15 +2,12 @@ package iomanagement;
 
 import datamanagement.Student;
 import exceptions.ImproperFormatException;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utilities.SinglyLinkedList;
 
-import java.io.*;
-import java.util.stream.Stream;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Helper class that reads from a .xlsx file and generates a list of students
@@ -37,6 +34,7 @@ public class StudentListReader {
      */
     public static SinglyLinkedList<Student> getStudentList() throws IOException, ImproperFormatException {
 
+        //list of students
         SinglyLinkedList<Student> students = new SinglyLinkedList<>();
 
         BufferedReader reader = new BufferedReader(new FileReader(new File(STUDENTS_FILE)));
