@@ -29,8 +29,6 @@ public class DerbyDatabase implements Database {
     //a HashMap of prepared statements in the format (statement name, statement)
     private HashMap<String, PreparedStatement> prepStatements = new HashMap<>();
 
-    private ResultSet res; //variable used to store the results of queries
-
     /**
      * Constructs a DerbyDatabase by connecting to the SQL database
      */
@@ -186,8 +184,9 @@ public class DerbyDatabase implements Database {
             PreparedStatement findStudent = prepStatements.get("find student");
             findStudent.setInt(1, id);
 
-            res = findStudent.executeQuery();
+            ResultSet res = findStudent.executeQuery();
             if (!res.isBeforeFirst()) { //if the ResultSet has no rows, isBeforeFirst() will return false
+                res.close();
                 return null;
             }
 
@@ -197,6 +196,7 @@ public class DerbyDatabase implements Database {
                     res.getString("firstname"),
                     res.getString("lastname"),
                     res.getInt("grade"));
+            res.close();
 
             return student;
 
@@ -216,7 +216,7 @@ public class DerbyDatabase implements Database {
         PreparedStatement getAllStudents = prepStatements.get("get all students");
 
         try {
-            res = getAllStudents.executeQuery();
+            ResultSet res = getAllStudents.executeQuery();
             while (res.next()) { //iterate through the rows
                 Student student = new Student( //build the students
                         res.getInt("id"),
@@ -225,6 +225,7 @@ public class DerbyDatabase implements Database {
                         res.getInt("grade"));
                 allStudents.add(student);
             }
+            res.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -249,8 +250,9 @@ public class DerbyDatabase implements Database {
             PreparedStatement checkStudent = prepStatements.get("check student");
             checkStudent.setInt(1, id);
 
-            res = checkStudent.executeQuery();
+            ResultSet res = checkStudent.executeQuery();
             boolean signedIn = res.isBeforeFirst(); //isBeforeFirst() returns false if the ResultSet is empty
+            res.close();
 
             return signedIn;
 
@@ -359,6 +361,7 @@ public class DerbyDatabase implements Database {
     public SinglyLinkedList<Session> findSessions(Query query) throws IOException {
 
         String sqlQuery = buildQuery(query);
+        System.out.println(sqlQuery);
 
         //a list of queried sessions
         SinglyLinkedList<Session> sessionList = new SinglyLinkedList<>();
@@ -368,7 +371,7 @@ public class DerbyDatabase implements Database {
         HashMap<Integer, Student> usedStudents = new HashMap<>();
 
         try {
-            res = statement.executeQuery(sqlQuery);
+            ResultSet res = statement.executeQuery(sqlQuery);
 
             while (res.next()) { //iterate through all the rows
 
@@ -394,7 +397,7 @@ public class DerbyDatabase implements Database {
                 sessionList.add(session);
             }
 
-            System.out.println(sqlQuery + ", " + sessionList.size() + " sessions");
+            res.close();
 
             return sessionList;
 
@@ -543,13 +546,15 @@ public class DerbyDatabase implements Database {
     public SinglyLinkedList<String> getSerts() {
         try {
             PreparedStatement getAllSerts = prepStatements.get("get all serts");
-            res = getAllSerts.executeQuery();
+            ResultSet res = getAllSerts.executeQuery();
 
             //list of SERTs stored within the database
             SinglyLinkedList<String> serts = new SinglyLinkedList<>();
             while (res.next()) {
                 serts.add(res.getString("sert"));
             }
+
+            res.close();
 
             return serts;
 
@@ -597,13 +602,9 @@ public class DerbyDatabase implements Database {
         }
 
         try {
-            res.close(); //close result set
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            con.close(); //close connection
+            if (con != null) {
+                con.close(); //close connection
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -615,6 +616,10 @@ public class DerbyDatabase implements Database {
      * @param stmt the statement to be closed
      */
     private void closeStatement(Statement stmt) {
+        if (stmt == null) {
+            return;
+        }
+
         try {
             stmt.close();
         } catch (SQLException e) {
@@ -627,7 +632,7 @@ public class DerbyDatabase implements Database {
 
     private void printStudents() {
         try {
-            res = statement.executeQuery("select * from students");
+            ResultSet res = statement.executeQuery("select * from students");
             int count = 0;
             while (res.next()) {
                 for (int i = 1; i <= 4; i++) {
@@ -636,6 +641,7 @@ public class DerbyDatabase implements Database {
                 count++;
                 System.out.println();
             }
+            res.close();
             System.out.println(count + " students logged.");
 
         } catch (SQLException e) {
@@ -645,7 +651,7 @@ public class DerbyDatabase implements Database {
 
     private void printSessions() {
         try {
-            res = statement.executeQuery("select * from sessions");
+            ResultSet res = statement.executeQuery("select * from sessions");
             int count = 0;
             while (res.next()) {
                 for (int i = 1; i <= 6; i++) {
@@ -654,6 +660,7 @@ public class DerbyDatabase implements Database {
                 count++;
                 System.out.println();
             }
+            res.close();
             System.out.println(count + " sessions logged.");
 
         } catch (SQLException e) {
