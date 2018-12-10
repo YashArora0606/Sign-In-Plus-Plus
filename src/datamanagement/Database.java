@@ -68,7 +68,7 @@ public interface Database {
     /**
      * Adds a new resolved or unresolved session to the database
      *
-     * @param newSession
+     * @param newSession the new session to be added
      * @return true, if the session was successfully added; false otherwise
      */
     boolean addSession(Session newSession);
@@ -93,16 +93,16 @@ public interface Database {
     boolean resolveOpenSessions(int id, Timestamp time);
 
     /**
-     * Returns a list of names of the SERTs stored within the database
+     * Returns a list of the names of the SERTs stored within the database
      *
      * @return a list of SERT names, or an empty list if an error occurs
      */
     SinglyLinkedList<String> getSerts();
 
     /**
-     * Replaces SERTs logged in the database with a new list of SERTs
+     * Replaces the SERTs logged in the database with a new list of SERTs
      *
-     * @param newSerts the new list of serts that replaces the old one
+     * @param newSerts the new list of SERTs that will replace the old one
      * @return true, if the table was successfully updated; false otherwise
      */
     boolean replaceSerts(SinglyLinkedList<String> newSerts);
