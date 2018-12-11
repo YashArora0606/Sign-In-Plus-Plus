@@ -110,25 +110,21 @@ public class SignInPanel extends JPanel {
 		String sert = sertDropDown.getSelectedText();
 		String reason = reasonDropDown.getSelectedText();
 		String courseMissed = courseMissingDropDown.getSelectedText();
+		
+		if (id.isEmpty() || sert.equals("Select") || reason.equals("Select") || courseMissed.equals("Select")) {
+			return false;
+		}
 
 		try {
-			
 			try {
-				signInManager.signIn(Integer.parseInt(id), reason, sert, courseMissed);
-				idField.setText("");
-				errorMessage = "";
-				
-				sertDropDown.reset();
-				reasonDropDown.reset();
-				courseMissingDropDown.reset();
+				signInManager.signIn(Integer.parseInt(id), reason, sert, courseMissed);				
 
-				
 			} catch (NumberFormatException e) {
-				throw new InvalidIdException(id);
+				InvalidIdException invalidId = new InvalidIdException(id);
+				errorMessage = "Error: " + invalidId.getMessage();
+				return false;
 			}
 			
-
-
 			return true;
 		} catch (InvalidIdException | AlreadySignedInException e) {
 			errorMessage = "Error: " + e.getMessage();
@@ -142,7 +138,18 @@ public class SignInPanel extends JPanel {
 
 		public void mouseClicked(MouseEvent e) throws IllegalComponentStateException {
 			if(submit.isMouseOnButton(panel)) {
-				submit();
+				
+				if (submit()) {
+					idField.setText("");
+					errorMessage = "";
+					sertDropDown.reset();
+					reasonDropDown.reset();
+					courseMissingDropDown.reset();
+				} else {
+					if (errorMessage.equals("")) {
+						errorMessage = "Error: Fields not valid.";
+					}
+				}
 			}
 			
 			if(back.isMouseOnButton(panel)) {
