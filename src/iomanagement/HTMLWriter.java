@@ -1,3 +1,10 @@
+/**
+ * [HTMLWriter.java]
+ * Using a sessions list and student list from the database, writes to an html file using existing templates
+ * @author Katelyn Wang & Guy Morgenshtern
+ * December 10 2018
+ */
+
 package iomanagement;
 
 import datamanagement.Session;
@@ -8,8 +15,7 @@ import utilities.Stack;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.Scanner;
 
 
@@ -22,36 +28,48 @@ public class HTMLWriter {
 
     /**
      * Constructor - initializes templates upon creation
-     *
-     * @param studentList
+     * @param studentList the complete student list
+     * @param sessionList the session list as filtered by the database
      */
     public HTMLWriter(SinglyLinkedList<Student> studentList, SinglyLinkedList<Session> sessionList) {
         this.studentList = studentList;
         this.sessionList = sessionList;
-        studentSession = new Stack[studentList.size()];
+        studentSession = new Stack[studentList.size()]; //creates an array cell containing a singlylinkedlist for each student
         // initializing
         for (int i = 0; i < studentList.size(); i++) {
             studentSession[i] = new Stack<>();
         }
-
-        reportTemplate = getTemplate("HTMLStuff/ReportTemplate.txt");
+        reportTemplate = getTemplate("HTMLStuff/ReportTemplate.txt"); //initalizing templates
         template = getTemplate("HTMLStuff/Template.txt");
 
     }
 
+    /**
+     * The method which generates the file - creates a stack from the session list to reverse the order and then
+     * writes to the html file
+     */
     public void go() {
         generateStack(sessionList);
         writeFile(determineFileName());
     }
 
+    /**
+     * Iterates through the total session list
+     * Assigns it to the corresponding stack in the array of stacks
+     * @param sessionList the list of sessions to be included
+     */
     private void generateStack(SinglyLinkedList<Session> sessionList) {
         for (Session session : sessionList) {
-            int index = studentList.indexOf(session.student);
-            studentSession[index].push(session);
+            int index = studentList.indexOf(session.student); //finds which student the session corresponds to
+            studentSession[index].push(session); //adds the session to the appropriate stack in the array
         }
     }
 
-
+    /**
+     * Reads a template and stores each line in a singlylinkedlist for reference
+     * @param fileName the file to be read
+     * @return returns the singlylinkedlist which contains each line of the template file
+     */
     private SinglyLinkedList<String> getTemplate(String fileName) {
         SinglyLinkedList<String> list = new SinglyLinkedList<>();
         try {
@@ -59,18 +77,23 @@ public class HTMLWriter {
             // Create a Scanner and associate it with the file
             Scanner input = new Scanner(myFile);
 
-            while (input.hasNext()) {
+            while (input.hasNext()) { //reading the entire file and storing each line
                 String line = input.nextLine();
                 list.add(line);
             }
 
             input.close();
-        } catch (IOException e) {
+        } catch (IOException e) { //catches IOException in case file cannot be found
             e.printStackTrace();
         }
         return list;
     }
 
+    /**
+     * Checks existing files to create a new unique file name
+     * (so current reports won't be overwritten)
+     * @return the complete file pathway including the file name
+     */
     private String determineFileName() {
         File myFile = new File("Reports/report.html");
         if (myFile.exists()) {
@@ -87,8 +110,12 @@ public class HTMLWriter {
     }
 
     /**
-     * writeFile
      * writes to the html document
+     * uses the templates and checks when an "insert" tag appears
+     * in that case:
+     * 1) the first time it will assign all of the references (so the navigation panel can jump to each individual student)
+     * 2) the second time it will iterate through each student and output their sessions, if any
+     * 3) the third time will output the overall graph based on all the sessions included
      *
      * @param pathName the name of the document we are writing to
      */
@@ -96,15 +123,15 @@ public class HTMLWriter {
         try {
             File myFile = new File(pathName);
             PrintWriter out = new PrintWriter(myFile);
-            int modNum = 0;
+            int modNum = 0; //used for the switch case (increased each time the word "insert" appears in the template
             for (int i = 0; i < reportTemplate.size(); i++) {
-                if (!reportTemplate.get(i).equals("insert")) {
+                if (!reportTemplate.get(i).equals("insert")) { //if it isn't equal to "insert" copies the line in the template directly
                     out.println(reportTemplate.get(i));
                 } else {
-                    switch (modNum) {
+                    switch (modNum) { //checks which case to run
                         case 0:
-                            for (int stuNum = 0; stuNum < studentList.size(); stuNum++) {
-                                if (studentSession[stuNum].size() > 0) {
+                            for (int stuNum = 0; stuNum < studentList.size(); stuNum++) { //outputs the references for the navigation bar
+                                if (studentSession[stuNum].size() > 0) { //only includes the student if they have at least 1 session
                                     out.println("      <a class=\"mdl-navigation__link\" href=\"#" +
                                             studentList.get(stuNum).firstName + studentList.get(stuNum).lastName + "\">" +
                                             studentList.get(stuNum).firstName + " " + studentList.get(stuNum).lastName + "</a>");
@@ -114,12 +141,12 @@ public class HTMLWriter {
                             modNum++;
                             break;
 
-                        case 1:
+                        case 1: //outputs each individual student's session info
                             for (int stuNum = 0; stuNum < studentSession.length; stuNum++) {
-                                if (studentSession[stuNum].size() > 0) {
+                                if (studentSession[stuNum].size() > 0) { //only displays the student if they have at least 1 session
                                     out.println("<div id=\"student\">");
-                                    outputStudent(out, stuNum);
-                                    writeStudentGraph(out, stuNum);
+                                    outputStudent(out, stuNum); //the table
+                                    writeStudentGraph(out, stuNum); //the graph
                                     out.println("</div>");
                                     out.println();
                                 }
@@ -127,7 +154,7 @@ public class HTMLWriter {
                             modNum++; //if we want the overall graph
                             break;
 
-                        case 2:
+                        case 2: //outputs the graph containing all of the sessions included in the report
                             writeOverallGraph(out);
                             break;
 
@@ -141,9 +168,7 @@ public class HTMLWriter {
     }
 
     /**
-     * writeOverallGraph
      * writes the graph for all the sign in info
-     *
      * @param out printwriter to write to file
      */
     private void writeOverallGraph(PrintWriter out) {
@@ -185,9 +210,7 @@ public class HTMLWriter {
 
 
     /**
-     * writeStudentGraph
      * writes the specific student's sign in graph
-     *
      * @param out   printwriter to write to file
      * @param index student's index in the the array
      */
@@ -228,9 +251,7 @@ public class HTMLWriter {
     }
 
     /**
-     * calculateOverallPercentages
      * Calculates how many times each reason was used for sign in over all the students
-     *
      * @return integer array of each reason's sum
      */
     private int[] calculateOverallPercentages() {
@@ -278,9 +299,7 @@ public class HTMLWriter {
     }
 
     /**
-     * calculateStudentPercentage
      * calculates how many times each reason was used for sign in for a specific student
-     *
      * @param index position of student in array
      * @return integer array of sum of each reason
      */
@@ -316,22 +335,20 @@ public class HTMLWriter {
     }
 
     /**
-     * outputStudent
      * Outputs each student's session into the html document
-     *
      * @param out   printwriter to write to file
      * @param index position of student in array
      */
     private void outputStudent(PrintWriter out, int index) {
         out.println("<div id=\"studentTable\">");
-        out.println("<a name=" + studentList.get(index).firstName + studentList.get(index).lastName + "></a>");
+        out.println("<a name=" + studentList.get(index).firstName + studentList.get(index).lastName + "></a>"); //the navigation tag
         out.println("<h2>" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "</h2>");
 
         for (int j = 0; j < template.size(); j++) {
-            if (!template.get(j).equals("insert")) {
+            if (!template.get(j).equals("insert")) { //if the line is not equal to "insert" copies it directly
                 out.println(template.get(j));
             } else {
-                for (int i = 0; i < studentSession[index].size(); i++) {
+                for (int i = 0; i < studentSession[index].size(); i++) { //iterates through each of the sessions, and outputs a single table row containing the data
                     out.println("    <tr>");
                     out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).startTime + "</td>");
                     out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).endTime + "</td>");
@@ -345,36 +362,5 @@ public class HTMLWriter {
         }
         out.println("</div>");
         out.println();
-    }
-
-    /**
-     * createDate
-     *
-     * @param date
-     * @return
-     */
-    private Date createDate(String date) {
-        int year;
-        int month;
-        int day;
-        int hour;
-        int minute;
-        int second;
-
-        year = Integer.parseInt(date.substring(0, date.indexOf("-")));
-        date = date.substring(date.indexOf("-") + 1);
-        month = Integer.parseInt(date.substring(0, date.indexOf("-")));
-        date = date.substring(date.indexOf("-") + 1);
-        day = Integer.parseInt(date.substring(0, date.indexOf(" ")));
-        date = date.substring(date.indexOf(" ") + 1);
-        hour = Integer.parseInt(date.substring(0, date.indexOf(":")));
-        date = date.substring(date.indexOf(":") + 1);
-        minute = Integer.parseInt(date.substring(0, date.indexOf(":")));
-        date = date.substring(date.indexOf(":") + 1);
-        second = Integer.parseInt(date);
-
-        Calendar cal = Calendar.getInstance();
-        cal.set(year, month - 1, day, hour, minute, second);
-        return cal.getTime();
     }
 }
