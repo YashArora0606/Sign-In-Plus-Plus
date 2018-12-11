@@ -32,18 +32,40 @@ tr{
     font-size: 12px;
 }
 
-
-#student {
-  padding-bottom: 10px;
-  height: 100%
-}
-
 #graph {
-  padding-top: 30px;
   height: 50%;
 }
 
+#graph {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "fira-sans-2", Verdana, sans-serif;
+}
 
+#student {
+    margin: 0 auto;
+}
+#studentTable    {
+    width: 50%;
+    float: left;
+}
+
+
+#divider {
+  width: 100%;
+  text-align: left;
+}
+
+#divider p {
+  width: 10%;
+  text-align: left;
+}
+
+#divider line{
+  width: 100%;
+}
 
 #s-graph {
   display: block;

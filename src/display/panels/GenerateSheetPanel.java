@@ -23,6 +23,7 @@ import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
 import display.customcomponents.CustomTextField;
+import display.customcomponents.DropDownMenu;
 import display.customcomponents.SelectMultipleMenu;
 import iomanagement.HTMLWriter;
 import utilities.SinglyLinkedList;
@@ -43,7 +44,7 @@ public class GenerateSheetPanel extends JPanel {
 	private SelectMultipleMenu reasonSelect;
 	private SelectMultipleMenu sertSelect;
 	private SelectMultipleMenu courseMissingSelect;
-	private SelectMultipleMenu gradeSelect;
+	private DropDownMenu gradeSelect;
 
 	private CustomTextField idField;
 	private CustomTextField earliestDateField;
@@ -200,7 +201,12 @@ public class GenerateSheetPanel extends JPanel {
 																			// factors
 		SinglyLinkedList<String> serts = sertSelect.getSelectedTexts();
 		SinglyLinkedList<String> coursesMissing = courseMissingSelect.getSelectedTexts();
-		SinglyLinkedList<String> grades = gradeSelect.getSelectedTexts();
+
+		int grade = -1;
+		try {
+			grade = Integer.parseInt(gradeSelect.getSelectedText());
+		} catch (NumberFormatException e){
+		}
 
 		String id = idField.getText(); // retrieving text from the text fields
 		String earliestDate = earliestDateField.getText();
@@ -233,7 +239,7 @@ public class GenerateSheetPanel extends JPanel {
 			// PASS IN grades
 			if (type == 0) {
 				try {
-					signInManager.generateExcel(idAsInt, null, null, -1, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+					signInManager.generateExcel(idAsInt, firstName, lastName, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
 							maxTimeAsInt, reasons, serts, coursesMissing);
 					resetFields();
 				} catch (IOException e) {
@@ -241,7 +247,7 @@ public class GenerateSheetPanel extends JPanel {
 				}
 			} else if (type == 1) {
 				try {
-					signInManager.generateHTML(idAsInt, null, null, -1, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+					signInManager.generateHTML(idAsInt, firstName, lastName, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
 							maxTimeAsInt, reasons, serts, coursesMissing);
 					resetFields();
 				} catch (IOException e) {

@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="./material.min.css">
+<script src="./material.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
 
-<a name="Top"></a>
-<h1>SignIn++</h1>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">SignIn++</span>
+    <nav class="mdl-navigation">
+insert
+    </nav>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+insert
 
-<h2>Students:</h2>
-<p>
-<!--insert-->
-</p>
-
-<!--insert-->
-
+</div>
+</main>
+</div>
 </body>
 </html>

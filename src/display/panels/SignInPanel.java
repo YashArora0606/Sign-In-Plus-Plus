@@ -33,9 +33,9 @@ public class SignInPanel extends JPanel {
 	private int x;
 	private int y;
 	
-	DropDownMenu reasonDropDown;
-	DropDownMenu sertDropDown;
-	DropDownMenu courseMissingDropDown;
+	private DropDownMenu reasonDropDown;
+	private DropDownMenu sertDropDown;
+	private DropDownMenu courseMissingDropDown;
 	
 	private Dimension idSize;
 	

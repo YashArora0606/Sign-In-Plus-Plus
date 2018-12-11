@@ -40,7 +40,7 @@ public class HTMLWriter {
 
     public void go(){
         generateStack(sessionList);
-        writeFile("HTMLStuff/report.html");
+        writeFile(determineFileName());
     }
 
     private void generateStack(SinglyLinkedList<Session> sessionList){
@@ -70,6 +70,21 @@ public class HTMLWriter {
         return list;
     }
 
+    private String determineFileName(){
+        File myFile = new File("Reports/report.html");
+        if (myFile.exists()){
+            int counter = 1;
+            myFile = new File("Reports/report ("+counter+").html");
+            while (myFile.exists()){
+                counter++;
+                myFile = new File("Reports/report ("+counter+").html");
+            }
+            return "Reports/report ("+counter+").html";
+        } else {
+            return "Reports/report.html";
+        }
+    }
+
     /**
      * writeFile
      * writes to the html document
@@ -81,17 +96,17 @@ public class HTMLWriter {
             PrintWriter out = new PrintWriter(myFile);
             int modNum = 0;
             for (int i = 0; i < reportTemplate.size(); i++){
-                if (!reportTemplate.get(i).equals("<!--insert-->")){
+                if (!reportTemplate.get(i).equals("insert")){
                     out.println(reportTemplate.get(i));
                 } else {
                     switch (modNum) {
                         case 0:
                             for (int stuNum = 0; stuNum < studentList.size(); stuNum++){
-                                out.println("<a href=\"#"+studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"\">"+
-                                        studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"</a><br/>");
+                                out.println("      <a class=\"mdl-navigation__link\" href=\"#"+
+                                        studentList.get(stuNum).firstName+studentList.get(stuNum).lastName+"\">"+
+                                        studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"</a>");
                             }
-                            out.println("<a href = \"#OverallGraph\" > Overall Graph </a>");
-                            out.println();
+                            out.println("      <a class=\"mdl-navigation__link\" href=\"#OverallGraph\">Overall Graph</a>");
                             modNum++;
                             break;
 
@@ -103,7 +118,6 @@ public class HTMLWriter {
                                 out.println("</div>");
                                 out.println();
                             }
-                            out.println("<p><a href=\"#Top\">Back to top</a></p>");
                             modNum++; //if we want the overall graph
                             break;
 
@@ -196,7 +210,7 @@ public class HTMLWriter {
         out.println("</table>");
         out.println("<div id=\"ticks\">");
         for (int i = 0; i < 5; i++) {
-            out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+            out.println("<div class=\"tick\" style=\"height: 50px;\"><p></p></div>");
         }
         out.println("</div>");
         out.println("</div>");
@@ -297,35 +311,24 @@ public class HTMLWriter {
      * @param index position of student in array
      */
     private void outputStudent(PrintWriter out, int index) {
-        int switchNum = 0;
         out.println("<div id=\"studentTable\">");
+        out.println("<a name=" + studentList.get(index).firstName + studentList.get(index).lastName + "></a>");
+        out.println("<h2>" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "</h2>");
+
         for (int j = 0; j < template.size(); j++) {
             if (!template.get(j).equals("insert")){
                 out.println(template.get(j));
             } else {
-                switch (switchNum) {
-                    case 0:
-                        out.println("<a name=" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "></a>");
-                        switchNum++;
-                        break;
-
-                    case 1:
-                        out.println("<h2>" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "</h2>");
-                        switchNum++;
-                        break;
-
-                    case 2:
-                        for (int i = 0; i < studentSession[index].size(); i++) {
-                            out.println("  <tr>");
-                            out.println("    <th>" + studentSession[index].get(i).startTime);
-                            out.println("    <th>" + studentSession[index].get(i).endTime);
-                            out.println("    <th>" + studentSession[index].get(i).reason);
-                            out.println("    <th>" + studentSession[index].get(i).sert);
-                            out.println("    <th>" + studentSession[index].get(i).course);
-                            out.println("  <tr>");
-                        }
-                        break;
+                for (int i = 0; i < studentSession[index].size(); i++) {
+                    out.println("    <tr>");
+                    out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).startTime + "</td>");
+                    out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).endTime + "</td>");
+                    out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).reason + "</td>");
+                    out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).sert + "</td>");
+                    out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).course + "</td>");
+                    out.println("    <tr>");
                 }
+                break;
             }
         }
         out.println("</div>");

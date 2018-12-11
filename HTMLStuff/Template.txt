@@ -1,12 +1,14 @@
+<table class="mdl-data-table mdl-js-data-table">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">Sign In Time</th>
+      <th class="mdl-data-table__cell--non-numeric">Sign Out Time</th>
+      <th class="mdl-data-table__cell--non-numeric">Reason</th>
+      <th class="mdl-data-table__cell--non-numeric">Sert</th>
+      <th class="mdl-data-table__cell--non-numeric">Course Missed</th>
+    </tr>
+  </thead>
+  <tbody>
 insert
-insert
-<table>
-  <tr>
-    <th>Sign In Time</th>
-    <th>Sign Out Time</th>
-    <th>Reason</th>
-    <th>Subject Work</th>
-    <th>Course Missed</th>
-  </tr>
-insert
+  </tbody>
 </table>
