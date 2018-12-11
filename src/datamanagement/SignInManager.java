@@ -8,6 +8,7 @@ import exceptions.StudentAlreadyExistsException;
 import exceptions.StudentDoesNotExistException;
 import iomanagement.HTMLWriter;
 import iomanagement.StudentListReader;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -21,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -210,21 +212,20 @@ public class SignInManager {
         Query query = new Query(id, firstName, lastName, grade, earliestDate, latestDate, minTime, maxTime, reasons, serts, courses);
 
         SinglyLinkedList<Session> sessions = database.findSessions(query);
-
         XSSFWorkbook workbook = new XSSFWorkbook();
-
-        XSSFCellStyle dateStyle = workbook.createCellStyle();
-        dateStyle.setDataFormat(workbook.getCreationHelper().createDataFormat().getFormat("m/d/yy h:mm"));
 
         XSSFSheet sheet = workbook.createSheet("Log");
 
-        String[] header = {"Student id", "First Name", "Last Name", "Grade", "Sign-in Time", "Sign-out Time", "Reason",
-                "SERT", "Course"};
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        XSSFCellStyle dateStyle = workbook.createCellStyle();
+        dateStyle.setDataFormat(workbook.createDataFormat().getFormat("m/d/yy h:mm"));
+
+        String[] header = {"Student id", "First Name", "Last Name", "Grade", "Sign-in Time",
+                "Sign-out Time", "Reason", "SERT", "Course"};
 
         XSSFRow headerRow = sheet.createRow(0);
         for (int colIndex = 0; colIndex < header.length; colIndex++) {
             headerRow.createCell(colIndex).setCellValue(header[colIndex]);
-            sheet.autoSizeColumn(colIndex);
         }
 
         int rowIndex = 1;
@@ -236,15 +237,20 @@ public class SignInManager {
             row.createCell(1).setCellValue(session.student.firstName);
             row.createCell(2).setCellValue(session.student.lastName);
             row.createCell(3).setCellValue(session.student.grade);
-            row.createCell(4).setCellStyle(dateStyle);
-            row.getCell(4).setCellValue(session.startTime);
-            row.createCell(5).setCellStyle(dateStyle);
-            row.getCell(5).setCellValue(session.endTime);
+            row.createCell(4).setCellValue(df.format(session.startTime));
+            row.createCell(5).setCellValue(df.format(session.endTime));
             row.createCell(6).setCellValue(session.reason);
             row.createCell(7).setCellValue(session.sert);
             row.createCell(8).setCellValue(session.course);
 
+            row.getCell(4).setCellStyle(dateStyle);
+            row.getCell(5).setCellStyle(dateStyle);
+
             rowIndex++;
+        }
+
+        for (int colIndex = 0; colIndex < header.length; colIndex++) {
+            sheet.autoSizeColumn(colIndex);
         }
 
         try {
