@@ -16,6 +16,10 @@ h2{
   color:#92d3d2
 }
 
+p{
+  padding-top:30px;
+}
+
 #s-graph {
   display: block;
   position: relative;
@@ -102,7 +106,7 @@ h2{
 }
 
 #s-graph .bar p {
-  margin: -25px 0px 0px;
+  margin: -55px 0px 0px;
   opacity: .4;
 }
 
