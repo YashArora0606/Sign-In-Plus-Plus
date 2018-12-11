@@ -140,7 +140,7 @@ public class SignInPanel extends JPanel {
 		public void mouseEntered(MouseEvent e) {
 		}
 
-		public void mouseClicked(MouseEvent e) {
+		public void mouseClicked(MouseEvent e) throws IllegalComponentStateException {
 			if(submit.isMouseOnButton(panel)) {
 				submit();
 			}
