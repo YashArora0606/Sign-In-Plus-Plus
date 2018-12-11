@@ -24,8 +24,8 @@ import utilities.Utils;
 
 public class CustomTextField extends JPanel {
 	
-	String title;
-	CustomButton titleButton;
+	private String title;
+	private CustomButton titleButton;
 	private JTextField textField;
 	private boolean hasTitle;
 	
@@ -71,9 +71,9 @@ public class CustomTextField extends JPanel {
 		repaint();
 	}
 
-	public void setHasTitle(boolean hasTitle) {
-		this.hasTitle = hasTitle;
-	}
+//	public void setHasTitle(boolean hasTitle) {
+//		this.hasTitle = hasTitle;
+//	}
 
 	public void reset() {
 		this.setText("");
