@@ -80,8 +80,13 @@ public class CustomButton{
 
         g.setFont(buttonFont);
         FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);
-        int textWidth = buttonFontMetrics.stringWidth(text);
         int textHeight = buttonFontMetrics.getMaxAscent();
+        int textWidth = 0;
+        try {
+	        textWidth = buttonFontMetrics.stringWidth(text);
+        } catch (NullPointerException e) {
+        	textWidth = 0;
+        }
 
         if ((isMouseOnButton(panel) && selectable) || appearSelected) {
             g.setColor(secondaryTextColour);

@@ -2,8 +2,10 @@ package display.panels;
 
 import javax.swing.JPanel;
 
+import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
+import exceptions.ImproperFormatException;
 
 import java.awt.Graphics;
 import java.awt.Color;
@@ -13,6 +15,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import utilities.Utils;
 
@@ -27,12 +30,18 @@ public class TeacherDashboardPanel extends JPanel {
 	private CustomButton generateSheet;
 	private CustomButton back;
 	private CustomButton changeSerts;
+	private CustomButton configureStudents;
+	private CustomButton messageButton;
+	private String message = "";
+	private SignInManager manager;
 
-	public TeacherDashboardPanel(Window display) {
+
+	public TeacherDashboardPanel(Window display, SignInManager manager) {
 		this.panel = this;
 		this.maxX = display.maxX;
 		this.maxY = display.maxY;
 		this.display = display;
+		this.manager = manager;
 		this.addMouseListener(new MyMouseListener());
 
 		setBackground(Utils.colours[4]);
@@ -59,9 +68,15 @@ public class TeacherDashboardPanel extends JPanel {
 		generateSheet = new CustomButton("Generate Files", maxX / 2 + padding, Utils.scale(520), Utils.scale(400),
 				Utils.scale(80), Utils.colours[2]);
 		
-		changeSerts = new CustomButton("Edit Serts", maxX / 2 - Utils.scale(400)/2, Utils.scale(640), Utils.scale(400),
+		changeSerts = new CustomButton("Edit Serts", maxX / 2 - Utils.scale(400) - padding, Utils.scale(640), Utils.scale(400),
 				Utils.scale(80), Utils.colours[3]);
-		// generateExcel.setSelectable(false);
+		
+		configureStudents = new CustomButton("Configure Students", maxX / 2 + padding, Utils.scale(640), Utils.scale(400),
+				Utils.scale(80), Utils.colours[3]);
+		
+		messageButton = new CustomButton(message, maxX / 2, Utils.scale(280), Utils.scale(0),
+				Utils.scale(80), Utils.colours[3]);
+		messageButton.setSelectable(false);
 
 		addStudent.draw(g, panel);
 		removeStudent.draw(g, panel);
@@ -69,6 +84,8 @@ public class TeacherDashboardPanel extends JPanel {
 		generateSheet.draw(g, panel);
 		back.draw(g, panel);
 		changeSerts.draw(g, panel);
+		configureStudents.draw(g, panel);
+		messageButton.draw(g, panel);
 
 		repaint();
 	}
@@ -84,6 +101,7 @@ public class TeacherDashboardPanel extends JPanel {
 		 * @param e MouseEvent
 		 */
 		public void mouseClicked(MouseEvent e) {
+			message = "";
 			if (addStudent.isMouseOnButton(panel)) {
 				display.changeState(7);
 			} else if (removeStudent.isMouseOnButton(panel)) {
@@ -96,6 +114,13 @@ public class TeacherDashboardPanel extends JPanel {
 				display.changeState(0);
 			} else if (changeSerts.isMouseOnButton(panel)) {
 				display.changeState(10);
+			} else if (configureStudents.isMouseOnButton(panel)) {
+				try {
+					manager.configureStudents();
+					message = "Students have been configured.";
+				} catch (IOException | ImproperFormatException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 
