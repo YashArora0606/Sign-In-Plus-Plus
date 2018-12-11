@@ -80,7 +80,7 @@ public class GenerateSheetPanel extends JPanel {
 		reasonSelect = new SelectMultipleMenu(signInManager.getReasons(), "Reason");
 		sertSelect = new SelectMultipleMenu(signInManager.getSerts(), "SERT");
 		courseMissingSelect = new SelectMultipleMenu(signInManager.getCourses(), "Course Missing");
-		gradeSelect = new SelectMultipleMenu(new String[] { "9", "10", "11", "12" }, "Grade");
+		gradeSelect = new DropDownMenu(new String[] { "9", "10", "11", "12" }, "Grade");
 
 		// setting bounds for the dropdown menus
 		reasonSelect.setBounds(maxX / 2 - reasonSelect.getPreferredSize().width * 2 - PADDING_CONSTANT * 2,
@@ -205,6 +205,7 @@ public class GenerateSheetPanel extends JPanel {
 		int grade = -1;
 		try {
 			grade = Integer.parseInt(gradeSelect.getSelectedText());
+			System.out.println(grade);
 		} catch (NumberFormatException e){
 		}
 
@@ -236,10 +237,9 @@ public class GenerateSheetPanel extends JPanel {
 			minTimeAsInt = Utils.getInt(minTime);
 			maxTimeAsInt = Utils.getInt(maxTime);
 
-			// PASS IN grades
 			if (type == 0) {
 				try {
-					signInManager.generateExcel(idAsInt, firstName, lastName, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+					signInManager.generateExcel(idAsInt, null, null, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
 							maxTimeAsInt, reasons, serts, coursesMissing);
 					resetFields();
 				} catch (IOException e) {
@@ -247,7 +247,7 @@ public class GenerateSheetPanel extends JPanel {
 				}
 			} else if (type == 1) {
 				try {
-					signInManager.generateHTML(idAsInt, firstName, lastName, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+					signInManager.generateHTML(idAsInt, null, null, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
 							maxTimeAsInt, reasons, serts, coursesMissing);
 					resetFields();
 				} catch (IOException e) {

@@ -22,9 +22,10 @@ public class HTMLWriter {
 
     /**
      * Constructor - initializes templates upon creation
+     *
      * @param studentList
      */
-    public HTMLWriter(SinglyLinkedList<Student> studentList, SinglyLinkedList<Session> sessionList){
+    public HTMLWriter(SinglyLinkedList<Student> studentList, SinglyLinkedList<Session> sessionList) {
         this.studentList = studentList;
         this.sessionList = sessionList;
         studentSession = new Stack[studentList.size()];
@@ -38,27 +39,27 @@ public class HTMLWriter {
 
     }
 
-    public void go(){
+    public void go() {
         generateStack(sessionList);
         writeFile(determineFileName());
     }
 
-    private void generateStack(SinglyLinkedList<Session> sessionList){
-        for (Session session : sessionList){
+    private void generateStack(SinglyLinkedList<Session> sessionList) {
+        for (Session session : sessionList) {
             int index = studentList.indexOf(session.student);
             studentSession[index].push(session);
         }
     }
 
 
-    private SinglyLinkedList<String> getTemplate(String fileName){
+    private SinglyLinkedList<String> getTemplate(String fileName) {
         SinglyLinkedList<String> list = new SinglyLinkedList<>();
         try {
             File myFile = new File(fileName);
             // Create a Scanner and associate it with the file
             Scanner input = new Scanner(myFile);
 
-            while(input.hasNext()){
+            while (input.hasNext()) {
                 String line = input.nextLine();
                 list.add(line);
             }
@@ -70,16 +71,16 @@ public class HTMLWriter {
         return list;
     }
 
-    private String determineFileName(){
+    private String determineFileName() {
         File myFile = new File("Reports/report.html");
-        if (myFile.exists()){
+        if (myFile.exists()) {
             int counter = 1;
-            myFile = new File("Reports/report ("+counter+").html");
-            while (myFile.exists()){
+            myFile = new File("Reports/report (" + counter + ").html");
+            while (myFile.exists()) {
                 counter++;
-                myFile = new File("Reports/report ("+counter+").html");
+                myFile = new File("Reports/report (" + counter + ").html");
             }
-            return "Reports/report ("+counter+").html";
+            return "Reports/report (" + counter + ").html";
         } else {
             return "Reports/report.html";
         }
@@ -88,30 +89,31 @@ public class HTMLWriter {
     /**
      * writeFile
      * writes to the html document
+     *
      * @param pathName the name of the document we are writing to
      */
-    private void writeFile(String pathName){
+    private void writeFile(String pathName) {
         try {
             File myFile = new File(pathName);
             PrintWriter out = new PrintWriter(myFile);
             int modNum = 0;
-            for (int i = 0; i < reportTemplate.size(); i++){
-                if (!reportTemplate.get(i).equals("insert")){
+            for (int i = 0; i < reportTemplate.size(); i++) {
+                if (!reportTemplate.get(i).equals("insert")) {
                     out.println(reportTemplate.get(i));
                 } else {
                     switch (modNum) {
                         case 0:
-                            for (int stuNum = 0; stuNum < studentList.size(); stuNum++){
-                                out.println("      <a class=\"mdl-navigation__link\" href=\"#"+
-                                        studentList.get(stuNum).firstName+studentList.get(stuNum).lastName+"\">"+
-                                        studentList.get(stuNum).firstName+" "+studentList.get(stuNum).lastName+"</a>");
+                            for (int stuNum = 0; stuNum < studentList.size(); stuNum++) {
+                                out.println("      <a class=\"mdl-navigation__link\" href=\"#" +
+                                        studentList.get(stuNum).firstName + studentList.get(stuNum).lastName + "\">" +
+                                        studentList.get(stuNum).firstName + " " + studentList.get(stuNum).lastName + "</a>");
                             }
                             out.println("      <a class=\"mdl-navigation__link\" href=\"#OverallGraph\">Overall Graph</a>");
                             modNum++;
                             break;
 
                         case 1:
-                            for (int stuNum = 0; stuNum < studentSession.length; stuNum++){
+                            for (int stuNum = 0; stuNum < studentSession.length; stuNum++) {
                                 out.println("<div id=\"student\">");
                                 outputStudent(out, stuNum);
                                 writeStudentGraph(out, stuNum);
@@ -122,8 +124,8 @@ public class HTMLWriter {
                             break;
 
                         case 2:
-                           writeOverallGraph(out);
-                           break;
+                            writeOverallGraph(out);
+                            break;
 
                     }
                 }
@@ -137,17 +139,19 @@ public class HTMLWriter {
     /**
      * writeOverallGraph
      * writes the graph for all the sign in info
+     *
      * @param out printwriter to write to file
      */
-    private void writeOverallGraph (PrintWriter out) {
+    private void writeOverallGraph(PrintWriter out) {
         int[] percentageList = calculateOverallPercentages();
-        String[] id = {"Test", "ChillZone", "QuietWork", "GroupWork", "AcademicSupport","Total"};
-        String[] displayText = {"Test", "Chill Zone", "Quiet Work", "Group Work", "Academic Support","Total"};
+        String[] id = {"Test", "ChillZone", "QuietWork", "GroupWork", "AcademicSupport", "Total"};
+        String[] displayText = {"Test", "Chill Zone", "Quiet Work", "Group Work", "Academic Support", "Total"};
 
-        out.println("<a name=\"Overall Graph\"> </a>");
+        out.println("<a name=\"OverallGraph\"> </a>");
+        out.println("<h2>Overall Graph</h2>");
         out.println("<div id=\"graph\">");
         out.print("<table id = ");
-        out.print( "\"s-graph\" </table>");
+        out.print("\"s-graph\" </table>");
         out.println("<caption> Overall Graph </caption>");
         out.println("<thead>");
         out.println("<tr>");
@@ -156,10 +160,10 @@ public class HTMLWriter {
         out.println("</thead>");
         out.println("<tbody>");
 
-        for (int i = 0; i < id.length; i++){
-            out.println("<tr class=\"reason\" id=\""+id[i]+"\">");
+        for (int i = 0; i < id.length; i++) {
+            out.println("<tr class=\"reason\" id=\"" + id[i] + "\">");
             out.println("<th scope=\"row\">" + displayText[i] + " </th>");
-            out.println("<td class=\"" +  displayText[i] +"\" style=\"height: " + percentageList[i] * 10+ "px\"><p> " + percentageList[i] + " </p></td>");
+            out.println("<td class=\"" + id[i] + " bar" + "\" style=\"height: " + percentageList[i] * 10 + "px\"><p> " + percentageList[i] + " </p></td>");
             out.println("</tr>");
         }
 
@@ -167,7 +171,7 @@ public class HTMLWriter {
         out.println("</table>");
         out.println("<div id=\"ticks\">");
         for (int i = 0; i < 5; i++) {
-            out.println("<div class=\"tick\" style=\"height: 59px;\"><p></p></div>");
+            out.println("<div class=\"tick\" style=\"height: 50px;\"><p></p></div>");
         }
         out.println("</div>");
         out.println("</div>");
@@ -179,17 +183,18 @@ public class HTMLWriter {
     /**
      * writeStudentGraph
      * writes the specific student's sign in graph
-     * @param out printwriter to write to file
+     *
+     * @param out   printwriter to write to file
      * @param index student's index in the the array
      */
-    private void writeStudentGraph (PrintWriter out, int index) {
+    private void writeStudentGraph(PrintWriter out, int index) {
         int[] percentageList = calculateStudentPercentage(index);
-        String[] id = {"Test", "ChillZone", "QuietWork", "GroupWork", "AcademicSupport","Total"};
-        String[] displayText = {"Test", "Chill Zone", "Quiet Work", "Group Work", "Academic Support","Total"};
+        String[] id = {"Test", "ChillZone", "QuietWork", "GroupWork", "AcademicSupport", "Total"};
+        String[] displayText = {"Test", "Chill Zone", "Quiet Work", "Group Work", "Academic Support", "Total"};
 
         out.println("<div id=\"graph\">");
         out.print("<table id = ");
-        out.print( "\"s-graph\" </table>");
+        out.print("\"s-graph\" </table>");
         out.println("<caption> " + studentList.get(index).firstName + " " +
                 studentList.get(index).lastName + " Graph </caption>");
         out.println("<thead>");
@@ -202,7 +207,7 @@ public class HTMLWriter {
         for (int i = 0; i < id.length; i++) {
             out.println("<tr class=\"reason\" id=\"" + id[i] + "\">");
             out.println("<th scope=\"row\">" + displayText[i] + " </th>");
-            out.println("<td class=\"" + id[i]+ " bar" + "\" style=\"height: " + percentageList[i] * 10 + "px\"><p> " + percentageList[i] + " </p></td>");
+            out.println("<td class=\"" + id[i] + " bar" + "\" style=\"height: " + percentageList[i] * 10 + "px\"><p> " + percentageList[i] + " </p></td>");
             out.println("</tr>");
         }
 
@@ -221,9 +226,10 @@ public class HTMLWriter {
     /**
      * calculateOverallPercentages
      * Calculates how many times each reason was used for sign in over all the students
+     *
      * @return integer array of each reason's sum
      */
-    private int[] calculateOverallPercentages () {
+    private int[] calculateOverallPercentages() {
         int[] percentageArray = new int[6];
         int testNum = 0;
         int czNum = 0;
@@ -231,11 +237,11 @@ public class HTMLWriter {
         int gwNum = 0;
         int asNum = 0;
         int total = 0;
-        for (int i =0; i < studentSession.length; i++) {
+        for (int i = 0; i < studentSession.length; i++) {
             for (int j = 0; j < studentSession[i].size(); j++) {
                 String reason = studentSession[i].get(j).reason;
                 total++;
-                switch(reason) {
+                switch (reason) {
                     case ("Test"):
                         testNum++;
                         break;
@@ -270,6 +276,7 @@ public class HTMLWriter {
     /**
      * calculateStudentPercentage
      * calculates how many times each reason was used for sign in for a specific student
+     *
      * @param index position of student in array
      * @return integer array of sum of each reason
      */
@@ -307,7 +314,8 @@ public class HTMLWriter {
     /**
      * outputStudent
      * Outputs each student's session into the html document
-     * @param out printwriter to write to file
+     *
+     * @param out   printwriter to write to file
      * @param index position of student in array
      */
     private void outputStudent(PrintWriter out, int index) {
@@ -316,7 +324,7 @@ public class HTMLWriter {
         out.println("<h2>" + studentList.get(index).firstName + " " + studentList.get(index).lastName + "</h2>");
 
         for (int j = 0; j < template.size(); j++) {
-            if (!template.get(j).equals("insert")){
+            if (!template.get(j).equals("insert")) {
                 out.println(template.get(j));
             } else {
                 for (int i = 0; i < studentSession[index].size(); i++) {
@@ -337,10 +345,11 @@ public class HTMLWriter {
 
     /**
      * createDate
+     *
      * @param date
      * @return
      */
-    private Date createDate(String date){
+    private Date createDate(String date) {
         int year;
         int month;
         int day;
@@ -348,85 +357,20 @@ public class HTMLWriter {
         int minute;
         int second;
 
-        year = Integer.parseInt(date.substring(0,date.indexOf("-")));
-        date = date.substring(date.indexOf("-")+1);
-        month = Integer.parseInt(date.substring(0,date.indexOf("-")));
-        date = date.substring(date.indexOf("-")+1);
-        day = Integer.parseInt(date.substring(0,date.indexOf(" ")));
-        date = date.substring(date.indexOf(" ")+1);
-        hour = Integer.parseInt(date.substring(0,date.indexOf(":")));
-        date = date.substring(date.indexOf(":")+1);
-        minute = Integer.parseInt(date.substring(0,date.indexOf(":")));
-        date = date.substring(date.indexOf(":")+1);
+        year = Integer.parseInt(date.substring(0, date.indexOf("-")));
+        date = date.substring(date.indexOf("-") + 1);
+        month = Integer.parseInt(date.substring(0, date.indexOf("-")));
+        date = date.substring(date.indexOf("-") + 1);
+        day = Integer.parseInt(date.substring(0, date.indexOf(" ")));
+        date = date.substring(date.indexOf(" ") + 1);
+        hour = Integer.parseInt(date.substring(0, date.indexOf(":")));
+        date = date.substring(date.indexOf(":") + 1);
+        minute = Integer.parseInt(date.substring(0, date.indexOf(":")));
+        date = date.substring(date.indexOf(":") + 1);
         second = Integer.parseInt(date);
 
         Calendar cal = Calendar.getInstance();
-        cal.set(year, month-1, day, hour, minute, second);
+        cal.set(year, month - 1, day, hour, minute, second);
         return cal.getTime();
     }
-
-
-    /**
-     *  findStudentById()
-     *  Method that finds a student object based on their id
-     *  @param id id that is individual to each student, calling another findStudentById() method to find a student based on id
-     *  @return Student that is the student object based on the student number
-     */
-    private int findStudent(int id) {
-        return findStudent(id, 0, studentList.size() - 1);
-    }
-
-    /**
-     *  findStudentById()
-     *  Method that finds a student object based on their id and some recursive variables
-     *  @param id student id that is individual to each student and recursively passed in
-     *  @param low int low that is the lowest id length
-     *  @param high int high that is the highest id length
-     *  @return Student that is the student object based on the student number
-     */
-    private int findStudent(int id, int low, int high) {
-//      System.out.println(id + ", " + low + ", " + high);
-        if (high >= low) {
-            int mid = (low + high)/2;
-
-            if (id == studentList.get(mid).id) {
-                return mid;
-            } else if (id < studentList.get(mid).id) {
-                return findStudent(id, low, mid-1);
-            } else {
-                return findStudent(id, mid+1, high);
-            }
-        }
-
-        return -1;
-    }
-
-
-    /**private void addToQueue() {
-     boolean alreadyAdded;
-     //adds current session to students list of sessions
-     for (int i = 0; i < sessionList.size(); i++) {
-     sessionList.get(i).student.addSession(sessionList.get(i)); //???? what the fuck
-     }
-     //filters out duplicate students and adds to an list of students
-     for (int i = 0; i < sessionList.size(); i++) {
-     alreadyAdded = false;
-     if (addedStudents.size() == 0) {
-     addedStudents.add(sessionList.get(i).student);
-     } else {
-     for (int j = 0; j < addedStudents.size(); j++) { //checks if the student has already been added to the list
-     if (sessionList.get(i).student.id.equals(addedStudents.get(j).id)) {
-     alreadyAdded = true;
-     }
-     }
-     if (!alreadyAdded) { // adds the student to the list if it hasn't been already
-     addedStudents.add(sessionList.get(i).student);
-     }
-     }
-     }
-     //adds the students in the list to a priority queue
-     for (int i = 0; i < addedStudents.size(); i++) {
-     studentList.add(addedStudents.get(i));
-     }
-     }**/
 }
