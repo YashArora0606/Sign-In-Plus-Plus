@@ -629,6 +629,7 @@ public class DerbyDatabase implements Database {
 
 
 //------------------------------------------DEVELOPMENT/DEBUGGING CODE -------------------------------------------------
+// please ignore this code as it has no impact on functionality and is used to print the students and sessions
 
     private void printStudents() {
         try {
