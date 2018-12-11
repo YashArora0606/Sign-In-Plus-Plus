@@ -21,21 +21,18 @@ import utilities.SinglyLinkedList;
 import utilities.Utils;
 
 public class AddAndRemoveMenu extends JPanel {
+	private String title;
 
-	String title;
+	private ArrayList<String> items;
+	private SignInManager manager;
 
-	ArrayList<String> items;
-	SignInManager manager;
+	private ArrayList<CustomButton> itemButtons = new ArrayList<CustomButton>();
+	private ArrayList<CustomButton> xButtons = new ArrayList<CustomButton>();
 
-	ArrayList<CustomButton> itemButtons = new ArrayList<CustomButton>();
-	ArrayList<CustomButton> xButtons = new ArrayList<CustomButton>();
+	private CustomTextField addItem;
+	private CustomButton submitButton;
 
-	CustomTextField addItem;
-
-	CustomButton submitButton;
-	JLayeredPane pane;
-	
-	String message = "";
+	private String message = "";
 
 	public AddAndRemoveMenu(SignInManager manager, ArrayList<String> items, String title, int maxY) {
 		addItem = new CustomTextField("Add " + title);
@@ -49,7 +46,7 @@ public class AddAndRemoveMenu extends JPanel {
 		
 		setVisible(true);
 
-		pane = new JLayeredPane();
+		JLayeredPane pane = new JLayeredPane();
 		pane.setPreferredSize(new Dimension(getPreferredSize()));
 
 		initializeButtons();
@@ -120,21 +117,21 @@ public class AddAndRemoveMenu extends JPanel {
 		return ((x >= b.x) && (x <= b.x + b.width) && (y >= b.y) && (y <= b.y + b.height));
 	}
 
-	public void updateSpacing() {
+	private void updateSpacing() {
 		for (int i = 0; i < items.size(); i++) {
 			itemButtons.get(i).y = Utils.scale(50) * (i + 1);
 			xButtons.get(i).y = Utils.scale(50) * (i + 1);
 		}
 	}
 	
-	public void alphabetize() {
+	private void alphabetize() {
 		Collections.sort(items, String.CASE_INSENSITIVE_ORDER);
 		itemButtons.clear();
 		xButtons.clear();
 		initializeButtons();
 	}
 	
-	public void initializeButtons() {
+	private void initializeButtons() {
 		for (int i = 0; i < items.size(); i++) {
 			CustomButton b = new CustomButton(items.get(i), Utils.scale(50), Utils.scale(50) * (i + 1),
 					Utils.scale(300), Utils.scale(50), Utils.colours[4]);
@@ -152,7 +149,7 @@ public class AddAndRemoveMenu extends JPanel {
 		return message;
 	}
 	
-	public void updateTxt() {
+	private void updateTxt() {
 		SinglyLinkedList<String> sertList = new SinglyLinkedList<>();
 		for (String sert : items) {
 			sertList.add(sert);
