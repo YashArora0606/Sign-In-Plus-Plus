@@ -148,6 +148,7 @@ public class HTMLWriter {
                                     outputStudent(out, stuNum); //the table
                                     writeStudentGraph(out, stuNum); //the graph
                                     out.println("</div>");
+                                    out.println("<p>   </p>");
                                     out.println();
                                 }
                             }
@@ -200,7 +201,7 @@ public class HTMLWriter {
         out.println("</table>");
         out.println("<div id=\"ticks\">");
         for (int i = 0; i < 5; i++) {
-            out.println("<div class=\"tick\" style=\"height: 50px;\"><p></p></div>");
+            out.println("<div class=\"tick\" style=\"height: 49px;\"><p></p></div>");
         }
         out.println("</div>");
         out.println("</div>");
@@ -242,7 +243,7 @@ public class HTMLWriter {
         out.println("</table>");
         out.println("<div id=\"ticks\">");
         for (int i = 0; i < 5; i++) {
-            out.println("<div class=\"tick\" style=\"height: 50px;\"><p></p></div>");
+            out.println("<div class=\"tick\" style=\"height: 49px;\"><p></p></div>");
         }
         out.println("</div>");
         out.println("</div>");
@@ -355,7 +356,7 @@ public class HTMLWriter {
                     out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).reason + "</td>");
                     out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).sert + "</td>");
                     out.println("      <td class=\"mdl-data-table__cell--non-numeric\">" + studentSession[index].get(i).course + "</td>");
-                    out.println("    <tr>");
+                    out.println("    </tr>");
                 }
                 break;
             }

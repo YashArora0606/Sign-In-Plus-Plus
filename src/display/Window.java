@@ -1,6 +1,4 @@
 package display;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import datamanagement.SignInManager;
 import display.panels.AddStudentPanel;
@@ -16,7 +14,11 @@ import display.panels.SignOutPanel;
 import display.panels.TeacherDashboardPanel;
 import utilities.Utils;
 
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -43,11 +45,10 @@ public class Window extends JFrame {
 
 
     public Window(SignInManager signInManager) {
-
+        super("SignIn++");
         this.signInManager = signInManager;
 
         //generate frame
-        this.setTitle("SignIn++");
         this.maxX = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         this.maxY = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         this.setLocation(Utils.scale(0), Utils.scale(0));
@@ -68,7 +69,8 @@ public class Window extends JFrame {
         this.generateSheetPanel = new GenerateSheetPanel(this, signInManager);
         this.changeSertsPanel = new ChangeSertsPanel(this, signInManager);
 
-
+        ImageIcon icon = new ImageIcon("assets/bolt.png");
+        this.setIconImage(icon.getImage());
 
         //set displayed panel to menu
         changeState(0);
