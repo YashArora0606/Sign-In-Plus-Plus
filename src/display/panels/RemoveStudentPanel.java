@@ -8,19 +8,16 @@ package display.panels;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
 import exceptions.StudentDoesNotExistException;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
-
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;

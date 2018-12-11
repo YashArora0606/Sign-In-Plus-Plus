@@ -1,12 +1,19 @@
+/**
+ * [TeacherDashboardPanel.java] 
+ * the panel which allows the teacher to perform a variety of functions
+ * December 2 2018
+ */
+
 package display.panels;
 
+import javax.swing.JPanel;
 import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
 import exceptions.ImproperFormatException;
+
 import utilities.Utils;
 
-import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -95,51 +102,43 @@ public class TeacherDashboardPanel extends JPanel {
         repaint();
     }
 
-    private class MyMouseListener implements MouseListener {
-        public void mouseEntered(MouseEvent e) {
 
-        }
+	private class MyMouseListener implements MouseListener {
+		
+		/**
+		 * mouseClicked
+		 * changes jpanel based on button clicked or performs an action based on button pressed
+		 * @param e MouseEvent
+		 */
+		public void mouseClicked(MouseEvent e) {
+			message = "";
+			if (addStudent.isMouseOnButton(panel)) {
+				display.changeState(7);
+			} else if (removeStudent.isMouseOnButton(panel)) {
+				display.changeState(8);
+			} else if (changePassword.isMouseOnButton(panel)) {
+				display.changeState(6);
+			} else if (generateSheet.isMouseOnButton(panel)) {
+				 display.changeState(9);
+			} else if (back.isMouseOnButton(panel)) {
+				display.changeState(0);
+			} else if (changeSerts.isMouseOnButton(panel)) {
+				display.changeState(10);
+			} else if (configureStudents.isMouseOnButton(panel)) {
+				// Tries to configure students if possible
+				try {
+					manager.configureStudents();
+					message = "Students have been configured.";
+				} catch (IOException | ImproperFormatException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+		
+		public void mousePressed(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
 
-        /**
-         * mouseClicked
-         * changes jpanel based on button clicked
-         *
-         * @param e MouseEvent
-         */
-        public void mouseClicked(MouseEvent e) {
-            message = "";
-            if (addStudent.isMouseOnButton(panel)) {
-                display.changeState(7);
-            } else if (removeStudent.isMouseOnButton(panel)) {
-                display.changeState(8);
-            } else if (changePassword.isMouseOnButton(panel)) {
-                display.changeState(6);
-            } else if (generateSheet.isMouseOnButton(panel)) {
-                display.changeState(9);
-            } else if (back.isMouseOnButton(panel)) {
-                display.changeState(0);
-            } else if (changeSerts.isMouseOnButton(panel)) {
-                display.changeState(10);
-            } else if (configureStudents.isMouseOnButton(panel)) {
-                try {
-                    manager.configureStudents();
-                    message = "Students have been configured.";
-                } catch (IOException | ImproperFormatException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        public void mouseExited(MouseEvent e) {
-
-        }
-
-        public void mouseReleased(MouseEvent e) {
-
-        }
-    }
+	}
 }

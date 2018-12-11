@@ -1,12 +1,12 @@
 /**
- * [MenuPanel.java]
+ * [MenuPanel.java] 
  * Panel to display the option to signin and signout
  * December 2 2018
  */
 
 package display.panels;
 
-import utilities.Utils;
+import utilities.Utils; 
 
 import javax.swing.JPanel;
 
