@@ -10,6 +10,11 @@ import java.awt.FontMetrics;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import datamanagement.SignInManager;
 import display.Window;
@@ -84,13 +89,6 @@ public class AddStudentPanel extends JPanel {
         this.addMouseListener(new MyMouseListener());
     }
 
-//    public void initialize(){
-////        idField.setText("ID Number");
-////        firstNameField.setText("First Name");
-////        lastNameField.setText("Last Name");
-////        gradeField.setText("Grade");
-//    }
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -157,7 +155,22 @@ public class AddStudentPanel extends JPanel {
         if (idField.getText().length() != 9){
             return false;
         }
+        if ((firstName.contains(" ")) || (lastName.contains(" "))){
+            return false;
+        }
+        writeToCSV(id,firstName,lastName,grade);
         return (signInManager.addStudent(id, firstName, lastName, grade));
+    }
+
+    public void writeToCSV(int id, String firstName, String lastName, int grade) {
+        try {
+            File csv = new File("database/RHHSStudentList.csv");
+            FileOutputStream outputStream = new FileOutputStream(csv);
+            PrintWriter out = new PrintWriter(outputStream, true);
+            out.print(id + "," + firstName + "," + lastName + ",316," + grade + ",HR,");
+            out.close();
+        } catch(IOException e){
+        }
     }
 
     private class MyMouseListener implements MouseListener {
@@ -165,7 +178,7 @@ public class AddStudentPanel extends JPanel {
 
         }
 
-        public void mouseClicked(MouseEvent e){
+        public void mouseClicked(MouseEvent e) {
             if (back.isMouseOnButton(panel)) {
                 leaveScreen(5);
             } else if (submit.isMouseOnButton(panel)) {

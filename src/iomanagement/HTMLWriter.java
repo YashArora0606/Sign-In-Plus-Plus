@@ -1,10 +1,3 @@
-/**
- * [HTMLWriter.java]
- * Using a sessions list and student list from the database, writes to an html file using existing templates
- * @author Katelyn Wang & Guy Morgenshtern
- * December 10 2018
- */
-
 package iomanagement;
 
 import datamanagement.Session;
@@ -18,7 +11,13 @@ import java.io.PrintWriter;
 
 import java.util.Scanner;
 
-
+/**
+ * [HTMLWriter.java]
+ * Using a sessions list and student list from the database, writes to an html file using existing templates
+ *
+ * @author Katelyn Wang & Guy Morgenshtern
+ * last updated 2018/12/11
+ */
 public class HTMLWriter {
     private Stack<Session>[] studentSession;
     private SinglyLinkedList<Student> studentList;
@@ -28,6 +27,7 @@ public class HTMLWriter {
 
     /**
      * Constructor - initializes templates upon creation
+     *
      * @param studentList the complete student list
      * @param sessionList the session list as filtered by the database
      */
@@ -56,6 +56,7 @@ public class HTMLWriter {
     /**
      * Iterates through the total session list
      * Assigns it to the corresponding stack in the array of stacks
+     *
      * @param sessionList the list of sessions to be included
      */
     private void generateStack(SinglyLinkedList<Session> sessionList) {
@@ -67,6 +68,7 @@ public class HTMLWriter {
 
     /**
      * Reads a template and stores each line in a singlylinkedlist for reference
+     *
      * @param fileName the file to be read
      * @return returns the singlylinkedlist which contains each line of the template file
      */
@@ -92,6 +94,7 @@ public class HTMLWriter {
     /**
      * Checks existing files to create a new unique file name
      * (so current reports won't be overwritten)
+     *
      * @return the complete file pathway including the file name
      */
     private String determineFileName() {
@@ -170,6 +173,7 @@ public class HTMLWriter {
 
     /**
      * writes the graph for all the sign in info
+     *
      * @param out printwriter to write to file
      */
     private void writeOverallGraph(PrintWriter out) {
@@ -212,6 +216,7 @@ public class HTMLWriter {
 
     /**
      * writes the specific student's sign in graph
+     *
      * @param out   printwriter to write to file
      * @param index student's index in the the array
      */
@@ -253,6 +258,7 @@ public class HTMLWriter {
 
     /**
      * Calculates how many times each reason was used for sign in over all the students
+     *
      * @return integer array of each reason's sum
      */
     private int[] calculateOverallPercentages() {
@@ -301,6 +307,7 @@ public class HTMLWriter {
 
     /**
      * calculates how many times each reason was used for sign in for a specific student
+     *
      * @param index position of student in array
      * @return integer array of sum of each reason
      */
@@ -337,6 +344,7 @@ public class HTMLWriter {
 
     /**
      * Outputs each student's session into the html document
+     *
      * @param out   printwriter to write to file
      * @param index position of student in array
      */

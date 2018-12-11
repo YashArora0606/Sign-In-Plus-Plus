@@ -13,6 +13,7 @@ import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
 import exceptions.StudentDoesNotExistException;
+import utilities.SinglyLinkedList;
 import utilities.Utils;
 
 import java.awt.Font;
@@ -22,8 +23,14 @@ import java.awt.Graphics;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class RemoveStudentPanel extends JPanel {
+    public static final String STUDENT_FILE = "database/RHHSStudentList.csv";
     private JPanel panel;
     private Window display;
     private SignInManager signInManager;
@@ -114,11 +121,55 @@ public class RemoveStudentPanel extends JPanel {
     }
 
     private boolean removeStudent() throws StudentDoesNotExistException {
-        if (idField.getText().length()!=9){
+        if (idField.getText().length() != 9) {
             return false;
         }
         return signInManager.removeStudent(Integer.parseInt(idField.getText()));
     }
+
+    private void reconcileFile(){
+        SinglyLinkedList<String> studentText = readFile();
+        writeFile(studentText);
+    }
+
+    private SinglyLinkedList<String> readFile(){
+        SinglyLinkedList<String> file = new SinglyLinkedList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(new File(STUDENT_FILE)));
+
+            String line = reader.readLine();
+            while (line != null) {
+                file.add(line);
+                line = reader.readLine();
+            }
+
+            reader.close();
+        } catch (IOException e){
+
+        }
+        return file;
+    }
+
+    private void writeFile(SinglyLinkedList<String> text){
+        try {
+            PrintWriter out = new PrintWriter(new File(STUDENT_FILE));
+            String id = idField.getText();
+            if (id.substring(0,1).equals("0")){
+                id = id.substring(1);
+            }
+
+            for (String line : text) {
+                if (!line.contains(id)) {
+                    out.println(line);
+                }
+            }
+
+            out.close();
+        } catch (IOException e){
+
+        }
+    }
+
 
     private class MyMouseListener implements MouseListener {
         public void mouseEntered(MouseEvent e) {
@@ -134,6 +185,7 @@ public class RemoveStudentPanel extends JPanel {
                 try {
                     if (removeStudent()) {
                         attemptValidation = 2;
+                        reconcileFile();
                     }
                 } catch (StudentDoesNotExistException error) {
                     attemptValidation = 1;
