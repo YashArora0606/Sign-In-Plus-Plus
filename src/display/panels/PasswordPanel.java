@@ -1,5 +1,5 @@
 /**
- * [PasswordPanel.java]
+ * [PasswordPanel.java] 
  * the panel which prompts the user for the password to enter the teacher dashboard
  * checks the password with the password text file and then rewrites the password to the text file
  * December 2 2018
@@ -7,27 +7,19 @@
 
 package display.panels;
 
-import javax.swing.JTextField;
-
+import javax.swing.JTextField; 
 import display.Window;
 import display.customcomponents.CustomButton;
-
 import javax.swing.JPanel;
-
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import java.util.Scanner;
-
 import utilities.Utils;
 
 public class PasswordPanel extends JPanel{
