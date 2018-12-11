@@ -104,9 +104,11 @@ public class HTMLWriter {
                     switch (modNum) {
                         case 0:
                             for (int stuNum = 0; stuNum < studentList.size(); stuNum++) {
-                                out.println("      <a class=\"mdl-navigation__link\" href=\"#" +
-                                        studentList.get(stuNum).firstName + studentList.get(stuNum).lastName + "\">" +
-                                        studentList.get(stuNum).firstName + " " + studentList.get(stuNum).lastName + "</a>");
+                                if (studentSession[stuNum].size() > 0) {
+                                    out.println("      <a class=\"mdl-navigation__link\" href=\"#" +
+                                            studentList.get(stuNum).firstName + studentList.get(stuNum).lastName + "\">" +
+                                            studentList.get(stuNum).firstName + " " + studentList.get(stuNum).lastName + "</a>");
+                                }
                             }
                             out.println("      <a class=\"mdl-navigation__link\" href=\"#OverallGraph\">Overall Graph</a>");
                             modNum++;
@@ -114,11 +116,13 @@ public class HTMLWriter {
 
                         case 1:
                             for (int stuNum = 0; stuNum < studentSession.length; stuNum++) {
-                                out.println("<div id=\"student\">");
-                                outputStudent(out, stuNum);
-                                writeStudentGraph(out, stuNum);
-                                out.println("</div>");
-                                out.println();
+                                if (studentSession[stuNum].size() > 0) {
+                                    out.println("<div id=\"student\">");
+                                    outputStudent(out, stuNum);
+                                    writeStudentGraph(out, stuNum);
+                                    out.println("</div>");
+                                    out.println();
+                                }
                             }
                             modNum++; //if we want the overall graph
                             break;
