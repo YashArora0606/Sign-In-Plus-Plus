@@ -14,7 +14,8 @@ public class Launcher {
     public static void run() {
         Database database = new DerbyDatabase();
         SignInManager signInManager = new SignInManager(database);
-        new StartFrame();
+        StartFrame start = new StartFrame();
         Window frame = new Window(signInManager);
+        start.dispose();
     }
 }

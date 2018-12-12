@@ -19,8 +19,7 @@ public class StartFrame extends JFrame {
      */
     public StartFrame() {
         super("Welcome!");
-        ImageIcon icon = new ImageIcon("assets/bolt.png"); //sets the icon at the top to our logo
-        this.setIconImage(icon.getImage());
+        this.setUndecorated(true);
         this.setResizable(false); //doesn't allow the screen to be resized
         this.setAlwaysOnTop(true); //sets it above all the other panels
         this.setSize(500, 500); //hardcoded to our assets (our image we use is 500x500 so it won't ever need to be changed)
@@ -39,6 +38,5 @@ public class StartFrame extends JFrame {
         super.paint(g);
         Image panel = Toolkit.getDefaultToolkit().getImage("assets/background.png"); //retrieves the image
         g.drawImage(panel, 0, 0, this); //draws it
-
     }
 }
