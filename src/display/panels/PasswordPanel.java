@@ -7,28 +7,21 @@
 
 package display.panels;
 
-import javax.swing.JTextField;
-
 import display.Window;
 import display.customcomponents.CustomButton;
+import utilities.Utils;
 
 import javax.swing.JPanel;
-
-import java.awt.Graphics;
-import java.awt.Font;
+import javax.swing.JTextField;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
-
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import java.util.Scanner;
-
-import utilities.Utils;
 
 public class PasswordPanel extends JPanel{
     private Window display;

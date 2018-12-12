@@ -1,6 +1,4 @@
 package display;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import datamanagement.SignInManager;
 import display.panels.AddStudentPanel;
@@ -16,7 +14,10 @@ import display.panels.SignOutPanel;
 import display.panels.TeacherDashboardPanel;
 import utilities.Utils;
 
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
