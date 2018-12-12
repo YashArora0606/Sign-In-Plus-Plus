@@ -6,13 +6,11 @@
 
 package display.panels;
 
+import display.Window;
+import display.customcomponents.CustomButton;
 import utilities.Utils;
 
 import javax.swing.JPanel;
-
-import display.Window;
-import display.customcomponents.CustomButton;
-
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

@@ -11,18 +11,15 @@ import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.AddAndRemoveMenu;
 import display.customcomponents.CustomButton;
+import utilities.Utils;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-
-import java.awt.Graphics;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import utilities.Utils;
 
 /**
  * The panel to edit the sert teachers (can add and remove them)
