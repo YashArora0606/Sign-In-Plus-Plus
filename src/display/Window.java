@@ -137,7 +137,7 @@ public class Window extends JFrame {
             case 9:
                 switchPanel(generateSheetPanel);
                 return;
-                
+
             case 10:
             	switchPanel(changeSertsPanel);
             	return;

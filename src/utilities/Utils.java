@@ -17,7 +17,7 @@ import java.util.Date;
 
 /**
  * Static utility class (used for scaling rn)
- * @author Alston Lo & Katelyn Wang
+ * @author Alston Lo & Katelyn Wang & Yash Arora
  */
 public class Utils {
 	public static Color[] colours = { new Color(100, 100, 100), new Color(249, 236, 236), new Color(240, 217, 218),
@@ -82,10 +82,20 @@ public class Utils {
 		return newString;
 	}
 
+	/**
+	 * getNow
+	 * @return current TimeStamp
+	 */
 	public static Timestamp getNow() {
 		return new Timestamp(Calendar.getInstance().getTime().getTime());
 	}
 
+	/**
+	 * idToString
+	 * Converts student id to string format
+	 * @param id
+	 * @return
+	 */
 	public static String idToString(int id) {
 		String stringId = String.valueOf(id);
 		for (int i = stringId.length(); i < 9; i++) {
@@ -94,6 +104,12 @@ public class Utils {
 		return stringId;
 	}
 
+	/**
+	 * isStudentId
+	 * checks if the format is that of a student id
+	 * @param id String student it
+	 * @return true if id format and false if not
+	 */
 	public static boolean isStudentId(String id) {
 		
 		if (id.length() == 0) {
@@ -108,6 +124,12 @@ public class Utils {
 		return true;
 	}
 
+	/**
+	 * isDate
+	 * checks if the format is that of a date signature
+	 * @param date
+	 * @return
+	 */
 	public static boolean isDate(String date) {
 		
 		if (date.length() == 0) {
@@ -124,6 +146,12 @@ public class Utils {
 		return true;
 	}
 
+	/**
+	 * getTimeStamp
+	 * Converts date to TimeStamp
+	 * @param date to convert
+	 * @return TimeStamp
+	 */
 	public static Timestamp getTimeStamp(String date) {
 		
 		if (date.length() == 0) {
@@ -143,6 +171,12 @@ public class Utils {
 		return null;
 	}
 
+	/**
+	 * isTime
+	 * checks if the format is that of a time signature
+	 * @param time
+	 * @return
+	 */
 	public static boolean isTime(String time) {
 		
 		if (time.length() == 0) {
@@ -157,6 +191,12 @@ public class Utils {
 		return true;
 	}
 
+	/**
+	 * getInt
+	 * gets int from string
+	 * @param str to convert
+	 * @return the int 
+	 */
 	public static int getInt(String str) {
 		
 		if (str.length() == 0) {

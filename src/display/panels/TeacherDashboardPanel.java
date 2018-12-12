@@ -61,7 +61,6 @@ public class TeacherDashboardPanel extends JPanel {
     /**
      * paintComponent
      * draws all buttons and text on screen
-     *
      * @param g Graphics
      */
     public void paintComponent(Graphics g) {

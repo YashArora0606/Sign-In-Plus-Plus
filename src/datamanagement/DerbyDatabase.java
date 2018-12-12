@@ -517,6 +517,7 @@ public class DerbyDatabase implements Database {
      * @param time the end time of the unresolved sessions
      * @return true, if any amount (0+) of sessions were successfully found and resolved; false otherwise
      */
+    @Override
     public boolean resolveOpenSessions(int id, Timestamp time) {
         try {
             PreparedStatement resolveSessions = prepStatements.get("resolve sessions");
@@ -543,6 +544,7 @@ public class DerbyDatabase implements Database {
      *
      * @return a list of SERT names, or an empty list if a SQLException occurs
      */
+    @Override
     public SinglyLinkedList<String> getSerts() {
         try {
             PreparedStatement getAllSerts = prepStatements.get("get all serts");
@@ -570,6 +572,7 @@ public class DerbyDatabase implements Database {
      * @param newSerts the new list of SERTs that will replace the old one
      * @return true, if the table was successfully updated; false otherwise
      */
+    @Override
     public boolean replaceSerts(SinglyLinkedList<String> newSerts) {
         try {
             PreparedStatement removeAllSerts = prepStatements.get("remove all serts");
@@ -593,6 +596,7 @@ public class DerbyDatabase implements Database {
     /**
      * Closes the database by closing the connection, statements and result set
      */
+    @Override
     public void close() {
 
         //close all statements and prepared statements

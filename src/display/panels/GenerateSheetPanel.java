@@ -12,21 +12,16 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-
 import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
 import display.customcomponents.CustomTextField;
 import display.customcomponents.DropDownMenu;
 import display.customcomponents.SelectMultipleMenu;
-import iomanagement.HTMLWriter;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
@@ -36,6 +31,7 @@ import utilities.Utils;
  *
  * @author Yash Arora
  */
+
 public class GenerateSheetPanel extends JPanel {
     private Window display;
     private SignInManager signInManager;
@@ -51,7 +47,7 @@ public class GenerateSheetPanel extends JPanel {
     private SelectMultipleMenu reasonSelect;
     private SelectMultipleMenu sertSelect;
     private SelectMultipleMenu courseMissingSelect;
-    private DropDownMenu gradeSelect;
+    private SelectMultipleMenu gradeSelect;
 
     private CustomTextField idField;
     private CustomTextField earliestDateField;
@@ -87,7 +83,7 @@ public class GenerateSheetPanel extends JPanel {
         reasonSelect = new SelectMultipleMenu(signInManager.getReasons(), "Reason");
         sertSelect = new SelectMultipleMenu(signInManager.getSerts(), "SERT");
         courseMissingSelect = new SelectMultipleMenu(signInManager.getCourses(), "Course Missing");
-        gradeSelect = new DropDownMenu(new String[]{"9", "10", "11", "12"}, "Grade");
+        gradeSelect = new SelectMultipleMenu(new String[]{"9", "10", "11", "12"}, "Grade");
 
         // setting bounds for the dropdown menus
         reasonSelect.setBounds(maxX / 2 - reasonSelect.getPreferredSize().width * 2 - PADDING_CONSTANT * 2,
@@ -99,7 +95,7 @@ public class GenerateSheetPanel extends JPanel {
         courseMissingSelect.setBounds(maxX / 2 + PADDING_CONSTANT, Utils.scale(300),
                 courseMissingSelect.getPreferredSize().width, courseMissingSelect.getPreferredSize().height);
 
-        gradeSelect.setBounds(maxX / 2 + gradeSelect.getPreferredSize().width + PADDING_CONSTANT * 2, Utils.scale(300),
+        gradeSelect.setBounds(maxX / 2 + courseMissingSelect.getPreferredSize().width + (PADDING_CONSTANT * 2), Utils.scale(300),
                 sertSelect.getPreferredSize().width, sertSelect.getPreferredSize().height);
 
         pane.add(reasonSelect);
@@ -205,15 +201,26 @@ public class GenerateSheetPanel extends JPanel {
      */
     private void filterAndSubmit(int type) {
 
-        SinglyLinkedList<String> reasons = reasonSelect.getSelectedTexts(); // creating arraylists of the selected
-        // factors
+        SinglyLinkedList<String> reasons = reasonSelect.getSelectedTexts(); // creating lists of the selected factors
         SinglyLinkedList<String> serts = sertSelect.getSelectedTexts();
         SinglyLinkedList<String> coursesMissing = courseMissingSelect.getSelectedTexts();
-
+        SinglyLinkedList<String> grades = gradeSelect.getSelectedTexts();
+        SinglyLinkedList<Integer> gradesAsInts = new SinglyLinkedList<Integer>();
+        
+        // INCOMING PATCH UPDATE - ALLOWING USER TO SELECT MULTIPLE GRADES TO BE FILTERED BY
+        // WHEN PATCH IS FINISHED, UNCOMMENT THE METHOD CALL BELOW THAT IS CURRENTLY COMMENTED
+        for (int i = 0; i < grades.size(); i++) {
+            int grade = -1;
+            try {
+                grade = Integer.parseInt(grades.get(i));
+            } catch (NumberFormatException e) {
+            }
+        	gradesAsInts.add(grade);
+        }
+        
         int grade = -1;
         try {
-            grade = Integer.parseInt(gradeSelect.getSelectedText());
-            System.out.println(grade);
+            grade = Integer.parseInt(grades.get(0));
         } catch (NumberFormatException e) {
         }
 
@@ -247,8 +254,10 @@ public class GenerateSheetPanel extends JPanel {
 
             if (type == 0) {
                 try {
-                    signInManager.generateExcel(idAsInt, null, null, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
-                            maxTimeAsInt, reasons, serts, coursesMissing);
+                  signInManager.generateExcel(idAsInt, null, null, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+                  maxTimeAsInt, reasons, serts, coursesMissing);
+//                    signInManager.generateExcel(idAsInt, null, null, grades, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+//                            maxTimeAsInt, reasons, serts, coursesMissing);
                     resetFields();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -257,6 +266,8 @@ public class GenerateSheetPanel extends JPanel {
                 try {
                     signInManager.generateHTML(idAsInt, null, null, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
                             maxTimeAsInt, reasons, serts, coursesMissing);
+//                    signInManager.generateHTML(idAsInt, null, null, grades, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+//                            maxTimeAsInt, reasons, serts, coursesMissing);
                     resetFields();
                 } catch (IOException e) {
                     e.printStackTrace();

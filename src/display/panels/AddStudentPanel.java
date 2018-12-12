@@ -46,7 +46,7 @@ public class AddStudentPanel extends JPanel {
     /**
      * Constructor
      *
-     * @param display       Window object of the display itself
+     * @param display      Window object of the display itself
      * @param signInManager SignInManager object that is used to sign students in
      */
     public AddStudentPanel(Window display, SignInManager signInManager) {

@@ -7,15 +7,15 @@
 
 package display.panels;
 
-import javax.swing.JTextField;
-
 import display.Window;
 import display.customcomponents.CustomButton;
+import utilities.Utils;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
