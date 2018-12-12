@@ -1,9 +1,3 @@
-/**
- * [SignInPanel.java]
- * the panel which allows the student to sign in
- * December 2 2018
- */
-
 package display.panels;
 
 import javax.swing.JPanel;
