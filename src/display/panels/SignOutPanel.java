@@ -134,6 +134,8 @@ public class SignOutPanel extends JPanel {
          */
         public void mouseClicked(MouseEvent e) {
             if (back.isMouseOnButton(panel)) {
+                errorMessage = "";
+                idField.setText("");
                 display.changeState(1);
             }
 
