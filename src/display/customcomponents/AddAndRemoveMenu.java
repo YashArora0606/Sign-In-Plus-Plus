@@ -2,12 +2,13 @@
  * [AddAndRemoveMenu.java]
  * Custom menu that allows the user to add and remove fields
  * Most importantly it is extremely good looking ;)
+ * @author Yash Arora
  * December 2 2018
  */
 
 package display.customcomponents;
 
-import java.awt.Dimension;
+import java.awt.Dimension; 
 import java.awt.Graphics;
 import java.awt.IllegalComponentStateException;
 import java.awt.MouseInfo;
@@ -22,6 +23,10 @@ import datamanagement.SignInManager;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
+/**
+ * Custom menu that allows the user to add and remove fields
+ * @author Yash Arora
+ */
 public class AddAndRemoveMenu extends JPanel {
 	
 	// Important class variables

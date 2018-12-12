@@ -1,10 +1,11 @@
 /**
- * [CustomButton.java]
+ * [CustomButton.java] 
  * the custom class button that can be selected
  * BEST OF ALL IT LOOKS SO MUCH BETTER THAN JAVA BUTTONS
+ * @author Yash Arora
  * December 2 2018
  */
-
+ 
 package display.customcomponents;
 
 import utilities.Utils;
@@ -17,6 +18,10 @@ import java.awt.FontMetrics;
 import java.awt.Point;
 import java.awt.MouseInfo;
 
+/**
+ * Custom button class that looks good
+ * @author Yash Arora
+ */
 public class CustomButton {
 	
 	// Important class variables

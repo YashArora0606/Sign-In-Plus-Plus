@@ -17,7 +17,7 @@ import java.util.Date;
 
 /**
  * Static utility class (used for scaling rn)
- * @author Alston Lo & Katelyn Wang
+ * @author Alston Lo & Katelyn Wang & Yash Arora
  */
 public class Utils {
 	public static Color[] colours = { new Color(100, 100, 100), new Color(249, 236, 236), new Color(240, 217, 218),

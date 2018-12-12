@@ -1,7 +1,8 @@
 /**
- * [DropDownMenu.java]
+ * [DropDownMenu.java] 
  * Custom menu that allows the user to select from a dropdown
  * Most importantly it is extremely good looking ;)
+ * @author Yash Arora
  * December 2 2018
  */
 
@@ -15,7 +16,10 @@ import java.awt.Point;
 import javax.swing.JPanel;
 import utilities.Utils;
 
-
+/**
+ * Custom dropdown menu class that looks good
+ * @author Yash Arora
+ */
 public class DropDownMenu extends JPanel {
 	
 	// Important class variables

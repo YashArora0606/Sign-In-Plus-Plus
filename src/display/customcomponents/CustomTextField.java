@@ -1,6 +1,8 @@
 /**
  * [CustomTextField.java]
+
  * Custom text field that looks good
+ * @author Yash Arora
  * December 2 2018
  */
 
@@ -15,7 +17,10 @@ import javax.swing.JTextField;
 
 import utilities.Utils;
  
-
+/**
+ * Custom text field class that looks good
+ * @author Yash Arora
+ */
 public class CustomTextField extends JPanel {
 	
 	// Imporant class variables

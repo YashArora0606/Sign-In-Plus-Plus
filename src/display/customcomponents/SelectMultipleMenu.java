@@ -1,13 +1,14 @@
 /**
- * [SelectMultipleMenu.java]
+ * [SelectMultipleMenu.java] 
  * Custom menu that allows the user to select from a list
  * Most importantly it is extremely good looking ;)
+ * @author Yash Arora
  * December 2 2018
  */
 
 package display.customcomponents;
 
-import java.awt.Dimension;
+import java.awt.Dimension; 
 import java.awt.Graphics;
 import java.awt.IllegalComponentStateException;
 import java.awt.MouseInfo;
@@ -17,7 +18,10 @@ import java.awt.event.MouseListener;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
-// This class is essentially a DropDownMenu that does not drop down
+/**
+ * Like the DropDownMenu class but doesn't actually drop down
+ * @author Yash Arora
+ */
 public class SelectMultipleMenu extends DropDownMenu {
 
 	// Important class lists
