@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class StudentListReader {
 
-    private static final String STUDENTS_FILE = "database/RHHSStudentList.csv"; //path of the student file
+    private static final String STUDENTS_FILE = "Student List/RHHSStudentList.csv"; //path of the student file
 
     /**
      * Returns a list of the students detailed by RHHSStudentList.csv

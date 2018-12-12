@@ -229,7 +229,7 @@ public class AddAndRemoveMenu extends JPanel {
 				updateTxt();
 			}
 
-			// Sumbit if on the sumbit button
+			// Submit if on the submit button
 			if (isMouseOnButton(submitButton)) {
 				if (addItem.getText().isEmpty()) {
 					message = "Please enter a field to be added.";
@@ -241,10 +241,10 @@ public class AddAndRemoveMenu extends JPanel {
 							Utils.scale(300), Utils.scale(50), Utils.colours[3]));
 					xButtons.add(new CustomButton("X", 0, 0, Utils.scale(50), Utils.scale(50),
 							Utils.colours[3]));
-					addItem.reset();
 					alphabetize();
 					updateSpacing();
 					message = "\"" + addItem.getText() + "\" was successfuly added.";
+					addItem.reset();
 				}
 				updateTxt();
 			}

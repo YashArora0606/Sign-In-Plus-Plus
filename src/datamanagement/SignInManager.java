@@ -364,13 +364,13 @@ public class SignInManager {
         }
 
         try { //attempt to create the file
-            File file = new File("database/Log.xlsx");
+            File file = new File("Excel Files/Log.xlsx");
 
             //if the file exists, change its name so duplicates are avoided Log(1).xlsx, Log(2).xlsx...
             int counter = 1;
             while (!file.createNewFile()) {
                 counter++;
-                file = new File("database/Log(" + counter + ").xlsx");
+                file = new File("Excel Files/Log(" + counter + ").xlsx");
             }
 
             //write the new file

@@ -13,7 +13,6 @@ import display.customcomponents.AddAndRemoveMenu;
 import display.customcomponents.CustomButton;
 import utilities.Utils;
 
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -55,10 +54,7 @@ public class ChangeSertsPanel extends JPanel {
 
         this.addMouseListener(new MyMouseListener());
 
-        JLayeredPane pane = new JLayeredPane();
-
         addAndRemoveMenu = new AddAndRemoveMenu(manager, manager.getSertArrayList(), "SERT", maxY);
-//        a.setBounds(a.getBounds().x, Utils.scale(100), a.getBounds().width, a.getBounds().height);
 
         JPanel emptyTop = new JPanel();
         emptyTop.setPreferredSize(new Dimension(maxX, Utils.scale(200)));
