@@ -380,7 +380,7 @@ public class SignInManager {
 
             //attempt to open the folder the file exists in
             Desktop desktop = Desktop.getDesktop();
-            desktop.open(new File("database/"));
+            desktop.open(new File("Excel Files/"));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import datamanagement.Student;
 import utilities.SinglyLinkedList;
 import utilities.Stack;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,10 +48,18 @@ public class HTMLWriter {
     /**
      * The method which generates the file - creates a stack from the session list to reverse the order and then
      * writes to the html file
+     * opens the folder which contains the file aftewards
      */
     public void go() {
         generateStack(sessionList);
         writeFile(determineFileName());
+        //attempt to open the folder the file exists in
+        Desktop desktop = Desktop.getDesktop();
+        try {
+            desktop.open(new File("Reports/"));
+        } catch (IOException e){
+
+        }
     }
 
     /**
@@ -98,17 +107,17 @@ public class HTMLWriter {
      * @return the complete file pathway including the file name
      */
     private String determineFileName() {
-        File myFile = new File("Reports/report.html");
+        File myFile = new File("Reports/Report.html");
         if (myFile.exists()) {
             int counter = 1;
-            myFile = new File("Reports/report (" + counter + ").html");
+            myFile = new File("Reports/Report (" + counter + ").html");
             while (myFile.exists()) {
                 counter++;
-                myFile = new File("Reports/report (" + counter + ").html");
+                myFile = new File("Reports/Report (" + counter + ").html");
             }
-            return "Reports/report (" + counter + ").html";
+            return "Reports/Report (" + counter + ").html";
         } else {
-            return "Reports/report.html";
+            return "Reports/Report.html";
         }
     }
 

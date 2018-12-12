@@ -159,6 +159,8 @@ public class SignInPanel extends JPanel {
 
             // Resets the drop-downs upon leaving
             if (back.isMouseOnButton(panel)) {
+                errorMessage = "";
+                idField.setText("");
                 sertDropDown.reset();
                 reasonDropDown.reset();
                 courseMissingDropDown.reset();

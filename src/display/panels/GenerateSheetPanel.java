@@ -22,6 +22,7 @@ import display.customcomponents.CustomButton;
 import display.customcomponents.CustomTextField;
 import display.customcomponents.DropDownMenu;
 import display.customcomponents.SelectMultipleMenu;
+import exceptions.ImproperFormatException;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
@@ -96,7 +97,7 @@ public class GenerateSheetPanel extends JPanel {
                 courseMissingSelect.getPreferredSize().width, courseMissingSelect.getPreferredSize().height);
 
         gradeSelect.setBounds(maxX / 2 + courseMissingSelect.getPreferredSize().width + (PADDING_CONSTANT * 2), Utils.scale(300),
-                sertSelect.getPreferredSize().width, sertSelect.getPreferredSize().height);
+                gradeSelect.getPreferredSize().width, gradeSelect.getPreferredSize().height);
 
         pane.add(reasonSelect);
         pane.add(sertSelect);
@@ -209,19 +210,20 @@ public class GenerateSheetPanel extends JPanel {
         
         // INCOMING PATCH UPDATE - ALLOWING USER TO SELECT MULTIPLE GRADES TO BE FILTERED BY
         // WHEN PATCH IS FINISHED, UNCOMMENT THE METHOD CALL BELOW THAT IS CURRENTLY COMMENTED
-        for (int i = 0; i < grades.size(); i++) {
-            int grade = -1;
+//        for (int i = 0; i < grades.size(); i++) {
+//            int grade = -1;
+//            try {
+//                grade = Integer.parseInt(grades.get(i));
+//            } catch (NumberFormatException e) {
+//            }
+//        	gradesAsInts.add(grade);
+//        }
+        int grade = -1;
+        for (int i = 0; i < grades.size(); i++){
             try {
                 grade = Integer.parseInt(grades.get(i));
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e){
             }
-        	gradesAsInts.add(grade);
-        }
-        
-        int grade = -1;
-        try {
-            grade = Integer.parseInt(grades.get(0));
-        } catch (NumberFormatException e) {
         }
 
         String id = idField.getText(); // retrieving text from the text fields
