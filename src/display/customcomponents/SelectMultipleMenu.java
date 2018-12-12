@@ -17,8 +17,8 @@ import utilities.Utils;
 
 public class SelectMultipleMenu extends DropDownMenu {
 
-	SinglyLinkedList<String> selectedTexts = new SinglyLinkedList<>();
-	SinglyLinkedList<CustomButton> buttons = new SinglyLinkedList<>();
+	private SinglyLinkedList<String> selectedTexts = new SinglyLinkedList<>();
+	private SinglyLinkedList<CustomButton> buttons = new SinglyLinkedList<>();
 
 	public SelectMultipleMenu(String[] items, String title) {
 		super(items, title);

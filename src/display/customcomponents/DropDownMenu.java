@@ -19,10 +19,10 @@ import utilities.Utils;
 
 
 public class DropDownMenu extends JPanel {
-	String selectedText = "Select";
-	String title;
+	private  String selectedText = "Select";
+	protected String title;
 
-    String[] items;
+    protected String[] items;
 	
 	public DropDownMenu(String[] items, String title) {
 		this.items = items;
@@ -81,5 +81,12 @@ public class DropDownMenu extends JPanel {
 		selectedText = "Select";
 	}
 
+	public String getTitle(){
+		return this.title;
+	}
+
+	public String[] getItems(){
+		return this.items;
+	}
 }
 

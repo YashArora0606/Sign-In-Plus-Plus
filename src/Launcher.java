@@ -1,15 +1,8 @@
 import datamanagement.Database; 
 import datamanagement.DerbyDatabase;
 import datamanagement.SignInManager;
-import datamanagement.Student;
+import display.StartFrame;
 import display.Window;
-import exceptions.StudentAlreadyExistsException;
-import exceptions.StudentDoesNotExistException;
-import utilities.SinglyLinkedList;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
 /**
  * Basic launcher for the program - mainly for aesthetics
  */
@@ -21,6 +14,8 @@ public class Launcher {
     public static void run() {
         Database database = new DerbyDatabase();
         SignInManager signInManager = new SignInManager(database);
+        StartFrame start = new StartFrame();
         Window frame = new Window(signInManager);
+        start.dispose();
     }
 }

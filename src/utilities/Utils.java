@@ -17,6 +17,7 @@ import java.util.Date;
 
 /**
  * Static utility class (used for scaling rn)
+ * @author Alston Lo & Katelyn Wang
  */
 public class Utils {
 	public static Color[] colours = { new Color(100, 100, 100), new Color(249, 236, 236), new Color(240, 217, 218),
@@ -25,6 +26,11 @@ public class Utils {
 	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private static double scale = screenSize.width / 1920.0;
 
+	/**
+	 * Scales a given measurement based on the ratio to a 1920 pixel screen width
+	 * @param x the raw measurement to be scaled
+	 * @return the scaled measurement
+	 */
 	public static int scale(double x) {
 		return (int) Math.round(scale * x);
 	}
@@ -43,25 +49,35 @@ public class Utils {
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(Font.createFont(Font.PLAIN, new File(fileName)));
 		} catch (IOException | FontFormatException e) {
-			font = new Font(Font.SANS_SERIF, Font.PLAIN, Math.round(size));
+			font = new Font(Font.SANS_SERIF, Font.PLAIN, Math.round(size)); //if it cannot find the font, defaults to sans-serif of the same size
 		}
 		return font;
 	}
 
+	/**
+	 * Encodes a string based on character values
+	 * @param string the string to be encoded
+	 * @return the resulting encrypted string
+	 */
 	public static String encode(String string) {
 		String newString = "";
 		for (int i = 0; i < string.length(); i++) {
-			int unicode = (int) string.charAt(i) + 5;
-			newString += (char) unicode;
+			int unicode = (int) string.charAt(i) + 2; //finds the new letter by shifting the unicode up by 2
+			newString += (char) unicode; //appends to the encoded string letter by letter
 		}
 		return newString;
 	}
 
+	/**
+	 * Decodes the string based on character values
+	 * @param string the string to be decoded
+	 * @return the resulting decrypted string
+	 */
 	public static String decode(String string) {
 		String newString = "";
 		for (int i = 0; i < string.length(); i++) {
-			int unicode = (int) string.charAt(i) - 5;
-			newString += (char) unicode;
+			int unicode = (int) string.charAt(i) - 2; //finds the new letter by shifting the unicode down by 2
+			newString += (char) unicode; //appends to the decoded string letter by letter
 		}
 		return newString;
 	}

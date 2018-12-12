@@ -14,21 +14,21 @@ import java.awt.event.ActionListener;
 import java.awt.MouseInfo;
 
 public class CustomButton{
-    int x;
-    int y;
-    int width;
-    int height;
-    String text;
-    Font buttonFont;
+    protected int x;
+    protected int y;
+    protected int width;
+    protected int height;
+    protected String text;
 
-    Color primaryBackgroundColour;
-    Color secondaryBackgroundColour = Utils.colours[0];
-    Color primaryTextColour = Utils.colours[0];
-    Color secondaryTextColour;
+    private Font buttonFont;
 
-    boolean selectable = true;
-    
-    boolean appearSelected = false;
+    private Color primaryBackgroundColour;
+    private Color secondaryBackgroundColour = Utils.colours[0];
+    private Color primaryTextColour = Utils.colours[0];
+    private Color secondaryTextColour;
+
+    private boolean selectable = true;
+    private boolean appearSelected = false;
     
     public CustomButton(String text, int x, int y, int width, int height, Color mainColor) {
         this.x = x;
@@ -80,8 +80,13 @@ public class CustomButton{
 
         g.setFont(buttonFont);
         FontMetrics buttonFontMetrics = g.getFontMetrics(buttonFont);
-        int textWidth = buttonFontMetrics.stringWidth(text);
         int textHeight = buttonFontMetrics.getMaxAscent();
+        int textWidth = 0;
+        try {
+	        textWidth = buttonFontMetrics.stringWidth(text);
+        } catch (NullPointerException e) {
+
+        }
 
         if ((isMouseOnButton(panel) && selectable) || appearSelected) {
             g.setColor(secondaryTextColour);
