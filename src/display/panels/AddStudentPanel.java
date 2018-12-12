@@ -37,8 +37,8 @@ public class AddStudentPanel extends JPanel {
     private JTextField lastNameField;
     private JTextField gradeField;
     private JPanel panel;
-    private int maxX;
-    private int maxY;
+    private final int maxX;
+    private final int maxY;
     private CustomButton back;
     private CustomButton submit;
     private int attemptValidation = 0;

@@ -10,15 +10,21 @@ package display.panels;
 
 import javax.swing.JPanel;
 
-import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
 
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import utilities.Utils;
 
+/**
+ * The home screen which allows user to either:
+ * 1) Go into the student panels to sign in/sign out
+ * 2) Go into the teacher panel (protected by password) to access the dashboard
+ * @author Katelyn Wang
+ */
 public class HomePanel extends JPanel {
     private Window display;
     private JPanel panel;
@@ -26,8 +32,6 @@ public class HomePanel extends JPanel {
     private final int maxY;
     private CustomButton student;
     private CustomButton teacher;
-    
-
 
     /**
      * Constructor
@@ -47,6 +51,7 @@ public class HomePanel extends JPanel {
      * paints the graphics of the panel
      * @param g the Graphics object to draw the visuals
      */
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 

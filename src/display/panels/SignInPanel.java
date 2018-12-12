@@ -22,6 +22,9 @@ import java.awt.IllegalComponentStateException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * @author Yash Arora 
+ */
 public class SignInPanel extends JPanel {
 
 	// Important variables for the display
