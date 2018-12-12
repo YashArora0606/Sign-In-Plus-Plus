@@ -12,21 +12,16 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-
 import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
 import display.customcomponents.CustomTextField;
 import display.customcomponents.DropDownMenu;
 import display.customcomponents.SelectMultipleMenu;
-import iomanagement.HTMLWriter;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
@@ -87,7 +82,7 @@ public class GenerateSheetPanel extends JPanel {
         reasonSelect = new SelectMultipleMenu(signInManager.getReasons(), "Reason");
         sertSelect = new SelectMultipleMenu(signInManager.getSerts(), "SERT");
         courseMissingSelect = new SelectMultipleMenu(signInManager.getCourses(), "Course Missing");
-        gradeSelect = new DropDownMenu(new String[]{"9", "10", "11", "12"}, "Grade");
+        gradeSelect = new SelectMultipleMenu(new String[]{"9", "10", "11", "12"}, "Grade");
 
         // setting bounds for the dropdown menus
         reasonSelect.setBounds(maxX / 2 - reasonSelect.getPreferredSize().width * 2 - PADDING_CONSTANT * 2,
@@ -99,7 +94,7 @@ public class GenerateSheetPanel extends JPanel {
         courseMissingSelect.setBounds(maxX / 2 + PADDING_CONSTANT, Utils.scale(300),
                 courseMissingSelect.getPreferredSize().width, courseMissingSelect.getPreferredSize().height);
 
-        gradeSelect.setBounds(maxX / 2 + gradeSelect.getPreferredSize().width + PADDING_CONSTANT * 2, Utils.scale(300),
+        gradeSelect.setBounds(maxX / 2 + courseMissingSelect.getPreferredSize().width + (PADDING_CONSTANT * 2), Utils.scale(300),
                 sertSelect.getPreferredSize().width, sertSelect.getPreferredSize().height);
 
         pane.add(reasonSelect);
