@@ -27,6 +27,7 @@ import utilities.Utils;
 
 /**
  * The panel for teachers to enter the password to gain access into the dashboard
+ *
  * @author Katelyn Wang
  */
 public class PasswordPanel extends JPanel {
@@ -41,6 +42,7 @@ public class PasswordPanel extends JPanel {
 
     /**
      * Constructor
+     *
      * @param display the Window object to which this panel belongs
      */
     public PasswordPanel(Window display) {
@@ -66,6 +68,7 @@ public class PasswordPanel extends JPanel {
 
     /**
      * Paints all the buttons and the graphics onto the screen
+     *
      * @param g the graphics object to paint the visuals
      */
     @Override
@@ -108,6 +111,7 @@ public class PasswordPanel extends JPanel {
 
     /**
      * Reads the password file and calls on method to rewrite it to the file
+     *
      * @return the encrypted password
      */
     private String retrievePassword() {
@@ -125,6 +129,7 @@ public class PasswordPanel extends JPanel {
 
     /**
      * Checks if it is the correct password
+     *
      * @return true if it is, false if it isn't
      */
     private boolean validPassword() {
@@ -136,7 +141,8 @@ public class PasswordPanel extends JPanel {
 
     /**
      * The method to reinitialize validation variables when someone leaves the screen
-     * Reinitializes textfields as well
+     * Reinitializes text fields as well
+     *
      * @param state indicates which state to switch to
      */
     private void leaveScreen(int state) {
@@ -152,6 +158,7 @@ public class PasswordPanel extends JPanel {
 
         /**
          * Checks which button was clicked and responds accordingly
+         *
          * @param e the mouse event which occurred
          */
         public void mouseClicked(MouseEvent e) {

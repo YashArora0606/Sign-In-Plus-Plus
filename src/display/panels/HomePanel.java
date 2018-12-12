@@ -23,6 +23,7 @@ import utilities.Utils;
  * The home screen which allows user to either:
  * 1) Go into the student panels to sign in/sign out
  * 2) Go into the teacher panel (protected by password) to access the dashboard
+ *
  * @author Katelyn Wang
  */
 public class HomePanel extends JPanel {
@@ -35,6 +36,7 @@ public class HomePanel extends JPanel {
 
     /**
      * Constructor
+     *
      * @param display the Window it belongs to (to change states)
      */
     public HomePanel(Window display) {
@@ -43,12 +45,13 @@ public class HomePanel extends JPanel {
         this.maxX = display.maxX; //window dimensions
         this.maxY = display.maxY;
         this.addMouseListener(new MyMouseListener());
-        
+
 
     }
 
     /**
      * paints the graphics of the panel
+     *
      * @param g the Graphics object to draw the visuals
      */
     @Override
@@ -61,41 +64,45 @@ public class HomePanel extends JPanel {
         g.fillRect(maxX / 2, 0, maxX / 2, maxY);
 
         //student button leads to signin page
-        student = new CustomButton("Student",maxX/4 - Utils.scale(200)/2,maxY/2 - Utils.scale(200)/2,
+        student = new CustomButton("Student", maxX / 4 - Utils.scale(200) / 2, maxY / 2 - Utils.scale(200) / 2,
                 Utils.scale(200), Utils.scale(100), Utils.colours[2]);
         //teacher button leads to password prompt to access teacher dashboard
-        teacher = new CustomButton("Teacher",3*maxX/4 - Utils.scale(200)/2,maxY/2 - Utils.scale(200)/2,
+        teacher = new CustomButton("Teacher", 3 * maxX / 4 - Utils.scale(200) / 2, maxY / 2 - Utils.scale(200) / 2,
                 Utils.scale(200), Utils.scale(100), Utils.colours[3]);
 
         student.draw(g, panel);
-        teacher.draw(g,panel);
+        teacher.draw(g, panel);
 
         repaint();
     }
 
-    private class MyMouseListener implements MouseListener{
-        public void mouseEntered(MouseEvent e){
+    private class MyMouseListener implements MouseListener {
+        public void mouseEntered(MouseEvent e) {
         }
 
         /**
          * When the mouse is clicked, checks which button is being clicked, and then changes the state based on that
+         *
          * @param e the mouse event which occurred
          */
-        public void mouseClicked(MouseEvent e){
-            if (student.isMouseOnButton(panel)){
+        public void mouseClicked(MouseEvent e) {
+            if (student.isMouseOnButton(panel)) {
                 display.changeState(1);
             } else if (teacher.isMouseOnButton(panel)) {
                 display.changeState(4);
             }
 
         }
-        public void mousePressed(MouseEvent e){
+
+        public void mousePressed(MouseEvent e) {
 
         }
-        public void mouseExited(MouseEvent e){
+
+        public void mouseExited(MouseEvent e) {
 
         }
-        public void mouseReleased(MouseEvent e){
+
+        public void mouseReleased(MouseEvent e) {
 
         }
     }
