@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -198,6 +199,9 @@ public class AddStudentPanel extends JPanel {
         if (idField.getText().length() != 9) {
             return false;
         }
+        if ((grade > 12) || (grade < 9)){
+            return false;
+        }
         if ((firstName.contains(" ")) || (lastName.contains(" "))) {
             return false;
         }
@@ -207,12 +211,12 @@ public class AddStudentPanel extends JPanel {
 
     public void writeToCSV(int id, String firstName, String lastName, int grade) {
         try {
-            File csv = new File("database/RHHSStudentList.csv");
-            FileOutputStream outputStream = new FileOutputStream(csv);
-            PrintWriter out = new PrintWriter(outputStream, true);
-            out.print(id + "," + firstName + "," + lastName + ",316," + grade + ",HR,");
+            File csv = new File("Student List/RHHSStudentList.csv");
+            FileWriter out = new FileWriter(csv, true);
+            out.write(String.format("%n"+id + "," + firstName + "," + lastName + ",316," + grade + ",HR"));
             out.close();
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

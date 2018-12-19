@@ -207,9 +207,7 @@ public class GenerateSheetPanel extends JPanel {
         SinglyLinkedList<String> coursesMissing = courseMissingSelect.getSelectedTexts();
         SinglyLinkedList<String> grades = gradeSelect.getSelectedTexts();
         SinglyLinkedList<Integer> gradesAsInts = new SinglyLinkedList<Integer>();
-        
-        // INCOMING PATCH UPDATE - ALLOWING USER TO SELECT MULTIPLE GRADES TO BE FILTERED BY
-        // WHEN PATCH IS FINISHED, UNCOMMENT THE METHOD CALL BELOW THAT IS CURRENTLY COMMENTED
+
 //        for (int i = 0; i < grades.size(); i++) {
 //            int grade = -1;
 //            try {
@@ -230,7 +228,13 @@ public class GenerateSheetPanel extends JPanel {
         String earliestDate = earliestDateField.getText();
         String latestDate = latestDateField.getText();
         String firstName = firstNameField.getText();
+        if (firstName.equals("")){
+            firstName = null;
+        }
         String lastName = lastNameField.getText();
+        if (lastName.equals("")){
+            lastName = null;
+        }
         String maxTime = maxTimeField.getText();
         String minTime = minTimeField.getText();
 
@@ -256,20 +260,16 @@ public class GenerateSheetPanel extends JPanel {
 
             if (type == 0) {
                 try {
-                  signInManager.generateExcel(idAsInt, null, null, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+                  signInManager.generateExcel(idAsInt, firstName, lastName, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
                   maxTimeAsInt, reasons, serts, coursesMissing);
-//                    signInManager.generateExcel(idAsInt, null, null, grades, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
-//                            maxTimeAsInt, reasons, serts, coursesMissing);
                     resetFields();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else if (type == 1) {
                 try {
-                    signInManager.generateHTML(idAsInt, null, null, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
+                    signInManager.generateHTML(idAsInt, firstName, lastName, grade, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
                             maxTimeAsInt, reasons, serts, coursesMissing);
-//                    signInManager.generateHTML(idAsInt, null, null, grades, earliestDateAsTimestamp, latestDateAsTimestamp, minTimeAsInt,
-//                            maxTimeAsInt, reasons, serts, coursesMissing);
                     resetFields();
                 } catch (IOException e) {
                     e.printStackTrace();
