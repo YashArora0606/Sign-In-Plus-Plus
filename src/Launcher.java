@@ -1,4 +1,4 @@
-import datamanagement.Database; 
+import datamanagement.Database;
 import datamanagement.DerbyDatabase;
 import datamanagement.SignInManager;
 import display.StartFrame;
