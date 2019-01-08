@@ -40,8 +40,8 @@ public class HTMLWriter {
         for (int i = 0; i < studentList.size(); i++) {
             studentSession[i] = new Stack<>();
         }
-        reportTemplate = getTemplate("HTML Templates/ReportTemplate.txt"); //initalizing templates
-        template = getTemplate("HTML Templates/Template.txt");
+        reportTemplate = getTemplate("assets/ReportTemplate.txt"); //initalizing templates
+        template = getTemplate("assets/Template.txt");
 
     }
 

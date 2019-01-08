@@ -34,7 +34,7 @@ import java.io.PrintWriter;
  * @author Katelyn Wang
  */
 public class RemoveStudentPanel extends JPanel {
-    private static final String STUDENT_FILE = "database/RHHSStudentList.csv";
+    private static final String STUDENT_FILE = "Student List/RHHSStudentList.csv";
     private final int maxX;
     private final int maxY;
 
@@ -165,7 +165,7 @@ public class RemoveStudentPanel extends JPanel {
 
             reader.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
         return file;
     }
@@ -194,7 +194,7 @@ public class RemoveStudentPanel extends JPanel {
 
             out.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 

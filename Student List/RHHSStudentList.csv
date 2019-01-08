@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 StudentNo,FirstName,LastName,SchoolCode,Grade,HomeRoom
 340992123,Hoopp,Able,316,9,1-WOO-HR
 335556123,Masth,Appl,316,9,1-JMEMARI-HR
@@ -12,3 +13,8 @@ StudentNo,FirstName,LastName,SchoolCode,Grade,HomeRoom
 354929292,Joyce,Chen,316,10,1-CHRISTOPOULOS-HR
 334658493,Alicia,Zhang,316,11,1-IDK-HR
 72921880,Yili,Liu,316,12,1-IDK-HR
+=======
+StudentNo,FirstName,LastName,SchoolCode,Grade,HomeRoom
+340992123,Hoopp,Able,316,9,1-WOO-HR
+335556123,Masth,Appl,316,9,1-JMEMARI-HR
+>>>>>>> 4dcd71613aed76d0f42dd1c389e9fb7ca15f4a1a

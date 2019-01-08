@@ -361,7 +361,7 @@ public class DerbyDatabase implements Database {
     public SinglyLinkedList<Session> findSessions(Query query) throws IOException {
 
         String sqlQuery = buildQuery(query);
-        System.out.println(sqlQuery);
+        System.out.println("SQL Queried: " + sqlQuery); //print sql query for debugging purposes
 
         //a list of queried sessions
         SinglyLinkedList<Session> sessionList = new SinglyLinkedList<>();
