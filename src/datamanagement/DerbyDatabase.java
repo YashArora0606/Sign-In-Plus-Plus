@@ -180,25 +180,24 @@ public class DerbyDatabase implements Database {
      */
     @Override
     public Student findStudentById(int id) throws IOException {
+
         try {
             PreparedStatement findStudent = prepStatements.get("find student");
             findStudent.setInt(1, id);
 
-            ResultSet res = findStudent.executeQuery();
-            if (!res.isBeforeFirst()) { //if the ResultSet has no rows, isBeforeFirst() will return false
-                res.close();
-                return null;
+            try (ResultSet res = findStudent.executeQuery()) {
+                if (!res.isBeforeFirst()) { //if the ResultSet has no rows, isBeforeFirst() will return false
+                    return null;
+                }
+
+                res.next(); //move to the first row of the ResultSet
+                Student student = new Student(  //create the student object
+                        res.getInt("id"),
+                        res.getString("firstname"),
+                        res.getString("lastname"),
+                        res.getInt("grade"));
+                return student;
             }
-
-            res.next(); //move to the first row of the ResultSet
-            Student student = new Student(  //create the student object
-                    res.getInt("id"),
-                    res.getString("firstname"),
-                    res.getString("lastname"),
-                    res.getInt("grade"));
-            res.close();
-
-            return student;
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -215,8 +214,7 @@ public class DerbyDatabase implements Database {
         SinglyLinkedList<Student> allStudents = new SinglyLinkedList<>(); //list of the students
         PreparedStatement getAllStudents = prepStatements.get("get all students");
 
-        try {
-            ResultSet res = getAllStudents.executeQuery();
+        try (ResultSet res = getAllStudents.executeQuery()) {
             while (res.next()) { //iterate through the rows
                 Student student = new Student( //build the students
                         res.getInt("id"),
@@ -225,7 +223,6 @@ public class DerbyDatabase implements Database {
                         res.getInt("grade"));
                 allStudents.add(student);
             }
-            res.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -250,11 +247,9 @@ public class DerbyDatabase implements Database {
             PreparedStatement checkStudent = prepStatements.get("check student");
             checkStudent.setInt(1, id);
 
-            ResultSet res = checkStudent.executeQuery();
-            boolean signedIn = res.isBeforeFirst(); //isBeforeFirst() returns false if the ResultSet is empty
-            res.close();
-
-            return signedIn;
+            try (ResultSet res = checkStudent.executeQuery()) {
+                return res.isBeforeFirst(); //isBeforeFirst() returns false if the ResultSet is empty
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -370,8 +365,7 @@ public class DerbyDatabase implements Database {
         //used to avoid unnecessarily calling findStudentById(id) multiple times on the same id
         HashMap<Integer, Student> usedStudents = new HashMap<>();
 
-        try {
-            ResultSet res = statement.executeQuery(sqlQuery);
+        try (ResultSet res = statement.executeQuery(sqlQuery)) {
 
             while (res.next()) { //iterate through all the rows
 
@@ -396,8 +390,6 @@ public class DerbyDatabase implements Database {
                         res.getString("course"));
                 sessionList.add(session);
             }
-
-            res.close();
 
             return sessionList;
 
@@ -546,17 +538,16 @@ public class DerbyDatabase implements Database {
      */
     @Override
     public SinglyLinkedList<String> getSerts() {
-        try {
-            PreparedStatement getAllSerts = prepStatements.get("get all serts");
-            ResultSet res = getAllSerts.executeQuery();
+
+        PreparedStatement getAllSerts = prepStatements.get("get all serts");
+
+        try (ResultSet res = getAllSerts.executeQuery()) {
 
             //list of SERTs stored within the database
             SinglyLinkedList<String> serts = new SinglyLinkedList<>();
             while (res.next()) {
                 serts.add(res.getString("sert"));
             }
-
-            res.close();
 
             return serts;
 
