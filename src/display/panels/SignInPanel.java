@@ -51,11 +51,11 @@ public class SignInPanel extends JPanel {
     public SignInPanel(Window display, SignInManager signInManager) throws IllegalComponentStateException {
         this.panel = this;
         this.display = display;
-        x = display.maxX;
-        y = display.maxY;
+        x = display.displayWidth;
+        y = display.displayHeight;
         this.signInManager = signInManager;
         this.addMouseListener(new MyMouseListener());
-        setBackground(Utils.colours[2]);
+        setBackground(Palette.colours[2]);
         setLayout(new BorderLayout());
 
         // Create the custom dropdown menus
@@ -68,7 +68,7 @@ public class SignInPanel extends JPanel {
         idField.setFont(Utils.getFont("assets/Kollektif.ttf", 50f));
         idField.setText("");
         idSize = idField.getPreferredSize();
-        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Palette.colours[0]));
         idField.setBackground(null);
 
         // Use borderlayout to format the panel correctly
@@ -78,14 +78,14 @@ public class SignInPanel extends JPanel {
         centerPanel.setOpaque(false);
         centerPanel.add(idField);
         JPanel southPanel = new JPanel();
-        southPanel.setPreferredSize(new Dimension(display.maxX, Utils.scale(800)));
+        southPanel.setPreferredSize(new Dimension(display.displayWidth, Utils.scale(800)));
         southPanel.setBackground(null);
         southPanel.add(reasonDropDown);
         southPanel.add(sertDropDown);
         southPanel.add(courseMissingDropDown);
         southPanel.setOpaque(false);
         JPanel northPanel = new JPanel();
-        northPanel.setPreferredSize(new Dimension(display.maxX, Utils.scale(150)));
+        northPanel.setPreferredSize(new Dimension(display.displayWidth, Utils.scale(150)));
         northPanel.setBackground(null);
         northPanel.setOpaque(false);
         add(northPanel, BorderLayout.NORTH);
@@ -204,22 +204,22 @@ public class SignInPanel extends JPanel {
         super.paintComponent(g);
 
         // Back button
-        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Palette.colours[3]);
         back.draw(g, this);
 
         // Submit
-        submit = new CustomButton("Submit", x / 2 - Utils.scale(250) / 2, (int) (y * 0.8), Utils.scale(250), Utils.scale(80), Utils.colours[1]);
+        submit = new CustomButton("Submit", x / 2 - Utils.scale(250) / 2, (int) (y * 0.8), Utils.scale(250), Utils.scale(80), Palette.colours[1]);
         submit.draw(g, this);
 
         // Id Label
-        studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220) / 2,
-                display.maxY / 15, Utils.scale(220), Utils.scale(50), Utils.colours[4]);
+        studentId = new CustomButton("Student Id", display.displayWidth / 2 - Utils.scale(220) / 2,
+                display.displayHeight / 15, Utils.scale(220), Utils.scale(50), Palette.colours[4]);
         studentId.setSelectable(false);
         studentId.draw(g, this);
 
         // Error label
-        CustomButton errorButton = new CustomButton(errorMessage, display.maxX / 2 - Utils.scale(800) / 2,
-                display.maxY / 30, Utils.scale(800), Utils.scale(50), null);
+        CustomButton errorButton = new CustomButton(errorMessage, display.displayWidth / 2 - Utils.scale(800) / 2,
+                display.displayHeight / 30, Utils.scale(800), Utils.scale(50), null);
         errorButton.setSelectable(false);
         errorButton.draw(g, this);
 

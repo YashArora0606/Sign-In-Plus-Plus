@@ -15,8 +15,9 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import display.panels.Palette;
 import utilities.SinglyLinkedList;
-import utilities.Utils;
 
 /**
  * Like the DropDownMenu class but doesn't actually drop down
@@ -57,7 +58,7 @@ public class SelectMultipleMenu extends DropDownMenu {
 		// super.paintComponent(g);
 
 		// Title button
-		CustomButton titleButton = new CustomButton(title, 0, 0, 180, 30, Utils.colours[3]);
+		CustomButton titleButton = new CustomButton(title, 0, 0, 180, 30, Palette.colours[3]);
 		titleButton.setSelectable(false);
 		titleButton.draw(g, this);
 

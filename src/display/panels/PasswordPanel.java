@@ -42,8 +42,8 @@ public class PasswordPanel extends JPanel {
     public PasswordPanel(Window display) {
         this.display = display;
         this.panel = this;
-        this.maxX = display.maxX;
-        this.maxY = display.maxY;
+        this.maxX = display.displayWidth;
+        this.maxY = display.displayHeight;
 
         this.setLayout(null); // allows for absolute positioning
         passwordField = new JTextField(20); //initializing the length of the password field
@@ -57,7 +57,7 @@ public class PasswordPanel extends JPanel {
 
         this.addMouseListener(new MyMouseListener());
 
-        setBackground(Utils.colours[1]);
+        setBackground(Palette.colours[1]);
     }
 
     /**
@@ -70,11 +70,11 @@ public class PasswordPanel extends JPanel {
         super.paintComponent(g);
 
         //back button leads to the home panel
-        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Palette.colours[3]);
         back.draw(g, panel);
 
         //submit button submits the password - if successful will advance to the teacher dashboard
-        submit = new CustomButton("Submit", maxX / 2 - Utils.scale(100), maxY / 2, Utils.scale(200), Utils.scale(80), Utils.colours[2]);
+        submit = new CustomButton("Submit", maxX / 2 - Utils.scale(100), maxY / 2, Utils.scale(200), Utils.scale(80), Palette.colours[2]);
         submit.draw(g, panel);
 
         //font for the error message
@@ -84,12 +84,12 @@ public class PasswordPanel extends JPanel {
         //font for the title
         Font titleFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45));
 
-        g.setColor(Utils.colours[0]);
+        g.setColor(Palette.colours[0]);
         g.setFont(titleFont);
 
         //Making a label using the custom button (for ease of text positioning)
-        CustomButton passwordLabel = new CustomButton("Password", display.maxX / 2 - Utils.scale(200) / 2,
-                passwordField.getY() - (int) (Utils.scale(50) * (1.2)), Utils.scale(200), Utils.scale(50), Utils.colours[4]);
+        CustomButton passwordLabel = new CustomButton("Password", display.displayWidth / 2 - Utils.scale(200) / 2,
+                passwordField.getY() - (int) (Utils.scale(50) * (1.2)), Utils.scale(200), Utils.scale(50), Palette.colours[4]);
         passwordLabel.setSelectable(false); //setting the label to unclickable
         passwordLabel.draw(g, panel);
 

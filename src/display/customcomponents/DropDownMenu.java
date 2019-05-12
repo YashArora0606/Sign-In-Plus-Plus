@@ -14,6 +14,8 @@ import java.awt.IllegalComponentStateException;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import javax.swing.JPanel;
+
+import display.panels.Palette;
 import utilities.Utils;
 
 /**
@@ -57,12 +59,12 @@ public class DropDownMenu extends JPanel {
 		super.paintComponent(g);
 		
 		// Title button
-		CustomButton titleButton = new CustomButton(title, 0, 0, Utils.scale(180), Utils.scale(30), Utils.colours[3]);
+		CustomButton titleButton = new CustomButton(title, 0, 0, Utils.scale(180), Utils.scale(30), Palette.colours[3]);
 		titleButton.setSelectable(false);
 		titleButton.draw(g, this);
 		
 		// Selected text button
-		CustomButton select = new CustomButton(selectedText, 0, Utils.scale(30), Utils.scale(180), Utils.scale(30), Utils.colours[4]);
+		CustomButton select = new CustomButton(selectedText, 0, Utils.scale(30), Utils.scale(180), Utils.scale(30), Palette.colours[4]);
 		select.setSelectable(false);
 		if (isMouseOnPanel(this)) {
 			setSize(Utils.scale(180), Utils.scale(30) * (items.length + 2));

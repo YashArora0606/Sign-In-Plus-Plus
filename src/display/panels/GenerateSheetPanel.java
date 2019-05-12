@@ -20,9 +20,7 @@ import datamanagement.SignInManager;
 import display.Window;
 import display.customcomponents.CustomButton;
 import display.customcomponents.CustomTextField;
-import display.customcomponents.DropDownMenu;
 import display.customcomponents.SelectMultipleMenu;
-import exceptions.ImproperFormatException;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
@@ -70,10 +68,10 @@ public class GenerateSheetPanel extends JPanel {
         this.display = display;
         this.signInManager = signInManager;
         this.panel = this;
-        this.maxX = display.maxX;
-        this.maxY = display.maxY;
+        this.maxX = display.displayWidth;
+        this.maxY = display.displayHeight;
 
-        this.setBackground(Utils.colours[4]);
+        this.setBackground(Palette.colours[4]);
         this.setLayout(new BorderLayout()); // Border layout used to organize the several different components on the
         // screen
 
@@ -174,16 +172,16 @@ public class GenerateSheetPanel extends JPanel {
         super.paintComponent(g);
 
         // back button leads to teacher dashboard
-        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Palette.colours[3]);
         back.draw(g, panel);
 
         // generate button generates excel file
         generateExcel = new CustomButton("Generate Excel", maxX / 2 - Utils.scale(430),
-                (int) (maxY * 0.83) - Utils.scale(80) / 2, Utils.scale(330), Utils.scale(80), Utils.colours[2]);
+                (int) (maxY * 0.83) - Utils.scale(80) / 2, Utils.scale(330), Utils.scale(80), Palette.colours[2]);
         generateExcel.draw(g, panel);
 
         generateHTML = new CustomButton("Generate Report", maxX / 2 + Utils.scale(100),
-                (int) (maxY * 0.83) - Utils.scale(80) / 2, Utils.scale(350), Utils.scale(80), Utils.colours[2]);
+                (int) (maxY * 0.83) - Utils.scale(80) / 2, Utils.scale(350), Utils.scale(80), Palette.colours[2]);
         generateHTML.draw(g, panel);
 
         // display error message using custom button as a label (unclickable)

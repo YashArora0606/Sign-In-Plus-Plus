@@ -50,12 +50,12 @@ public class TeacherDashboardPanel extends JPanel {
      */
     public TeacherDashboardPanel(Window display, SignInManager manager) {
         this.panel = this;
-        this.maxX = display.maxX;
+        this.maxX = display.displayWidth;
         this.display = display;
         this.manager = manager;
         this.addMouseListener(new MyMouseListener());
 
-        setBackground(Utils.colours[4]);
+        setBackground(Palette.colours[4]);
     }
 
     /**
@@ -66,27 +66,27 @@ public class TeacherDashboardPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Palette.colours[3]);
 
         int padding = Utils.scale(30);
 
         addStudent = new CustomButton("Add Student", maxX / 2 - Utils.scale(400) - padding, Utils.scale(400),
-                Utils.scale(400), Utils.scale(80), Utils.colours[1]);
+                Utils.scale(400), Utils.scale(80), Palette.colours[1]);
         removeStudent = new CustomButton("Remove Student", maxX / 2 + padding, Utils.scale(400), Utils.scale(400),
-                Utils.scale(80), Utils.colours[1]);
+                Utils.scale(80), Palette.colours[1]);
         changePassword = new CustomButton("Change Password", maxX / 2 - Utils.scale(400) - padding, Utils.scale(520),
-                Utils.scale(400), Utils.scale(80), Utils.colours[2]);
+                Utils.scale(400), Utils.scale(80), Palette.colours[2]);
         generateSheet = new CustomButton("Generate Files", maxX / 2 + padding, Utils.scale(520), Utils.scale(400),
-                Utils.scale(80), Utils.colours[2]);
+                Utils.scale(80), Palette.colours[2]);
 
         changeSerts = new CustomButton("Edit Serts", maxX / 2 - Utils.scale(400) - padding, Utils.scale(640), Utils.scale(400),
-                Utils.scale(80), Utils.colours[3]);
+                Utils.scale(80), Palette.colours[3]);
 
         configureStudents = new CustomButton("Configure Students", maxX / 2 + padding, Utils.scale(640), Utils.scale(400),
-                Utils.scale(80), Utils.colours[3]);
+                Utils.scale(80), Palette.colours[3]);
 
         messageButton = new CustomButton(message, maxX / 2, Utils.scale(280), Utils.scale(0),
-                Utils.scale(80), Utils.colours[3]);
+                Utils.scale(80), Palette.colours[3]);
         messageButton.setSelectable(false);
 
         addStudent.draw(g, panel);

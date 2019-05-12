@@ -53,10 +53,10 @@ public class AddStudentPanel extends JPanel {
         this.display = display;
         this.signInManager = signInManager;
         this.panel = this;
-        this.maxX = display.maxX;
-        this.maxY = display.maxY;
+        this.maxX = display.displayWidth;
+        this.maxY = display.displayHeight;
         this.setLayout(null);
-        this.setBackground(Utils.colours[1]);
+        this.setBackground(Palette.colours[1]);
 
         // Set font and size
         Font mainFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(45.0));
@@ -80,7 +80,7 @@ public class AddStudentPanel extends JPanel {
                 Utils.scale(size.height));
         idField.setOpaque(false);
         idField.setBackground(null);
-        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Palette.colours[0]));
 
         // Add the first name field
         size = firstNameField.getPreferredSize();
@@ -89,7 +89,7 @@ public class AddStudentPanel extends JPanel {
                 Utils.scale(size.height));
         firstNameField.setOpaque(false);
         firstNameField.setBackground(null);
-        firstNameField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        firstNameField.setBorder(javax.swing.BorderFactory.createDashedBorder(Palette.colours[0]));
 
         // Add the last name field
         size = lastNameField.getPreferredSize();
@@ -98,7 +98,7 @@ public class AddStudentPanel extends JPanel {
                 Utils.scale(size.height));
         lastNameField.setOpaque(false);
         lastNameField.setBackground(null);
-        lastNameField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        lastNameField.setBorder(javax.swing.BorderFactory.createDashedBorder(Palette.colours[0]));
 
         // Add the grade field
         size = gradeField.getPreferredSize();
@@ -107,7 +107,7 @@ public class AddStudentPanel extends JPanel {
                 Utils.scale(size.height));
         gradeField.setOpaque(false);
         gradeField.setBackground(null);
-        gradeField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        gradeField.setBorder(javax.swing.BorderFactory.createDashedBorder(Palette.colours[0]));
 
         this.addMouseListener(new MyMouseListener());
     }
@@ -122,37 +122,37 @@ public class AddStudentPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Palette.colours[3]);
         back.draw(g, panel);
 
         CustomButton idLabel = new CustomButton("Student Id", (int) idField.getBounds().getX(),
-                (int) idField.getBounds().getY() - (int) (Utils.scale(50) * 1.2), Utils.scale(200), Utils.scale(50), Utils.colours[4]);
+                (int) idField.getBounds().getY() - (int) (Utils.scale(50) * 1.2), Utils.scale(200), Utils.scale(50), Palette.colours[4]);
         idLabel.setSelectable(false);
         idLabel.draw(g, panel);
 
         CustomButton firstNameLabel = new CustomButton("First Name", (int) firstNameField.getBounds().getX(),
-                (int) firstNameField.getBounds().getY() - (int) (Utils.scale(50) * 1.2), Utils.scale(200), Utils.scale(50), Utils.colours[4]);
+                (int) firstNameField.getBounds().getY() - (int) (Utils.scale(50) * 1.2), Utils.scale(200), Utils.scale(50), Palette.colours[4]);
         firstNameLabel.setSelectable(false);
         firstNameLabel.draw(g, panel);
 
         CustomButton lastNameLabel = new CustomButton("Last Name", (int) lastNameField.getBounds().getX(),
-                (int) lastNameField.getBounds().getY() - (int) (Utils.scale(50) * 1.2), Utils.scale(200), Utils.scale(50), Utils.colours[4]);
+                (int) lastNameField.getBounds().getY() - (int) (Utils.scale(50) * 1.2), Utils.scale(200), Utils.scale(50), Palette.colours[4]);
         lastNameLabel.setSelectable(false);
         lastNameLabel.draw(g, panel);
 
         CustomButton gradeLabel = new CustomButton("Grade", (int) gradeField.getBounds().getX(),
-                (int) gradeField.getBounds().getY() - (int) (Utils.scale(50) * 1.2), Utils.scale(200), Utils.scale(50), Utils.colours[4]);
+                (int) gradeField.getBounds().getY() - (int) (Utils.scale(50) * 1.2), Utils.scale(200), Utils.scale(50), Palette.colours[4]);
         gradeLabel.setSelectable(false);
         gradeLabel.draw(g, panel);
 
-        submit = new CustomButton("Submit", maxX / 2 - Utils.scale(100), 3 * maxY / 5, Utils.scale(200), Utils.scale(80), Utils.colours[2]);
+        submit = new CustomButton("Submit", maxX / 2 - Utils.scale(100), 3 * maxY / 5, Utils.scale(200), Utils.scale(80), Palette.colours[2]);
         submit.draw(g, panel);
 
 
         Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30));
         FontMetrics errorFontMetrics = g.getFontMetrics(errorFont);
         g.setFont(errorFont);
-        g.setColor(Utils.colours[0]);
+        g.setColor(Palette.colours[0]);
 
         if (attemptValidation == 2) {
             g.drawString("One of the fields may have been inputted incorrectly. Please try again.",

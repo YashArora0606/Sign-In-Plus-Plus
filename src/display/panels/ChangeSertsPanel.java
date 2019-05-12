@@ -47,10 +47,10 @@ public class ChangeSertsPanel extends JPanel {
     public ChangeSertsPanel(Window display, SignInManager manager) {
         this.display = display;
         this.panel = this;
-        this.maxX = display.maxX;
-        this.maxY = display.maxY;
+        this.maxX = display.displayWidth;
+        this.maxY = display.displayHeight;
 
-        setBackground(Utils.colours[1]);
+        setBackground(Palette.colours[1]);
 
         this.addMouseListener(new MyMouseListener());
 
@@ -74,7 +74,7 @@ public class ChangeSertsPanel extends JPanel {
         super.paintComponent(g);
 
         // back button leads to the home panel
-        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Palette.colours[3]);
         back.draw(g, panel);
 
         CustomButton messageButton = new CustomButton(MESSAGE, maxX / 2, Utils.scale(40), Utils.scale(0),

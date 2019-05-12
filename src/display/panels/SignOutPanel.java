@@ -51,9 +51,9 @@ public class SignOutPanel extends JPanel {
         this.signInManager = signInManager;
         this.addMouseListener(new MyMouseListener());
         this.setLayout(null);
-        this.setBackground(Utils.colours[2]);
-        this.x = display.maxX;
-        this.y = display.maxY;
+        this.setBackground(Palette.colours[2]);
+        this.x = display.displayWidth;
+        this.y = display.displayHeight;
         this.addMouseListener(new MyMouseListener());
 
         // Create id field
@@ -62,9 +62,9 @@ public class SignOutPanel extends JPanel {
         idField.setText("");
         idSize = idField.getPreferredSize();
         this.add(idField);
-        idField.setBounds(display.maxX / 2 - idSize.width / 2, display.maxY / 2 - idSize.height - Utils.scale(100), idSize.width,
+        idField.setBounds(display.displayWidth / 2 - idSize.width / 2, display.displayHeight / 2 - idSize.height - Utils.scale(100), idSize.width,
                 idSize.height);
-        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Utils.colours[0]));
+        idField.setBorder(javax.swing.BorderFactory.createDashedBorder(Palette.colours[0]));
         idField.setBackground(null);
 
         setVisible(true);
@@ -80,26 +80,26 @@ public class SignOutPanel extends JPanel {
         super.paintComponent(g);
 
         // Back button
-        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Palette.colours[3]);
         back.draw(g, this);
 
         // Submit button
         submit = new CustomButton("Submit", x / 2 - Utils.scale(250) / 2, (int) (y * 0.5), Utils.scale(250),
-                Utils.scale(80), Utils.colours[1]);
+                Utils.scale(80), Palette.colours[1]);
         submit.draw(g, this);
 
         // Id label
-        CustomButton studentId = new CustomButton("Student Id", display.maxX / 2 - Utils.scale(220) / 2,
-                display.maxY / 2 - idSize.height - Utils.scale(165), Utils.scale(220), Utils.scale(50), Utils.colours[4]);
+        CustomButton studentId = new CustomButton("Student Id", display.displayWidth / 2 - Utils.scale(220) / 2,
+                display.displayHeight / 2 - idSize.height - Utils.scale(165), Utils.scale(220), Utils.scale(50), Palette.colours[4]);
         studentId.setSelectable(false);
         studentId.draw(g, this);
 
         // Reset colour to text colour
-        g.setColor(Utils.colours[0]);
+        g.setColor(Palette.colours[0]);
 
         // Error label
-        CustomButton errorButton = new CustomButton(errorMessage, display.maxX / 2 - Utils.scale(800) / 2,
-                display.maxY / 30, Utils.scale(800), Utils.scale(50), null);
+        CustomButton errorButton = new CustomButton(errorMessage, display.displayWidth / 2 - Utils.scale(800) / 2,
+                display.displayHeight / 30, Utils.scale(800), Utils.scale(50), null);
         errorButton.setSelectable(false);
         errorButton.draw(g, this);
 

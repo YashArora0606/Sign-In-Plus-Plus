@@ -8,6 +8,7 @@
  
 package display.customcomponents;
 
+import display.panels.Palette;
 import utilities.Utils;
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -32,8 +33,8 @@ public class CustomButton {
     protected String text;
     private Font buttonFont;
     private Color primaryBackgroundColour;
-    private Color secondaryBackgroundColour = Utils.colours[0];
-    private Color primaryTextColour = Utils.colours[0];
+    private Color secondaryBackgroundColour = Palette.colours[0];
+    private Color primaryTextColour = Palette.colours[0];
     private Color secondaryTextColour;
     private boolean selectable = true;
     private boolean appearSelected = false;
@@ -75,8 +76,8 @@ public class CustomButton {
         this.width = width;
         this.height = height;
         this.text = text;
-        this.primaryBackgroundColour = Utils.colours[1];
-        this.secondaryTextColour = Utils.colours[1];
+        this.primaryBackgroundColour = Palette.colours[1];
+        this.secondaryTextColour = Palette.colours[1];
         this.buttonFont = Utils.getFont("assets/Kollektif.ttf", Math.round(this.height * 0.8));
     }
     

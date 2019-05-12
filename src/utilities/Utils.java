@@ -20,8 +20,6 @@ import java.util.Date;
  * @author Alston Lo & Katelyn Wang & Yash Arora
  */
 public class Utils {
-	public static Color[] colours = { new Color(100, 100, 100), new Color(249, 236, 236), new Color(240, 217, 218),
-			new Color(200, 217, 235), new Color(236, 242, 249) };
 
 	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private static double scale = screenSize.width / 1920.0;

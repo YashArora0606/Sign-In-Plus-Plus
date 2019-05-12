@@ -42,8 +42,8 @@ public class HomePanel extends JPanel {
     public HomePanel(Window display) {
         this.panel = this; //to reference this panel for relative mouse tracking
         this.display = display;
-        this.maxX = display.maxX; //window dimensions
-        this.maxY = display.maxY;
+        this.maxX = display.displayWidth; //window dimensions
+        this.maxY = display.displayHeight;
         this.addMouseListener(new MyMouseListener());
 
 
@@ -58,17 +58,17 @@ public class HomePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Utils.colours[4]); //the left half of the window
+        g.setColor(Palette.colours[4]); //the left half of the window
         g.fillRect(0, 0, maxX / 2, maxY);
-        g.setColor(Utils.colours[1]); //the right half of the window
+        g.setColor(Palette.colours[1]); //the right half of the window
         g.fillRect(maxX / 2, 0, maxX / 2, maxY);
 
         //student button leads to signin page
         student = new CustomButton("Student", maxX / 4 - Utils.scale(200) / 2, maxY / 2 - Utils.scale(200) / 2,
-                Utils.scale(200), Utils.scale(100), Utils.colours[2]);
+                Utils.scale(200), Utils.scale(100), Palette.colours[2]);
         //teacher button leads to password prompt to access teacher dashboard
         teacher = new CustomButton("Teacher", 3 * maxX / 4 - Utils.scale(200) / 2, maxY / 2 - Utils.scale(200) / 2,
-                Utils.scale(200), Utils.scale(100), Utils.colours[3]);
+                Utils.scale(200), Utils.scale(100), Palette.colours[3]);
 
         student.draw(g, panel);
         teacher.draw(g, panel);

@@ -20,6 +20,7 @@ import java.util.Collections;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import datamanagement.SignInManager;
+import display.panels.Palette;
 import utilities.SinglyLinkedList;
 import utilities.Utils;
 
@@ -86,7 +87,7 @@ public class AddAndRemoveMenu extends JPanel {
 
 		// Title button
 		CustomButton titleButton = new CustomButton(title + " List", Utils.scale(50), 0, Utils.scale(300), Utils.scale(50),
-				Utils.colours[3]);
+				Palette.colours[3]);
 		titleButton.setSelectable(false);
 		titleButton.draw(g, this);
 
@@ -108,7 +109,7 @@ public class AddAndRemoveMenu extends JPanel {
 		// Submit button
 		submitButton = new CustomButton("Submit", addItem.getX() + addItem.getPreferredSize().width/2 - Utils.scale(300)/2,
 				addItem.getPreferredSize().height + Utils.scale(20), Utils.scale(300), Utils.scale(50),
-				Utils.colours[3]);
+				Palette.colours[3]);
 		submitButton.draw(g, this);
 
 		repaint();
@@ -174,10 +175,10 @@ public class AddAndRemoveMenu extends JPanel {
 		// One X and one item button for each item in the list
 		for (int i = 0; i < items.size(); i++) {
 			CustomButton b = new CustomButton(items.get(i), Utils.scale(50), Utils.scale(50) * (i + 1),
-					Utils.scale(300), Utils.scale(50), Utils.colours[4]);
+					Utils.scale(300), Utils.scale(50), Palette.colours[4]);
 			b.setSelectable(false);
 			CustomButton x = new CustomButton("X", 0, Utils.scale(50) * (i + 1), Utils.scale(50), Utils.scale(50),
-					Utils.colours[2]);
+					Palette.colours[2]);
 
 			// Add them to the list
 			itemButtons.add(b);
@@ -238,9 +239,9 @@ public class AddAndRemoveMenu extends JPanel {
 				} else {
 					items.add(addItem.getText());
 					itemButtons.add(new CustomButton(addItem.getText(), Utils.scale(50), 0,
-							Utils.scale(300), Utils.scale(50), Utils.colours[3]));
+							Utils.scale(300), Utils.scale(50), Palette.colours[3]));
 					xButtons.add(new CustomButton("X", 0, 0, Utils.scale(50), Utils.scale(50),
-							Utils.colours[3]));
+							Palette.colours[3]));
 					alphabetize();
 					updateSpacing();
 					message = "\"" + addItem.getText() + "\" was successfuly added.";

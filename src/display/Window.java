@@ -28,8 +28,10 @@ import java.awt.event.WindowEvent;
  * All panels stem from this one
  */
 public class Window extends JFrame {
-    public final int maxX;
-    public final int maxY;
+
+    public final int displayWidth;
+    public final int displayHeight;
+
     private SignInManager signInManager;
 
     private JPanel homePanel;
@@ -54,10 +56,10 @@ public class Window extends JFrame {
         this.signInManager = signInManager;
 
         //generate frame
-        this.maxX = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        this.maxY = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        this.displayWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        this.displayHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         this.setLocation(Utils.scale(0), Utils.scale(0));
-        this.setSize(new Dimension(maxX, maxY));
+        this.setSize(new Dimension(displayWidth, displayHeight));
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

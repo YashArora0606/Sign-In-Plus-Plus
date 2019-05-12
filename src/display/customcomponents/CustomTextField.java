@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import display.panels.Palette;
 import utilities.Utils;
  
 /**
@@ -39,7 +40,7 @@ public class CustomTextField extends JPanel {
 		setBackground(null);
 		setLayout(new BorderLayout());
 		textField = new JTextField(7);
-		textField.setBorder(BorderFactory.createDashedBorder(Utils.colours[0]));
+		textField.setBorder(BorderFactory.createDashedBorder(Palette.colours[0]));
 		textField.setOpaque(false);
 		textField.setFont(Utils.getFont("assets/Kollektif.ttf", Utils.scale(30)));
 		textField.setText("");
@@ -71,7 +72,7 @@ public class CustomTextField extends JPanel {
 		
 		// Draw the field's title
 		if (this.hasTitle) {
-			titleButton = new CustomButton(title, getPreferredSize().width/2 - Utils.scale(230)/2, 0, Utils.scale(230), Utils.scale(30), Utils.colours[3]);
+			titleButton = new CustomButton(title, getPreferredSize().width/2 - Utils.scale(230)/2, 0, Utils.scale(230), Utils.scale(30), Palette.colours[3]);
 			titleButton.setSelectable(false);
 			titleButton.draw(g, this);
 		}

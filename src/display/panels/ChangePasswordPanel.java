@@ -45,8 +45,8 @@ public class ChangePasswordPanel extends JPanel {
      */
     public ChangePasswordPanel(Window display) {
         this.panel = this;
-        this.maxX = display.maxX;
-        this.maxY = display.maxY;
+        this.maxX = display.displayWidth;
+        this.maxY = display.displayHeight;
         this.display = display;
         this.setLayout(null); //for absolute positioning
         this.addMouseListener(new MyMouseListener());
@@ -64,7 +64,7 @@ public class ChangePasswordPanel extends JPanel {
                 Utils.scale(size.width), Utils.scale(size.height));
 
         // Set background
-        setBackground(Utils.colours[1]);
+        setBackground(Palette.colours[1]);
     }
 
     /**
@@ -77,24 +77,24 @@ public class ChangePasswordPanel extends JPanel {
         super.paintComponent(g);
 
         // Back button
-        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Utils.colours[3]);
+        back = new CustomButton("Back", 0, 0, Utils.scale(115), Utils.scale(80), Palette.colours[3]);
         back.draw(g, panel);
 
         // Submit button
         submit = new CustomButton("Submit", maxX / 2 - Utils.scale(100), maxY / 2, Utils.scale(200), Utils.scale(80),
-                Utils.colours[2]);
+                Palette.colours[2]);
         submit.draw(g, panel);
 
         // Set appropriate fonts
         Font errorFont = Utils.getFont("assets/Kollektif.ttf", Utils.scale(30)); //font for error message
         FontMetrics errorFontMetrics = g.getFontMetrics(errorFont);
 
-        g.setColor(Utils.colours[0]);
+        g.setColor(Palette.colours[0]);
 
         // Add password label
-        CustomButton passwordLabel = new CustomButton("Change password", display.maxX / 2 - Utils.scale(250) / 2,
+        CustomButton passwordLabel = new CustomButton("Change password", display.displayWidth / 2 - Utils.scale(250) / 2,
                 passwordField.getY() - (int) (Utils.scale(50) * (1.2)), Utils.scale(250), Utils.scale(50),
-                Utils.colours[4]);
+                Palette.colours[4]);
         passwordLabel.setSelectable(false);
         passwordLabel.draw(g, panel);
 
