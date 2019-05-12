@@ -3,6 +3,9 @@ import datamanagement.DerbyDatabase;
 import datamanagement.SignInManager;
 import display.StartFrame;
 import display.Window;
+
+import javax.swing.SwingUtilities;
+
 /**
  * Basic launcher for the program - mainly for aesthetics
  */
@@ -14,8 +17,11 @@ public class Launcher {
     public static void run() {
         Database database = new DerbyDatabase();
         SignInManager signInManager = new SignInManager(database);
-        StartFrame start = new StartFrame();
-        Window frame = new Window(signInManager);
-        start.dispose();
+
+        SwingUtilities.invokeLater(() -> {
+            StartFrame startFrame = new StartFrame();
+            SwingUtilities.invokeLater(() -> new Window(signInManager));
+            startFrame.dispose();
+        });
     }
 }

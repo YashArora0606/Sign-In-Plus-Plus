@@ -223,7 +223,8 @@ public class SignInManager {
      */
     public String[] getCourses() {
         return new String[]{"Art", "Math", "Music", "Science", "History", "Geography",
-                "Business", "Family Studies", "Physical Ed.", "Tech Studies", "Social Sciences", "Lunch / Spare"};
+                "Business", "Family Studies", "Physical Ed.", "Tech Studies",
+                "Social Sciences", "Lunch / Spare"};
     }
 
     /**
@@ -374,9 +375,9 @@ public class SignInManager {
             }
 
             //write the new file
-            FileOutputStream out = new FileOutputStream(file);
-            workbook.write(out);
-            out.close();
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                workbook.write(out);
+            }
 
             //attempt to open the folder the file exists in
             Desktop desktop = Desktop.getDesktop();

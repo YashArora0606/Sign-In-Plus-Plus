@@ -148,16 +148,6 @@ public class Window extends JFrame {
     }
 
     /**
-     * closeWindow
-     * Closes the window, we should really have a listener to detect this too
-     * Make sure to do the necessary modifications to resolve the signInManager
-     */
-    private void closeWindow() {
-        signInManager.close();
-        dispose();
-    }
-
-    /**
      * Switches the panel currently being displayed to the panel indicated
      * @param newPanel the panel to be displayed instead
      */
@@ -166,5 +156,15 @@ public class Window extends JFrame {
         getContentPane().add(newPanel); //adds the panel to be displayed
         getContentPane().revalidate();
         getContentPane().repaint(); //displays it
+    }
+
+    /**
+     * closeWindow
+     * Closes the window, we should really have a listener to detect this too
+     * Make sure to do the necessary modifications to resolve the signInManager
+     */
+    private void closeWindow() {
+        signInManager.close();
+        dispose();
     }
 }
